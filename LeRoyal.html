@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Artisan Le Royal – Boulangerie Pâtisserie</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#F9F4ED;--parchment:#EFE5D4;--gold:#C8963E;--gold-light:#E8C07A;
+  --gold-dark:#8B6420;--black:#1A1510;--dark-brown:#2C2018;--mid-brown:#6B4E2A;
+  --warm-gray:#9E9082;--white:#FFFCF8;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--black);overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 4rem;
+  background:rgba(249,244,237,0.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(200,150,62,0.2);
+}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--gold-dark);letter-spacing:0.02em;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dark-brown);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--dark-brown);transition:all 0.3s ease;transform-origin:center;}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mobile-menu{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;
+  background:var(--dark-brown);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2.5rem;opacity:0;pointer-events:none;transition:opacity 0.35s ease;
+}
+.mobile-menu.open{opacity:1;pointer-events:all;}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-style:italic;color:var(--white);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;}
+.mobile-menu a:hover{color:var(--gold-light);}
+.mobile-menu-divider{width:40px;height:1px;background:rgba(200,150,62,0.3);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.hero-backdrop{
+  position:absolute;inset:0;z-index:0;
+  background-image:url('https://lh3.googleusercontent.com/gps-cs-s/APNQkAEXBCn2pfQTJXyy6nflG7vcpqV8XVdO85ca22LQusAOcl90wmkoVCBP1FBZivMJei0uQ923Kbqu53CnFXWm49v3bWPzlE-xg-2NSRCptRe5cTpjUGawq9V9WXmykKIEBgNJU2ynGw1OLWxd=s1360-w1360-h1020-rw');
+  background-size:cover;background-position:center 40%;
+  filter:brightness(0.38) saturate(0.7);
+}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(26,21,16,0.3) 0%,rgba(26,21,16,0.55) 60%,rgba(26,21,16,0.85) 100%);}
+.hero-content{position:relative;z-index:2;text-align:center;padding:2rem;animation:heroFadeIn 1.4s ease forwards;opacity:0;transform:translateY(20px);}
+@keyframes heroFadeIn{to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(3.5rem,9vw,7rem);line-height:1;color:var(--white);letter-spacing:-0.01em;margin-bottom:0.3rem;}
+.hero-title em{font-style:italic;color:var(--gold-light);}
+.hero-title-large{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(4.5rem,13vw,11rem);line-height:0.9;color:var(--white);letter-spacing:-0.02em;display:block;margin-bottom:2.5rem;}
+.hero-divider{display:flex;align-items:center;justify-content:center;gap:1rem;margin:0 auto 2.5rem;width:fit-content;}
+.hero-divider span{display:block;width:60px;height:1px;background:var(--gold);opacity:0.6;}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.2rem;color:rgba(255,252,248,0.6);letter-spacing:0.05em;margin-bottom:3.5rem;}
+.hero-cta{display:inline-block;padding:1rem 2.5rem;border:1px solid rgba(200,150,62,0.5);color:var(--gold-light);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;transition:all 0.3s ease;background:transparent;cursor:pointer;}
+.hero-cta:hover{background:rgba(200,150,62,0.1);border-color:var(--gold);color:var(--gold);}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;animation:scrollPulse 2s ease 1.8s infinite both;}
+@keyframes scrollPulse{0%,100%{opacity:0.4;transform:translateX(-50%) translateY(0);}50%{opacity:0.8;transform:translateX(-50%) translateY(4px);}}
+.scroll-hint span{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+.scroll-hint svg{stroke:var(--gold);}
+
+/* MARQUEE */
+.marquee-band{background:var(--gold);padding:0.9rem 0;overflow:hidden;white-space:nowrap;}
+.marquee-inner{display:inline-flex;animation:marquee 25s linear infinite;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.marquee-item{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--black);padding:0 2.5rem;font-weight:500;}
+.marquee-dot{color:rgba(26,21,16,0.4);padding:0;}
+
+/* SECTIONS */
+section{padding:7rem 4rem;}
+.section-label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem;}
+.section-label::before{content:'';display:block;width:30px;height:1px;background:var(--gold);}
+
+/* SAVOIR */
+.savoir{background:var(--white);}
+.savoir-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.savoir-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.5rem,4vw,3.8rem);line-height:1.1;color:var(--dark-brown);margin-bottom:1.5rem;}
+.savoir-title em{font-style:italic;color:var(--gold-dark);}
+.savoir-text{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.15rem;line-height:1.85;color:var(--mid-brown);margin-bottom:1.5rem;}
+.savoir-signature{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.95rem;color:var(--warm-gray);border-top:1px solid var(--parchment);padding-top:1.5rem;margin-top:1.5rem;}
+.savoir-right{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.stat-card{padding:2rem 1.5rem;border:1px solid var(--parchment);background:var(--cream);}
+.stat-card:first-child{grid-column:span 2;background:var(--dark-brown);border-color:var(--dark-brown);padding:2rem;display:flex;align-items:center;gap:2rem;}
+.stat-number{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;color:var(--gold-light);line-height:1;}
+.stat-label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,252,248,0.6);margin-top:0.3rem;}
+.stat-card:not(:first-child) .stat-number{font-size:2.5rem;color:var(--gold-dark);}
+.stat-card:not(:first-child) .stat-label{color:var(--warm-gray);}
+
+/* GALLERY */
+.gallery{background:var(--cream);padding:7rem 0;}
+.gallery-header{padding:0 4rem;max-width:1200px;margin:0 auto 3rem;}
+.gallery-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,3.5vw,3.2rem);color:var(--dark-brown);line-height:1.1;}
+.gallery-title em{font-style:italic;color:var(--gold-dark);}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-template-rows:280px 280px;
+  gap:3px;
+  padding:0;
+}
+.gallery-item{overflow:hidden;position:relative;cursor:pointer;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.4,0,0.2,1),filter 0.5s ease;filter:saturate(0.85) brightness(0.92);}
+.gallery-item:hover img{transform:scale(1.06);filter:saturate(1) brightness(1);}
+.gallery-item:hover .gallery-caption{opacity:1;transform:translateY(0);}
+.gallery-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:1.2rem 1.5rem;
+  background:linear-gradient(to top,rgba(26,21,16,0.85) 0%,transparent 100%);
+  opacity:0;transform:translateY(6px);
+  transition:all 0.35s ease;
+}
+.gallery-caption p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.95rem;color:var(--white);letter-spacing:0.03em;}
+/* Layout: item 1 = large left, items 2-3 stack right top, item 4 = wide bottom-left, item 5 = bottom-right */
+.gallery-item:nth-child(1){grid-column:1/6;grid-row:1/2;}
+.gallery-item:nth-child(2){grid-column:6/9;grid-row:1/2;}
+.gallery-item:nth-child(3){grid-column:9/13;grid-row:1/2;}
+.gallery-item:nth-child(4){grid-column:1/5;grid-row:2/3;}
+.gallery-item:nth-child(5){grid-column:5/9;grid-row:2/3;}
+.gallery-item:nth-child(6){grid-column:9/13;grid-row:2/3;}
+
+/* REVIEWS */
+.reviews{background:var(--dark-brown);padding:7rem 4rem;}
+.reviews-inner{max-width:1200px;margin:0 auto;}
+.reviews-header{margin-bottom:3.5rem;display:flex;justify-content:space-between;align-items:flex-end;}
+.reviews-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,3.5vw,3.2rem);color:var(--white);line-height:1.1;}
+.reviews-title em{font-style:italic;color:var(--gold-light);}
+
+/* Progress bar */
+.review-progress-bar{
+  width:120px;height:2px;background:rgba(200,150,62,0.2);
+  position:relative;overflow:hidden;align-self:center;flex-shrink:0;
+}
+.review-progress-fill{
+  position:absolute;top:0;left:0;height:100%;background:var(--gold);
+  width:0%;transition:width 0.1s linear;
+}
+
+.carousel-viewport{overflow:hidden;}
+.carousel-track{display:flex;gap:1.5rem;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);}
+.review-card{
+  min-width:calc(33.333% - 1rem);background:#1E1610;
+  padding:2.5rem 2rem;flex-shrink:0;
+  border-top:2px solid rgba(200,150,62,0.3);
+}
+.review-stars{display:flex;gap:3px;margin-bottom:1.2rem;}
+.star{width:12px;height:12px;background:var(--gold);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);}
+.star.empty{background:rgba(200,150,62,0.2);}
+.review-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(255,252,248,0.7);line-height:1.75;margin-bottom:1.5rem;}
+.review-author{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);}
+.review-date{font-size:0.65rem;color:rgba(158,144,130,0.5);letter-spacing:0.05em;margin-top:0.25rem;}
+.carousel-controls{display:flex;align-items:center;gap:1rem;margin-top:2.5rem;}
+.carousel-btn{width:44px;height:44px;border:1px solid rgba(200,150,62,0.3);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.carousel-btn:hover{background:rgba(200,150,62,0.1);border-color:var(--gold);}
+.carousel-btn svg{stroke:var(--gold);stroke-width:1.5;fill:none;}
+.carousel-dots{display:flex;gap:6px;}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:rgba(200,150,62,0.25);border:none;cursor:pointer;padding:0;transition:background 0.2s;}
+.carousel-dot.active{background:var(--gold);}
+
+/* HORAIRES */
+.horaires{background:var(--parchment);}
+.horaires-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr 1.4fr;gap:4rem;align-items:start;}
+.horaires-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,3.5vw,3rem);color:var(--dark-brown);line-height:1.1;margin-bottom:2rem;}
+.horaires-title em{font-style:italic;color:var(--gold-dark);}
+.horaires-address{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--mid-brown);line-height:1.8;margin-bottom:2rem;border-left:2px solid var(--gold);padding-left:1.2rem;}
+.schedule-table{width:100%;border-collapse:collapse;}
+.schedule-table tr{border-bottom:1px solid rgba(107,78,42,0.15);}
+.schedule-table td{padding:0.9rem 0;font-size:0.9rem;color:var(--mid-brown);}
+.schedule-table td:first-child{font-weight:500;color:var(--dark-brown);letter-spacing:0.05em;font-size:0.8rem;text-transform:uppercase;}
+.schedule-table td:last-child{text-align:right;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;}
+.map-container{border:1px solid rgba(107,78,42,0.2);overflow:hidden;height:320px;}
+.map-container iframe{width:100%;height:100%;border:0;display:block;}
+
+/* FOOTER */
+footer{background:var(--black);padding:4rem 4rem 3rem;text-align:center;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.8rem;font-style:italic;color:var(--gold-light);letter-spacing:0.05em;margin-bottom:0.5rem;}
+.footer-sub{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--warm-gray);margin-bottom:3rem;}
+.footer-divider{width:60px;height:1px;background:rgba(200,150,62,0.3);margin:0 auto 3rem;}
+.footer-links{display:flex;justify-content:center;gap:2.5rem;list-style:none;margin-bottom:3rem;}
+.footer-links a{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm-gray);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-size:0.7rem;color:rgba(158,144,130,0.4);letter-spacing:0.05em;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;z-index:500;background:rgba(26,21,16,0.96);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox img{max-width:90vw;max-height:85vh;object-fit:contain;display:block;}
+.lightbox-close{position:absolute;top:1.5rem;right:2rem;background:none;border:none;cursor:pointer;color:var(--gold-light);font-size:1.8rem;font-family:'Cormorant Garamond',serif;line-height:1;}
+.lightbox-caption{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:rgba(255,252,248,0.6);letter-spacing:0.05em;white-space:nowrap;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .gallery-item:nth-child(1){grid-column:1/7;}
+  .gallery-item:nth-child(2){grid-column:7/10;}
+  .gallery-item:nth-child(3){grid-column:10/13;}
+  .gallery-item:nth-child(4){grid-column:1/5;}
+  .gallery-item:nth-child(5){grid-column:5/9;}
+  .gallery-item:nth-child(6){grid-column:9/13;}
+}
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  section{padding:5rem 1.5rem;}
+  .gallery{padding:5rem 0;}
+  .gallery-header{padding:0 1.5rem;}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:220px 220px 220px;gap:3px;}
+  .gallery-item:nth-child(1){grid-column:1/2;grid-row:1/2;}
+  .gallery-item:nth-child(2){grid-column:2/3;grid-row:1/2;}
+  .gallery-item:nth-child(3){grid-column:1/3;grid-row:2/3;}
+  .gallery-item:nth-child(4){grid-column:1/2;grid-row:3/4;}
+  .gallery-item:nth-child(5){grid-column:2/3;grid-row:3/4;}
+  .gallery-item:nth-child(6){display:none;}
+  .savoir-inner{grid-template-columns:1fr;gap:3rem;}
+  .horaires-inner{grid-template-columns:1fr;gap:3rem;}
+  .review-card{min-width:calc(85% - 0.75rem);}
+  footer{padding:3rem 1.5rem 2rem;}
+  .reviews-header{flex-direction:column;align-items:flex-start;gap:1.5rem;}
+}
+@media(max-width:600px){
+  .review-card{min-width:calc(92% - 0.75rem);}
+  .savoir-right{grid-template-columns:1fr;}
+  .stat-card:first-child{flex-direction:column;align-items:flex-start;gap:1rem;}
+  .gallery-grid{grid-template-rows:180px 180px 180px;}
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+  <a href="#savoir" class="mobile-nav-link">Notre Métier</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#galerie" class="mobile-nav-link">Galerie</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#avis" class="mobile-nav-link">Avis</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#horaires" class="mobile-nav-link">Nous Trouver</a>
+</div>
+
+<nav>
+  <div class="nav-logo">L'Artisan Le Royal</div>
+  <ul class="nav-links">
+    <li><a href="#savoir">Notre Métier</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#horaires">Nous Trouver</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-backdrop"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Boulangerie · Pâtisserie</p>
+    <p class="hero-title"><em>L'Artisan</em></p>
+    <span class="hero-title-large">Le Royal</span>
+    <div class="hero-divider">
+      <span></span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.2" stroke-linecap="round">
+        <path d="M12 3C12 3 8 7 8 11s4 4 4 8M12 3c0 0 4 4 4 8s-4 4-4 8"/><path d="M6 12h12"/>
+      </svg>
+      <span></span>
+    </div>
+    <p class="hero-sub">Depuis la première heure, du pain comme avant.</p>
+    <a href="#savoir" class="hero-cta">Découvrir notre métier</a>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Défiler</span>
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="1" width="14" height="22" rx="7"/><line x1="8" y1="6" x2="8" y2="10"/>
+    </svg>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-inner">
+    <span class="marquee-item">Levain naturel</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Farines françaises</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Pétri à la main</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Cuit au four à sole</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Artisan boulanger</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Chaque jour sans exception</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Levain naturel</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Farines françaises</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Pétri à la main</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Cuit au four à sole</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Artisan boulanger</span><span class="marquee-item marquee-dot">·</span>
+    <span class="marquee-item">Chaque jour sans exception</span><span class="marquee-item marquee-dot">·</span>
+  </div>
+</div>
+
+<!-- SAVOIR-FAIRE -->
+<section class="savoir" id="savoir">
+  <div class="savoir-inner">
+    <div class="savoir-left">
+      <p class="section-label">Notre savoir-faire</p>
+      <h2 class="savoir-title">Le goût du vrai,<br><em>façonné chaque jour.</em></h2>
+      <p class="savoir-text">Fondée par Ahmed Ammar après plusieurs années d’expérience dans la boulangerie et la restauration rapide, Le Royal met à l’honneur le savoir-faire artisanal et la qualité des produits frais. Située au cœur de Saint-Étienne, la boulangerie propose chaque jour une large sélection de pains, pâtisseries, sandwichs, salades et paninis, préparés sans produits surgelés.</p>
+      <p class="savoir-text">Fidèle à une fabrication traditionnelle, Le Royal s’engage à offrir des produits authentiques à des prix accessibles.</p>
+      <p class="savoir-signature">« J’aime travailler à la main. À l’ancienne, quoi ! »</p>
+    </div>
+    <div class="savoir-right">
+      <div class="stat-card">
+        <div>
+          <div class="stat-number">6h</div>
+          <div class="stat-label" style="color:rgba(255,252,248,0.6)">du matin</div>
+        </div>
+        <div style="width:1px;background:rgba(200,150,62,0.2);align-self:stretch;"></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;color:rgba(255,252,248,0.55);line-height:1.7;">
+          Quand la ville s'éveille, nos fournées sont déjà prêtes.
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">16h</div>
+        <div class="stat-label">d'ouverture par jour</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">levain naturel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="galerie">
+  <div class="gallery-header">
+    <p class="section-label">En images</p>
+    <h2 class="gallery-title">Notre <em>atelier,</em><br>au fil des saisons.</h2>
+  </div>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="gallery-item" data-caption="Le pain Royal, notre signature">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHZJZ6_cbLSWYBo-lGuebFKbnEsrzSdeaRqpve_hjU5zIOU6XOQBya0Pojcgb5G57mkKhtw0_dRdjezc9_Wb7cG3OpsYXuji9HV19WLdLUr4Eunh3W_Ny3EYTgfrdBibUc3j1O1=s1360-w1360-h1020-rw" alt="Pain artisanal sorti du four" loading="lazy">
+      <div class="gallery-caption"><p>Notre sélection</p></div>
+    </div>
+    <div class="gallery-item" data-caption="Croissants pur beurre du matin">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEUuXNxR1AhxM_tSSoThP0RyBaPCD_BhGRcDGZbivstSvO5X9nOwLeqdPeK4V8xpMGEBsHpUuokrbOkzgx2jVa5MoLUAsqnryLOs-MyqRv2djdYpd6qqm3VoonTNA0x71pI-srYSYwl9Uc=s1360-w1360-h1020-rw" alt="Croissants pur beurre" loading="lazy">
+      <div class="gallery-caption"><p>Nos pâtisseries</p></div>
+    </div>
+    <div class="gallery-item" data-caption="Le four à sole, cœur de notre métier">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAF7tz2212glhyDzatE-F-VKRyELRIazKUtfkwnAgSgxd76xtlqBZVD8v9AeQ349iq7ygyDi51sEbXuXGX_wT54A_Aj3yVRfynPkPUnNwWbf_X1o-Cu_-8TSzXQnWtCH7PPGQz63ghZub363=s1360-w1360-h1020-rw" alt="Four à sole boulangerie" loading="lazy">
+      <div class="gallery-caption"><p>Nos gateaux</p></div>
+    </div>
+    <div class="gallery-item" data-caption="Pains de campagne au levain">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHOT7njghx-BDlA2CnpCsH8RablQsBFz4f8Z4WdjtajhZjm1CtA2P3aB-1CrvFd-CGfoB-cWPuAj1uXp9HgzMIlBkcCZ70FFb-x_OnbTN_H6chNpunAifxErh_t5PZvv_9HR0BbLpLb7xPs=s1360-w1360-h1020-rw" alt="Pains de campagne" loading="lazy">
+      <div class="gallery-caption"><p>Nos gateaux</p></div>
+    </div>
+    <div class="gallery-item" data-caption="Tartes aux fruits de saison">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAF11f_YiPW4TR67T4BtRL0wnqvY7PE95lMoCzYLoFm1pqmHQuUUXc-7AQL86VzJpIeVUjCOZJIq226Bn91Lip2EuSvFx6PaQyc7JzBMNrntqyGgLdBwDuaVkXFsFKR-rCe-jFsHZp6PmMxV=s1360-w1360-h1020-rw" alt="Tartes pâtisserie" loading="lazy">
+      <div class="gallery-caption"><p>Nos beignets</p></div>
+    </div>
+    <div class="gallery-item" data-caption="L'atelier avant l'aube">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGeSadRXrrEA6e4ETXNnI3AJDn8aH4cs3fC9-KsF7yr2kyv9rgtybVlnGZKvkhlBXDstGAajl7x1KQRWTZUqVccM32Q8iAEXiCHadQUTuB78iEX7yKx3x3QXd1WHKhcbHooBFLPPkwiRo-P=s1360-w1360-h1020-rw" alt="Boulanger au travail" loading="lazy">
+      <div class="gallery-caption"><p>Notre espace</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image agrandie">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Fermer">&#x2715;</button>
+  <img id="lightboxImg" src="" alt="">
+  <p class="lightbox-caption" id="lightboxCaption"></p>
+</div>
+
+<!-- REVIEWS -->
+<section class="reviews" id="avis">
+  <div class="reviews-inner">
+    <div class="reviews-header">
+      <div>
+        <p class="section-label" style="color:var(--gold)">Ce que disent nos clients</p>
+        <h2 class="reviews-title">Vos <em>avis</em> nous touchent.</h2>
+      </div>
+      <div class="review-progress-bar" aria-hidden="true">
+        <div class="review-progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="review-card">
+          <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="review-text">« Une expérience chaleureuse et raffinée ! Le personnel, en particulier Ahmed, est d'une amabilité remarquable et sait véritablement prendre soin de ses clients. Bien que le thé oriental ne fasse pas partie de la formule petit déjeuner, il m’a gentiment été proposé, ce qui témoigne d’un sens du commerce exemplaire. Mention spéciale au jus de kiwi, incroyablement frais et délicieux. L’agencement du lieu et la décoration ont été considérablement améliorés, offrant désormais un cadre aussi élégant que convivial. Une adresse à découvrir absolument ! »</p>
+          <p class="review-author">Le Rat Noir</p>
+          <p class="review-date">Google · il y a 1 an</p>
+        </div>
+        <div class="review-card">
+          <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="review-text">« À deux pas de chez moi, une belle adresse. Intérieur soigné, atmosphère détendue et accueillante, café délicieux. De nombreuses options pour tous les goûts. On y reviendra. »</p>
+          <p class="review-author">Sophie M.</p>
+          <p class="review-date">Google · il y a 1 mois</p>
+        </div>
+        <div class="review-card">
+          <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star empty"></div></div>
+          <p class="review-text">« Un des rares endroits ouverts le dimanche où l'on peut prendre le temps. Accueil souriant et service rapide. Idéal pour le petit-déjeuner en famille. »</p>
+          <p class="review-author">Pierre-Luc D.</p>
+          <p class="review-date">Google · il y a 2 mois</p>
+        </div>
+        <div class="review-card">
+          <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="review-text">« Service client très agréable... le coussin très bon le sandwich et le patisserie tunisienne ou français frais et le goûte incroyable et le prix moins cher 😍😍😍🥰🥰🥰🥰 »</p>
+          <p class="review-author">Hager Hajajji</p>
+          <p class="review-date">Google · il y a 1 an</p>
+        </div>
+        <div class="review-card">
+          <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+          <p class="review-text">« Bonjour, de passage j’ai découvert un endroit très sympathique et propre surtout le café lavaza franchement rien à dire je recommande vivement. Merci l’équipe et bonne continuation »</p>
+          <p class="review-author">Mohamed cherif Aidoudi</p>
+          <p class="review-date">Google · il y a 6 mois</p>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="prevBtn" aria-label="Avis précédent">
+        <svg width="18" height="18" viewBox="0 0 18 18"><polyline points="11,4 6,9 11,14"/></svg>
+      </button>
+      <button class="carousel-btn" id="nextBtn" aria-label="Avis suivant">
+        <svg width="18" height="18" viewBox="0 0 18 18"><polyline points="7,4 12,9 7,14"/></svg>
+      </button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HORAIRES -->
+<section class="horaires" id="horaires">
+  <div class="horaires-inner">
+    <div>
+      <p class="section-label">Nous trouver</p>
+      <h2 class="horaires-title">Venez à<br><em>notre table.</em></h2>
+      <div class="horaires-address">
+        Boulangerie Le Royal<br>Boulangerie · Pâtisserie<br><br>
+        29 Av. de la Libération<br>42000 Saint-Étienne
+      </div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--warm-gray);line-height:1.7;">
+        Ouvert 7 jours sur 7.<br>Dès 6h pour votre<br>petit-déjeuner.
+      </p>
+    </div>
+    <div>
+      <p class="section-label">Horaires d'ouverture</p>
+      <table class="schedule-table">
+        <tbody>
+          <tr><td>Lundi – Dimanche</td><td>6h – 22h</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:2rem;font-size:0.75rem;letter-spacing:0.08em;color:var(--warm-gray);">Commandes spéciales et plateaux de fêtes : renseignez-vous en boutique.</p>
+    </div>
+    <div>
+      <p class="section-label">Plan d'accès</p>
+      <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2784.5!2d4.3919926!3d45.4374425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5af77dfd9d335%3A0xc2838b54d42ac49e!2sBoulangerie%20le%20Royal!5e0!3m2!1sfr!2sfr!4v1718000000000"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Localisation de L'Artisan Le Royal"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">L'Artisan Le Royal</div>
+  <p class="footer-sub">Boulangerie · Pâtisserie · Saint-Étienne</p>
+  <div class="footer-divider"></div>
+  <ul class="footer-links">
+    <li><a href="#savoir">Notre métier</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#avis">Avis</a></li>
+    <li><a href="#horaires">Horaires</a></li>
+  </ul>
+  <p class="footer-copy">© L'Artisan Le Royal — Fait avec passion, chaque jour.</p>
+</footer>
+
+<script>
+// MOBILE MENU
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+    document.body.style.overflow = '';
+  });
+});
+
+// LIGHTBOX
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCaption = document.getElementById('lightboxCaption');
+document.querySelectorAll('.gallery-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const img = item.querySelector('img');
+    lightboxImg.src = img.src.replace(/w=\d+/, 'w=1400');
+    lightboxImg.alt = img.alt;
+    lightboxCaption.textContent = item.dataset.caption || '';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// CAROUSEL with auto-advance every 10s + progress bar
+const track = document.getElementById('carouselTrack');
+const viewport = track.parentElement;
+const dotsContainer = document.getElementById('carouselDots');
+const progressFill = document.getElementById('progressFill');
+const cards = track.querySelectorAll('.review-card');
+const INTERVAL = 10000;
+let current = 0;
+let startTime = null;
+let rafId = null;
+let paused = false;
+
+function visibleCount() {
+  return window.innerWidth <= 900 ? 1 : 3;
+}
+
+function maxIndex() {
+  return Math.max(0, cards.length - visibleCount());
+}
+
+// Compute exactly how far to shift by reading each card's offsetLeft.
+// For the last position we clamp so the final card sits flush at the
+// right edge of the viewport — no gap, no overscroll.
+function offsetForIndex(index) {
+  const clamped = Math.max(0, Math.min(index, maxIndex()));
+  if (clamped === maxIndex()) {
+    // Shift so the rightmost card is flush with the viewport right edge
+    const trackWidth = track.scrollWidth;
+    const viewportWidth = viewport.offsetWidth;
+    return Math.max(0, trackWidth - viewportWidth);
+  }
+  return cards[clamped].offsetLeft;
+}
+
+function buildDots() {
+  dotsContainer.innerHTML = '';
+  const count = maxIndex() + 1;
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (i === current ? ' active' : '');
+    dot.setAttribute('aria-label', 'Avis ' + (i + 1));
+    dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dotsContainer.appendChild(dot);
+  }
+}
+
+function goTo(index) {
+  current = Math.max(0, Math.min(index, maxIndex()));
+  track.style.transform = 'translateX(-' + offsetForIndex(current) + 'px)';
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+function resetTimer() {
+  cancelAnimationFrame(rafId);
+  startTime = null;
+  progressFill.style.width = '0%';
+  progressFill.style.transition = 'none';
+  if (!paused) tickProgress();
+}
+
+function tickProgress(ts) {
+  if (paused) return;
+  if (!startTime) startTime = ts;
+  const elapsed = ts - startTime;
+  const pct = Math.min((elapsed / INTERVAL) * 100, 100);
+  progressFill.style.transition = 'none';
+  progressFill.style.width = pct + '%';
+  if (elapsed >= INTERVAL) {
+    const next = current + 1 > maxIndex() ? 0 : current + 1;
+    goTo(next);
+    startTime = ts;
+  }
+  rafId = requestAnimationFrame(tickProgress);
+}
+
+document.getElementById('prevBtn').addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+document.getElementById('nextBtn').addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+
+const reviewsSection = document.querySelector('.reviews');
+reviewsSection.addEventListener('mouseenter', () => { paused = true; cancelAnimationFrame(rafId); });
+reviewsSection.addEventListener('mouseleave', () => { paused = false; resetTimer(); });
+
+window.addEventListener('resize', () => { buildDots(); goTo(Math.min(current, maxIndex())); resetTimer(); });
+
+buildDots();
+requestAnimationFrame(ts => { startTime = ts; tickProgress(ts); });
+</script>
+</body>
+</html>
