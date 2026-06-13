@@ -75,52 +75,38 @@ body {
 input#menuIcon {
     display: none;
 }
+input#menuIcon {
+	display: none;
+}
 .mobileMenuIcon {
 	display: none;
 	cursor: pointer;
-	width: 25px;
-	height: 20px;
+	width: 44px;
+	height: 44px;
 	position: relative;
-	padding: 10px;
+	flex-shrink: 0;
 	-webkit-tap-highlight-color: transparent;
+	align-items: center;
+	justify-content: center;
 }
 .mobileMenuIcon .interiorMobileMenu,
 .mobileMenuIcon .interiorMobileMenu::before,
 .mobileMenuIcon .interiorMobileMenu::after {
-    background: rgb(254,254,255);
-    content: '';
-    height: 2px;
-    position: absolute;
-    transition: background ease .3s, top ease .3s .3s, transform ease .3s;
-    width: 25px;
-    left: 0;
+	background: rgb(254,254,255);
+	content: '';
+	height: 2px;
+	position: absolute;
+	transition: background ease .3s, top ease .3s .3s, transform ease .3s;
+	width: 24px;
 }
-.mobileMenuIcon .interiorMobileMenu {
-	top: 9px;
-}
-.mobileMenuIcon .interiorMobileMenu::before {
-    top: -7px;
-}
-.mobileMenuIcon .interiorMobileMenu::after {
-    top: 7px;
-}
-#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu {
-    background: transparent;
-}
+.mobileMenuIcon .interiorMobileMenu { top: 50%; transform: translateY(-50%); }
+.mobileMenuIcon .interiorMobileMenu::before { top: -7px; }
+.mobileMenuIcon .interiorMobileMenu::after  { top:  7px; }
 
-#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu::before {
-    transform: rotate(45deg);
-}
+#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu { background: transparent; }
+#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu::before { transform: rotate(45deg);  top: 0; transition: top ease .2s, transform ease .2s .2s; }
+#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu::after  { transform: rotate(-45deg); top: 0; transition: top ease .2s, transform ease .2s .2s; }
 
-#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu::after {
-    transform: rotate(-45deg);
-}
-
-#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu::before,
-#menuIcon:checked + .mobileMenuIcon .interiorMobileMenu::after {
-    top: 0;
-    transition: top ease .2s, transform ease .2s .2s;
-}
 .mobileNav {
 	position: fixed;
 	width: 100vw;
