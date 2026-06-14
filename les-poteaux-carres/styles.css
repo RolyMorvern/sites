@@ -471,4 +471,13 @@ footer {
 	.reviews {
 		padding: 6% 30px;
 	}
-}
+	.desktopNav img {
+		height: 11px;
+	}
+	.desktopNav .logoLink {
+		position: absolute;
+		left: auto;
+		right: 16px;
+		transform: none;
+	}
+}	
