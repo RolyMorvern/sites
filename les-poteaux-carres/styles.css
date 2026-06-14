@@ -368,7 +368,11 @@ footer {
 		align-items: center;
 		justify-content: center;
 		background-color: rgba(9,7,6,0.92);
-		position: relative;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		z-index: 100;
 	}
 	.desktopNav {
 		display: flex;
@@ -396,12 +400,21 @@ footer {
 	.mobileMenuIcon {
 		display: flex;
 		align-items: center;
+		position: static;
+		transform: none;
+		top: auto;
+		bottom: auto;
+	}
+	.hamburgerIconContainer {
+		display: flex;
+		align-items: center;
 		position: absolute;
 		left: 20px;
-		top: 50%;
-		transform: translateY(-50%);
-	}
-	.hero {
+		top: 0;
+		bottom: 0;
+		height: 100%;
+		z-index: 101;
+	}	.hero {
 		height: 75vh;
 	}
 	.heroOverlay {
