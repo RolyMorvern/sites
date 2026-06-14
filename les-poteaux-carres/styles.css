@@ -375,9 +375,16 @@ footer {
 		padding: 14px 0;
 		justify-content: center;
 		width: 100vw;
+		position: relative;
 	}
 	.desktopNav a {
 		display: none;
+	}
+	.desktopNav .logoLink {
+		display: inline-block;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 	.desktopNav img {
 		height: 18px;
