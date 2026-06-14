@@ -256,12 +256,15 @@ input#menuIcon {
 		width: 100vw;
 		padding: 14px 0;
 		justify-content: center;
+		position: relative;
 	}
 	.desktopNav a:not(.logoLink) {
 		display: none;
 	}
 	.desktopNav .logoLink {
-		width: auto;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 	.desktopNav img {
 		height: 18px;
