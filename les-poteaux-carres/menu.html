@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Menus – Les Poteaux Carrés</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Raleway:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./menuStyles.css">
+	</head>
+	<body>
+		<nav class="desktopNavContainer">
+			<div class="hamburgerIconContainer">
+				<input type="checkbox" id="menuIcon">
+				<label for="menuIcon" class="mobileMenuIcon" onclick="showMobileNav();">
+					<div class="interiorMobileMenu"></div>
+				</label>
+			</div>
+			<div class="desktopNav">
+				<a href="./index.html">Accueil</a>
+				<a href="index.html#aboutUs">À Propos</a>
+				<a class="logoLink" href="./index.html"><img src="./Images/logo.png" alt="Les Poteaux Carrés" /></a>
+				<a href="index.html#moreInfo">Infos Pratiques</a>
+				<a class="active" href="#">Menus</a>
+			</div>
+		</nav>
+		<div class="mobileNav">
+			<a class="mobileNavLink" href="index.html#hero">Accueil</a>
+			<a class="mobileNavLink" href="index.html#aboutUs">À Propos</a>
+			<a class="mobileNavLink" href="index.html#moreInfo">Infos Pratiques</a>
+			<a class="mobileNavLink active" href="#">Menus</a>
+		</div>
+
+		<!-- 1. À LA CARTE – the heart of the menu, ordered: viandes, poissons, salades/entrées, hamburgers, moules, tagliatelles, tartares/carpaccios -->
+		<section id="firstMenuSection" class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/710575178_1477480727317547_5701964212248014447_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=cNwRvqGwXFAQ7kNvwGbvb7R&_nc_oc=Adon3xQwcAtWO6mH770UqklDbmPDDh5hGrssYEt-Dg236bmpPap2SYzC7lNztaqAIXI&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=0uGjANUPIqVMJqvGb3jucQ&_nc_ss=7b2a8&oh=00_Af_Z6ULdqYBYz2UKbuP4g1pP8g5KwYzsEYcJSyAIckKkng&oe=6A32FB20');background-position: center;">
+				<h2 id="firstMenuSectionHeader">À La Carte</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Les Viandes</h3>
+					<div class="menuItem"><div><h4>Cœur de Rumsteak</h4><p>Nature, à la fleur de sel de guérande, sauce moutarde à l'ancienne, roquefort ou poivre vert</p></div><p>21,90 €</p></div>
+					<div class="menuItem"><div><h4>Foie de Veau Persillé</h4><p>Nature, à la fleur de sel de guérande, sauce moutarde à l'ancienne, roquefort ou poivre vert</p></div><p>18,90 €</p></div>
+					<div class="menuItem"><div><h4>Brochette de Bœuf</h4><p>Nature, à la fleur de sel de guérande, sauce moutarde à l'ancienne, roquefort ou poivre vert</p></div><p>18,90 €</p></div>
+					<div class="menuItem"><div><h4>Andouillette AAAAA à la Fraise de Veau</h4><p>Nature, sauce moutarde à l'ancienne ou poivre vert</p></div><p>18,90 €</p></div>
+					<div class="menuItem"><div><h4>Escalope Milanaise de Veau</h4></div><p>18,90 €</p></div>
+					<div class="menuItem"><div><h4>Suprême de Volaille</h4><p>Nature, à la fleur de sel de guérande, sauce moutarde à l'ancienne, roquefort ou poivre vert</p></div><p>16,90 €</p></div>
+
+					<h3>Les Poissons</h3>
+					<div class="menuItem"><div><h4>Fricassée de Gambas en Persillade</h4><p>Un accompagnement au choix et salade verte</p></div><p>23,90 €</p></div>
+					<div class="menuItem"><div><h4>Dos de Cabillaud Sauce Chorizo</h4><p>Un accompagnement au choix et salade verte</p></div><p>20,90 €</p></div>
+					<div class="menuItem"><div><h4>Pavé de Saumon Rôti</h4><p>Un accompagnement au choix et salade verte</p></div><p>19,90 €</p></div>
+
+					<h3>Les Moules</h3>
+					<div class="menuItem"><div><h4>Moules Marinières au Vin Blanc</h4><p>Selon arrivage, servies avec frites</p></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Moules au Roquefort</h4><p>Selon arrivage, servies avec frites</p></div><p>19,50 €</p></div>
+					<div class="menuItem"><div><h4>Moules à la Crème de Chorizo</h4><p>Selon arrivage, servies avec frites</p></div><p>19,90 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Les Entrées</h3>
+					<div class="menuItem"><div><h4>Assiette « Auberge »</h4><p>Rapées de pommes de terre, sarasson, salade verte, charcuterie et paté en croûte pistaché</p></div><p>19,90 €</p></div>
+					<div class="menuItem"><div><h4>Poêlée de Gambas Flambées au Whisky</h4></div><p>16,50 €</p></div>
+					<div class="menuItem"><div><h4>Escargots de Bourgogne</h4><p>Par 6, par 12</p></div><p>12,50 €</p></div>
+					<div class="menuItem"><div><h4>Carpaccio de Bœuf, Pesto et Parmesan</h4></div><p>10,90 €</p></div>
+					<div class="menuItem"><div><h4>Saumon Fumé de Norvège Crème à l'Aneth</h4></div></div>
+					<div class="menuItem"><div><h4>La Tranche de Paté en Croûte Pistaché</h4></div><p>8,90 €</p></div>
+					<div class="menuItem"><div><h4>Gaspacho Andalou</h4></div><p>8,90 €</p></div>
+
+					<h3>Les Salades César</h3>
+					<div class="menuItem"><div><h4>Salade César Saumon</h4><p>Salade, tomates, saumon fumé, copeaux de parmesan, noix de cajou, croûtons, sauce césar</p></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Salade César Poulet</h4><p>Salade, tomates, filet de poulet pané, copeaux de parmesan, noix de cajou, croûtons, sauce césar. Supplément bacon +2€00</p></div><p>15,90 €</p></div>
+
+					<h3>Les Salades Classiques</h3>
+					<div class="menuItem"><div><h4>Salade Pêcheur</h4><p>Salade, tomates, fruits de mer marinés, gambas et saumon fumé</p></div><p>20,00 €</p></div>
+					<div class="menuItem"><div><h4>Salade du Boucher</h4><p>Salade, tomates, croûtons, filet de poulet pané, rapées de pommes de terre, sarasson et une brochette de bœuf</p></div><p>19,00 €</p></div>
+					<div class="menuItem"><div><h4>Salade Fraîcheur</h4><p>Salade, tomates en carpaccio, burratina, jambon cru et pesto</p></div><p>18,90 €</p></div>
+					<div class="menuItem"><div><h4>Salade Normande</h4><p>Salade, tomates, lardons, pommes, rapées de pommes de terre, sarasson, ½ camembert pané</p></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Salade de Chèvre Chaud</h4><p>Salade, tomates, rapées de pommes de terre, sarasson, fromage de chèvre chaud pané et sur toasts</p></div><p>15,50 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Les Hamburgers</h3>
+					<div class="menuItem"><div><h4>Hamburger des Poteaux Raclette</h4><p>Servis avec frites et salade. Version double +5€</p></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Hamburger des Poteaux au Bacon</h4><p>Servis avec frites et salade. Version double +5€</p></div><p>16,90 €</p></div>
+					<div class="menuItem"><div><h4>Hamburger des Poteaux à la Fourme d'Ambert</h4><p>Servis avec frites et salade. Version double +5€</p></div><p>16,90 €</p></div>
+					<div class="menuItem"><div><h4>Hamburger des Poteaux</h4><p>Pain buns du boulanger, sauce burger, salade, tomates, oignons rouges, steak haché, cheddar. Version double +5€</p></div><p>15,90 €</p></div>
+					<div class="menuItem"><div><h4>Hamburger Veggie</h4><p>Pain buns du boulanger, rapée de pommes de terre, salade, cheddar, tomates, oignons rouges, sauce burger. Version double +5€</p></div><p>15,90 €</p></div>
+
+					<h3>Les Tagliatelles</h3>
+					<div class="menuItem"><div><h4>Aux Morilles</h4></div><p>19,90 €</p></div>
+					<div class="menuItem"><div><h4>Saumon</h4></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Roquefort</h4></div><p>16,90 €</p></div>
+					<div class="menuItem"><div><h4>Pesto &amp; Parmesan</h4></div><p>15,90 €</p></div>
+					<div class="menuItem"><div><h4>Veggie</h4></div><p>15,90 €</p></div>
+
+					<h3>Les Tartares &amp; Carpaccios</h3>
+					<div class="menuItem"><div><h4>Tartare de Bœuf Huile d'Olive aux Arômes de Truffes</h4><p>Servis avec frites et salade</p></div><p>20,90 €</p></div>
+					<div class="menuItem"><div><h4>Tartare de Saumon</h4><p>Servis avec frites et salade</p></div><p>18,90 €</p></div>
+					<div class="menuItem"><div><h4>Tartare de Bœuf Classique</h4><p>Servis avec frites et salade</p></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Carpaccio de Bœuf Huile d'Olive aux Arômes de Truffes</h4><p>Servis avec frites et salade</p></div><p>17,90 €</p></div>
+					<div class="menuItem"><div><h4>Carpaccio de Bœuf Classique</h4><p>Servis avec frites et salade</p></div><p>15,90 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 2. MENU BRASSERIE – premium set menu -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-1.xx.fbcdn.net/v/t39.30808-6/645017716_1404288977970056_8434023960623140741_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Ec7ZSEwmvC4Q7kNvwGu7fBp&_nc_oc=AdpSs7o_NkinZ9mbKpgFWWSbSocsYIzxF-fZbKPShz648zwzTzqjlTg3zSt8nJ35ATc&_nc_zt=23&_nc_ht=scontent-mrs2-1.xx&_nc_gid=mIbwxMacJgiTrTJYpQmaMw&_nc_ss=7b2a8&oh=00_Af8eTi1BDE9Cn9W1GMeYaqGRLprAxXgt-3lao_O94OQ6-Q&oe=6A32F7ED');background-position: center 55%	">
+				<h2>Menu Brasserie</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Entrées</h3>
+					<div class="menuItem"><div><h4>Poêlée de Gambas en Persillade</h4></div></div>
+					<div class="menuItem"><div><h4>12 Escargots de Bourgogne</h4></div></div>
+					<div class="menuItem"><div><h4>Saumon Fumé et ses Toasts</h4></div></div>
+					<div class="menuItem"><div><h4>Carpaccio de Bœuf</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Plats</h3>
+					<div class="menuItem"><div><h4>Cœur de Rumsteak</h4></div></div>
+					<div class="menuItem"><div><h4>Foie de Veau Persillé</h4></div></div>
+					<div class="menuItem"><div><h4>Suprême de Volaille</h4></div></div>
+					<div class="menuItem"><div><h4>Dos de Cabillaud Sauce Chorizo</h4></div></div>
+					<h3>Un Accompagnement au Choix</h3>
+					<div class="menuItem"><div><h4>Frites</h4></div></div>
+					<div class="menuItem"><div><h4>Gratin Dauphinois</h4></div></div>
+					<div class="menuItem"><div><h4>Rapées de Pommes de Terre</h4></div></div>
+					<div class="menuItem"><div><h4>Tagliatelles de la Maison « Cornand »</h4></div></div>
+					<div class="menuItem"><div><h4>Légumes</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Desserts</h3>
+					<div class="menuItem"><div><h4>Dessert au Choix</h4></div></div>
+					<div class="menuItem"><div><h4>Glace 2 Boules</h4></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 3. MENU BISTROT – everyday set menu -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/636475816_1394862802246007_4981894474917495212_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=pTaRjN33C4wQ7kNvwEnXWBw&_nc_oc=AdoFZ8-jJCMJBB3dfbpGitrsRNFh-MHy0QtU57hEx-Zq8-wJY0g5XGaoCpusTRsS39w&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=4cerKCX92cR-PQy77uTpow&_nc_ss=7b2a8&oh=00_Af-OugmCw6ZBYfAzUTp8QD3DSbHYps0KqxdcXQw0PWkh9Q&oe=6A32FA65');background-position:center 90%;">
+				<h2>Menu Bistrot</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Entrées</h3>
+					<div class="menuItem"><div><h4>Salade César Poulet</h4></div></div>
+					<div class="menuItem"><div><h4>Salade Chèvre Chaud</h4></div></div>
+					<div class="menuItem"><div><h4>½ Camembert Pané</h4></div></div>
+					<div class="menuItem"><div><h4>La Tranche de Paté en Croûte Pistaché</h4></div></div>
+					<div class="menuItem"><div><h4>Gaspacho Andalou</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Plats</h3>
+					<div class="menuItem"><div><h4>Brochette de Bœuf</h4></div></div>
+					<div class="menuItem"><div><h4>Assiette de Moules Marinières</h4></div></div>
+					<div class="menuItem"><div><h4>Tagliatelles Saumon</h4></div></div>
+					<div class="menuItem"><div><h4>Hamburger des Poteaux</h4><p>Supplément bacon, fourme ou raclette +2€</p></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Desserts</h3>
+					<div class="menuItem"><div><h4>Mousse au Chocolat</h4></div></div>
+					<div class="menuItem"><div><h4>Île Flottante</h4></div></div>
+					<div class="menuItem"><div><h4>Pana Cotta aux Fruits Rouges</h4></div></div>
+					<div class="menuItem"><div><h4>Glace 2 Parfums</h4></div></div>
+					<div class="menuItem"><div><h4>Faisselle Crème ou Coulis</h4></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 4. MENU OSWALDO – signature house menu -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/617832852_1367584151640539_2273609037862390651_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=GjVo0JlGqB0Q7kNvwEnxQjD&_nc_oc=AdrKKYfRUMItgP7C--3ShU2viIHHpaY3uNQcHxzzcSkLdtWMkIYzZ80-xQbdcGMlMeA&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=2gFFIEkSiP-dqEPZG7cnwA&_nc_ss=7b2a8&oh=00_Af8rrdIgmdiUg29cGotX8ypFmBiDIgVzED1TMDArESMCTQ&oe=6A33126D');background-position:center 65%">
+				<h2>Menu Oswaldo</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Entrées</h3>
+					<div class="menuItem"><div><h4>Soupe à l'Oignon et ses Toasts Gratinés</h4></div></div>
+					<div class="menuItem"><div><h4>Salade César Poulet</h4><p>Supplément bacon +2€00</p></div></div>
+					<div class="menuItem"><div><h4>½ Camembert Pané et Salade</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Plats</h3>
+					<div class="menuItem"><div><h4>Hamburger des Poteaux, Frites</h4><p>Bacon +2€ / Fourme +2€ / Raclette +2€</p></div></div>
+					<div class="menuItem"><div><h4>Moules Marinières au Vin Blanc, Frites</h4><p>Sauce roquefort ou chorizo +2€</p></div></div>
+					<div class="menuItem"><div><h4>Tartiflette, Salade Verte</h4></div></div>
+					<div class="menuItem"><div><h4>Pâté Chaud Stéphanois</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Desserts</h3>
+					<div class="menuItem"><div><h4>Mousse au Chocolat</h4></div></div>
+					<div class="menuItem"><div><h4>Île Flottante aux Pralines Roses</h4></div></div>
+					<div class="menuItem"><div><h4>Pana Cotta Framboise ou Mangue</h4></div></div>
+					<div class="menuItem"><div><h4>Glace 2 Boules</h4></div></div>
+					<div class="menuItem"><div><h4>Café ou Thé Gourmand</h4><p>+2€</p></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 5. MENU SANTINI – starters-focused premium menu -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-1.xx.fbcdn.net/v/t39.30808-6/473798234_1092450119153945_8018867470729292866_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1110x1096&ctp=s1110x1096&_nc_cat=100&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6l82jjdtmsEQ7kNvwGz9KSt&_nc_oc=AdpovQ8Vv4RvXoie2JQIZmsC4gqJbsQmO4lh9Ajly3ugXi1Ilrv8CLoaz8DelJYwiEI&_nc_zt=23&_nc_ht=scontent-mrs2-1.xx&_nc_gid=gdKZEoav4dRF-SNtMB_3ew&_nc_ss=7b2a8&oh=00_Af_ooWkOwxKDCgHe_4PziZW2pFa6T0BzBgKIXvpuHM_AEg&oe=6A32FA1A');">
+				<h2>Menu Santini</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Entrées au Choix</h3>
+					<div class="menuItem"><div><h4>Os à Moelle Gratiné et ses Toasts</h4></div></div>
+					<div class="menuItem"><div><h4>12 Escargots de Bourgogne</h4></div></div>
+					<div class="menuItem"><div><h4>Saumon Fumé par Nos Soins et ses Toasts</h4></div></div>
+					<div class="menuItem"><div><h4>Soupe à l'Oignon et ses Toasts Gratinés</h4></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 6. FORMULE DÉJEUNER -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/509938492_10236425698612231_6600508859274324072_n.jpg?stp=dst-jpg_tt6&cstp=mx828x552&ctp=s828x552&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=M7ace3VD0rkQ7kNvwFDvR15&_nc_oc=AdozVKNoBHW6miOlPxXdh_GZOoMYFDBg8VIdBqqtPJHWBUTE8L7-EKb_gYbEICZBoG8&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=BcU3pBqhIlhEqgZtZJ3LxQ&_nc_ss=7b2a8&oh=00_Af878bm4CoNeQ6nvisqwg_TkLRSevc8fFK_KsBv0xQvTtw&oe=6A33019C'); background-position: center 30%;">
+				<h2>Formule Déjeuner</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Tarifs</h3>
+					<div class="menuItem"><div><h4>Plat du Jour</h4></div><p>12,50 €</p></div>
+					<div class="menuItem"><div><h4>Entrée + Plat ou Plat + Dessert</h4></div><p>16,50 €</p></div>
+					<div class="menuItem"><div><h4>Menu Complet</h4></div><p>19,50 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Entrée au Choix</h3>
+					<div class="menuItem"><div><h4>Salade de Chèvre Chaud</h4></div></div>
+					<div class="menuItem"><div><h4>Salade César Poulet</h4></div></div>
+					<div class="menuItem"><div><h4>Tarte au Thon</h4></div></div>
+					<div class="menuItem"><div><h4>Rillette de Poisson</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Plat au Choix</h3>
+					<div class="menuItem"><div><h4>Pièce du Boucher</h4><p>Frites, salade</p></div></div>
+					<div class="menuItem"><div><h4>Carpaccio Bœuf</h4><p>Frites, salade</p></div></div>
+					<div class="menuItem"><div><h4>Filet de Julienne</h4></div></div>
+					<div class="menuItem"><div><h4>Risotto</h4></div></div>
+					<div class="menuItem"><div><h4>Moussaka</h4></div></div>
+					<h3>Dessert au Choix</h3>
+					<div class="menuItem"><div><h4>Mousse au Chocolat</h4></div></div>
+					<div class="menuItem"><div><h4>Moelleux au Chocolat</h4></div></div>
+					<div class="menuItem"><div><h4>Tiramisu à la Framboise</h4></div></div>
+					<div class="menuItem"><div><h4>Île Flottante</h4></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 7. MENU ENFANT -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/474098111_1092445169154440_9217166029704808496_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx1290x1427&ctp=s1290x1427&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=lQWE5RbaMTUQ7kNvwGuUoAz&_nc_oc=AdrWEuhzy27jyAwIHaxbg43GUPKihX6MDmqABnNxUW2J56qY3DkwldzsAckdISQN_pU&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=HqcIlEwQSv-i89zLDiwVVQ&_nc_ss=7b2a8&oh=00_Af_R_-kO7uAmNMOVJRbmFGbAEcBzDCsQcruEfu1TdwBOWA&oe=6A32EC67');background-position:center 55%;">
+				<h2>Menu Enfant</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Plat</h3>
+					<div class="menuItem"><div><h4>Steak Haché</h4></div></div>
+					<div class="menuItem"><div><h4>Poulet Pané</h4></div></div>
+					<div class="menuItem"><div><h4>Poisson Pané</h4></div></div>
+					<div class="menuItem"><div><h4>Pâtes</h4></div></div>
+					<div class="menuItem"><div><h4>Frites</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Dessert</h3>
+					<div class="menuItem"><div><h4>Glace 2 Parfums</h4></div></div>
+					<div class="menuItem"><div><h4>Compote à Boire</h4></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 8. BOISSONS -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/482987637_9434887356556747_3563599189104648952_n.jpg?stp=dst-jpg_tt6&cstp=mx1170x1221&ctp=s1170x1221&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=8_MWsoRPUT0Q7kNvwGbIy6M&_nc_oc=Adr1L9w6L6d3oqunfb3KJHb3_wVdwoYhAt_CFUFrxQPJQdIhcDkSffF1yC1hmt5-uvc&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=9n79nocPfaC6pK18KIzqEg&_nc_ss=7b2a8&oh=00_Af8pb7VnK5mBxQM0FPtS2ONOfwfG2K4PBBoLtqjgZ_E1yg&oe=6A32EBAA');background-position:center 30%">
+				<h2>Boissons</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Boissons Sans Alcool</h3>
+					<div class="menuItem"><div><h4>Café</h4></div><p>2,00 €</p></div>
+					<div class="menuItem"><div><h4>Jus de Fruits ou Nectar</h4><p>25cl</p></div><p>4,00 €</p></div>
+					<div class="menuItem"><div><h4>Coca-Cola, Zero, Cherry</h4><p>33cl</p></div><p>4,00 €</p></div>
+					<div class="menuItem"><div><h4>Badoit, San Pellegrino, Evian</h4><p>50cl</p></div><p>4,50 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Bières</h3>
+					<div class="menuItem"><div><h4>Pression 1664</h4><p>33cl</p></div><p>4,00 €</p></div>
+					<div class="menuItem"><div><h4>Bière Bouteille</h4><p>33cl</p></div><p>6,00 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Spiritueux &amp; Apéritifs</h3>
+					<div class="menuItem"><div><h4>Pastis ou Ricard</h4><p>4cl</p></div><p>4,00 €</p></div>
+					<div class="menuItem"><div><h4>Martini, Suze, Marsala, Porto</h4><p>7cl</p></div><p>4,50 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="./script.js"></script>
+	</body>
+</html>
