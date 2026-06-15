@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Événements – Six Nations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Open+Sans:wght@300;400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #EFCA70;
+      --red: #9D261D;
+      --dark: #111111;
+      --gutter: 60px;
+      --section-gap: 80px;
+    }
+
+    body { font-family: 'Open Sans', sans-serif; color: #222; background: #fff; overflow-x: hidden; }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; color: var(--gold);
+      font-size: 22px; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      background: var(--dark); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 var(--gutter);
+      height: 70px; position: sticky; top: 0; z-index: 200;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: #ccc; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--dark); border: none;
+      padding: 10px 26px; font-size: 13px; font-weight: 700;
+      letter-spacing: 1px; cursor: pointer; text-transform: uppercase;
+      font-family: 'Open Sans', sans-serif; text-decoration: none; display: inline-block;
+    }
+    .nav-cta:hover { background: #d4a93a; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; border-radius: 2px; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: var(--dark); z-index: 300;
+      flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: #fff; text-decoration: none; font-size: 18px; font-weight: 700; }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+
+    /* ── HERO STRIP ── */
+    .page-hero {
+      position: relative; height: 35vh; min-height: 220px;
+      width: 100%; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .page-hero img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center top;
+    }
+    .page-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.58); }
+    .page-hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+    .page-hero-content .eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block;
+    }
+    .page-hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 7vw, 80px); font-weight: 900;
+      color: #fff; line-height: 1; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .page-hero-content h1 span { color: var(--gold); }
+
+    /* ── SHARED ── */
+    .section-wrap { max-width: 1100px; margin: 0 auto; padding: 0 var(--gutter); }
+    .section-gap { margin-top: var(--section-gap); margin-bottom: var(--section-gap); }
+    .section-rule { width: 40px; height: 3px; background: var(--gold); margin-bottom: 18px; }
+
+    /* ── UPCOMING — empty state ── */
+    .upcoming-section { background: #f8f7f4; padding: var(--section-gap) 0; }
+    .upcoming-inner { max-width: 1100px; margin: 0 auto; padding: 0 var(--gutter); }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+    .section-header-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 42px); font-weight: 900;
+      color: var(--dark); line-height: 1.1;
+    }
+    .event-tag {
+      display: inline-block; padding: 4px 12px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; border-radius: 3px; margin-bottom: 8px;
+    }
+    .tag-concert { background: var(--gold); color: var(--dark); }
+    .tag-anniv   { background: var(--red);  color: #fff; }
+    .tag-tto     { background: #2a4a2a; color: #9acd8a; }
+    .tag-special { background: #1a2a4a; color: #8aacd8; }
+
+    .empty-state {
+      text-align: center; padding: 60px 20px;
+      border: 2px dashed #ddd; border-radius: 12px;
+    }
+    .empty-state i { font-size: 48px; color: #ccc; margin-bottom: 16px; display: block; }
+    .empty-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; font-weight: 700; color: #aaa; margin-bottom: 10px;
+    }
+    .empty-state p { font-size: 14px; color: #bbb; line-height: 1.7; }
+    .empty-state a { color: var(--gold); font-weight: 700; text-decoration: none; }
+    .empty-state a:hover { text-decoration: underline; }
+
+    /* ── PAST EVENTS ── */
+    .past-section { padding: var(--section-gap) 0; }
+    .past-inner { max-width: 1100px; margin: 0 auto; padding: 0 var(--gutter); }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .event-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      transition: transform .3s, box-shadow .3s;
+      display: flex; flex-direction: column;
+    }
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+
+    .event-card-img {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .event-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .event-card:hover .event-card-img img { transform: scale(1.06); }
+
+    .event-card-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+    }
+
+    .event-card-tag {
+      position: absolute; top: 14px; left: 14px;
+    }
+
+    .event-card-body {
+      padding: 22px 22px 24px;
+      display: flex; flex-direction: column; flex: 1;
+    }
+    .event-card-date {
+      font-size: 12px; font-weight: 700; color: var(--gold);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .event-card-date i { font-size: 14px; }
+    .event-card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 900;
+      color: var(--dark); line-height: 1.3; margin-bottom: 10px;
+    }
+    .event-card-body p {
+      font-size: 13px; line-height: 1.7; color: #666;
+      flex: 1;
+    }
+    .event-card-footer {
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid #f0f0f0;
+      font-size: 12px; color: #aaa;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .event-card-footer i { color: var(--gold); font-size: 14px; }
+
+    /* ── FACEBOOK LINK ── */
+    .fb-link-section {
+      text-align: center;
+      padding: 0 var(--gutter) var(--section-gap);
+    }
+    .fb-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      color: #555; text-decoration: none; font-size: 14px;
+      border: 1.5px solid #ddd; border-radius: 6px;
+      padding: 12px 24px; transition: all .2s;
+    }
+    .fb-link:hover { border-color: #1877F2; color: #1877F2; }
+    .fb-link svg { width: 18px; height: 18px; fill: currentColor; }
+    .fb-link span { font-weight: 600; }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--dark); color: #aaa; }
+    .footer-main {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      max-width: 1100px; margin: 0 auto;
+      padding: 60px var(--gutter) 50px; text-align: center;
+    }
+    .footer-col-hours h4, .footer-col-contact h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 900; color: #fff;
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    }
+    .footer-col-hours p, .footer-col-contact p { font-size: 14px; color: #aaa; line-height: 2; }
+    .footer-divider { width: 30px; height: 1px; background: #444; margin: 20px auto; }
+    .footer-col-brand {
+      border-left: 1px solid #222; border-right: 1px solid #222;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px; padding: 0 40px;
+    }
+    .footer-logo-text {
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      color: var(--gold); font-size: 26px; letter-spacing: 3px;
+      text-transform: uppercase; text-decoration: none; display: block;
+    }
+    .footer-socials { display: flex; gap: 12px; justify-content: center; }
+    .fs {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid #444;
+      display: flex; align-items: center; justify-content: center;
+      color: #aaa; cursor: pointer; transition: all .2s; text-decoration: none;
+    }
+    .fs:hover { border-color: var(--gold); color: var(--gold); }
+    .fs svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .fs.fb svg { fill: currentColor; stroke: none; }
+    .footer-col-contact a { color: #aaa; text-decoration: none; transition: color .2s; }
+    .footer-col-contact a:hover { color: var(--gold); }
+    .footer-contact-email {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 16px; font-size: 14px; color: #aaa;
+    }
+    .footer-contact-email svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 2; flex-shrink: 0; }
+    .footer-bottom {
+      border-top: 1px solid #222; padding: 20px var(--gutter);
+      text-align: center; font-size: 12px; color: #444;
+    }
+    .footer-bottom a { color: #555; text-decoration: none; margin: 0 10px; }
+    .footer-bottom a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .events-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      :root { --gutter: 20px; --section-gap: 50px; }
+      .nav { padding: 0 20px; height: 60px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: block; }
+      .events-grid { grid-template-columns: 1fr; }
+      .footer-main { grid-template-columns: 1fr; padding: 40px 20px; gap: 40px; }
+      .footer-col-brand { border: none; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">×</button>
+    <a href="index.html">Accueil</a>
+    <a href="index.html#notre-histoire">Notre Histoire</a>
+    <a href="menu.html">Menu</a>
+    <a href="events.html" class="active">Événements</a>
+    <a href="gallery.html">Galerie</a>
+    <a href="index.html#contact" style="color:var(--gold)">Contact</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="logo-text">Six Nations</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="index.html#notre-histoire">Notre Histoire</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="events.html" class="active">Événements</a></li>
+      <li><a href="gallery.html">Galerie</a></li>
+    </ul>
+    <a href="index.html#contact" class="nav-cta">Contact</a>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO STRIP -->
+  <div class="page-hero">
+    <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFmqc3sH-isbLdAjpth7ZPUPXpeU43Mv1aMuSfDQnX0e6ec65Iz7f0sjqmxrFQEAO88dWEVE-fGZRDupEc27_J5-RtaFVXJiMQvw-WomqMJffwV5ah6MyXvSdE0ebLXXk2wA5vD=s1360-w1360-h1020-rw" alt="Événements au Six Nations">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <span class="eyebrow">Bar & Restaurant · Saint-Étienne</span>
+      <h1>Nos <span>Événements</span></h1>
+    </div>
+  </div>
+
+  <!-- UPCOMING EVENTS -->
+  <div class="upcoming-section">
+    <div class="upcoming-inner">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-rule"></div>
+          <h2>Prochains événements</h2>
+        </div>
+      </div>
+      <div class="empty-state">
+        <i class="ti ti-calendar-off"></i>
+        <h3>Aucun événement programmé pour le moment</h3>
+        <p>Suivez-nous sur <a href="https://www.facebook.com/SixNations42/?locale=fr_FR" target="_blank" rel="noopener">Facebook</a> et <a href="https://www.instagram.com/sixnations_fr/?hl=fr" target="_blank" rel="noopener">Instagram</a><br>pour être les premiers informés de nos prochaines soirées.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAST EVENTS -->
+  <div class="past-section">
+    <div class="past-inner">
+      <div class="section-header">
+        <div class="section-header-left">
+          <div class="section-rule"></div>
+          <h2>Événements passés</h2>
+        </div>
+      </div>
+
+      <div class="events-grid">
+
+        <!-- Event 1 — Concert Les Raoul Volfoni -->
+        <div class="event-card">
+          <div class="event-card-img">
+            <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/718702325_1512454524228209_4942499430265888330_n.jpg?stp=dst-jpg_tt6&cstp=mx1920x1005&ctp=s1920x1005&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=sZGrA7vnQwYQ7kNvwHJ4VEA&_nc_oc=AdrnOxahqeWoY8hyYzbByFxF2PvEoFTuytB2756mFO4Dl6WCKFE0HDyiN6QWCQzyLrc&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=ARq_pO1QDgM6rE0vuRYuLg&_nc_ss=7b2a8&oh=00_Af_EAjCiqEz75kcenQv9BfJgu9cKXisak4gdcQcB6RCLFg&oe=6A35580A" alt="Les Raoul Volfoni">
+            <div class="event-card-img-overlay"></div>
+            <div class="event-card-tag"><span class="event-tag tag-concert">Concert</span></div>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-date"><i class="ti ti-calendar"></i> Vendredi 12 juin 2025</div>
+            <h3>Les Raoul Volfoni — 30 ans sur scène</h3>
+            <p>Groupe phare de la scène stéphanoise des années 2000, Les Raoul Volfoni fêtent les 30 ans de leur premier EP. Une date unique, sur le parvis du Six Nations place Jean Jaurès.</p>
+            <div class="event-card-footer"><i class="ti ti-map-pin"></i> Six Nations — Place Jean Jaurès</div>
+          </div>
+        </div>
+
+        <!-- Event 2 — Anniversaire 5 ans -->
+        <div class="event-card">
+          <div class="event-card-img">
+            <img src="https://scontent-mrs2-1.xx.fbcdn.net/v/t39.30808-6/700078993_1490747636398898_4883328969880689736_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=4ZnSP8hEkbgQ7kNvwGaHFkV&_nc_oc=AdqIbzk4RKz8o-DNRtbDkeskMjU-6rXnSRC1k1gzETMC4jDE2L9AeI1QdZjC8VfNeo0&_nc_zt=23&_nc_ht=scontent-mrs2-1.xx&_nc_gid=kFO4B5CncNXlQJHXsdOxUw&_nc_ss=7b2a8&oh=00_Af_zAG9yCOL6zzxzIg1bZfQ7328NJxOZLmI6LHdF8QTlgw&oe=6A3545D6" alt="5 ans du Six Nations">
+            <div class="event-card-img-overlay"></div>
+            <div class="event-card-tag"><span class="event-tag tag-anniv">Anniversaire</span></div>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-date"><i class="ti ti-calendar"></i> Samedi 23 mai 2025</div>
+            <h3>Et de 5 ! 🥳 — Le Six Nations fête ses 5 ans</h3>
+            <p>Cinq années de bons moments, de bières partagées et de souvenirs. Une grande soirée pour célébrer ça tous ensemble, avec le groupe LE GIF.</p>
+            <div class="event-card-footer"><i class="ti ti-map-pin"></i> Six Nations — Place Jean Jaurès</div>
+          </div>
+        </div>
+
+        <!-- Event 3 — Concert Salut l'Orage + Bière -->
+        <div class="event-card">
+          <div class="event-card-img">
+            <img src="https://scontent-mrs2-2.xx.fbcdn.net/v/t51.82787-15/681789077_18111241844500316_6406237764161776_n.webp?stp=dst-jpg_tt6&cstp=mx1440x1801&ctp=s1440x1801&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=WKoV6TNgLngQ7kNvwF_q_TK&_nc_oc=AdrLPbUIbvWodl3TymWOUO-PbjAKXgmv63PFnKCCvbT7AdBsT4-0y1DoeFlVK6oL-4Q&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=xmcLuzv5vKhF5vn_hK-7zA&_nc_ss=7b2a8&oh=00_Af_uF0UzZQ-Y0KvoHct5_GekQjFka2-nW8CYHoqB8VK2jQ&oe=6A353947" alt="Salut l'Orage x Brasserie de la Loire">
+            <div class="event-card-img-overlay"></div>
+            <div class="event-card-tag"><span class="event-tag tag-concert">Concert</span></div>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-date"><i class="ti ti-calendar"></i> Jeudi 30 avril 2025 · 21h</div>
+            <h3>Salut l'Orage × Brasserie de la Loire</h3>
+            <p>Soirée de lancement de l'Ale'ectric — une bière brassée en collaboration entre Salut l'Orage et la Brasserie de la Loire. Disponible en avant-première à la pression, exclusivement au Six Nations.</p>
+            <div class="event-card-footer"><i class="ti ti-map-pin"></i> Six Nations — Place Jean Jaurès</div>
+          </div>
+        </div>
+
+        <!-- Event 4 — TTO Brasserie Indépendante Montbrisonnaise -->
+        <div class="event-card">
+          <div class="event-card-img">
+            <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/677620478_1472164051590590_385565286046326647_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s1080x1080&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=7sju7T0ZmTYQ7kNvwElTl1h&_nc_oc=Ado_rZsDZ-8IB1YmugNBLmW0vQ0AUaCljtVuWIGa8hPSjnNUcwsmKswiCWI6GP_k2QQ&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=UZtkKKpDWaVQACCRBcsS0w&_nc_ss=7b2a8&oh=00_Af_QH6nh9gn2JmWvJNrC5_ThUJ7vx_z6qiDjZOog6hBZSw&oe=6A355646" alt="TTO Brasserie Indépendante Montbrisonnaise">
+            <div class="event-card-img-overlay"></div>
+            <div class="event-card-tag"><span class="event-tag tag-tto">Tap Take Over</span></div>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-date"><i class="ti ti-calendar"></i> Vendredi 25 avril 2025 · 19h–01h30</div>
+            <h3>TTO — Brasserie Indépendante Montbrisonnaise</h3>
+            <p>4ème Tap Take Over de l'année : la Brasserie Indépendante Montbrisonnaise (BIM) prend les tireuses d'assaut. Au programme : blonde, APA et toute la gamme de Nico de Montbrison.</p>
+            <div class="event-card-footer"><i class="ti ti-map-pin"></i> Six Nations — Place Jean Jaurès</div>
+          </div>
+        </div>
+
+        <!-- Event 5 — Concert Greboo -->
+        <div class="event-card">
+          <div class="event-card-img">
+            <img src="https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/678925219_1470643081742687_208349440775057378_n.jpg?stp=dst-jpg_tt6&cstp=mx1990x2048&ctp=s1990x2048&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=A0ytrOsxz-cQ7kNvwECAwfo&_nc_oc=AdpCCN-j8lcY_N3-0wrbLC5WOZDsSm9_zuDLTiUFjipq-93rITX6S4IakcZHMC6wNYw&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=D_5tocmhQPhUTMmWAjkblQ&_nc_ss=7b2a8&oh=00_Af_MTYVavHR4odD-NsLg0Yy_V6LTM9skZhyNNiWVk1SkNw&oe=6A357023" alt="Greboo ruine sa carrière">
+            <div class="event-card-img-overlay"></div>
+            <div class="event-card-tag"><span class="event-tag tag-concert">Concert</span></div>
+          </div>
+          <div class="event-card-body">
+            <div class="event-card-date"><i class="ti ti-calendar"></i> Vendredi 24 avril 2025</div>
+            <h3>Greboo ruine sa carrière + Guests</h3>
+            <p>Un pied dans le rock, un autre dans le rap — Greboo ruine sa carrière s'empare de la scène du Six Nations pour une dernière soirée imprévisible. Tout et n'importe quoi, avec des guests surprises.</p>
+            <div class="event-card-footer"><i class="ti ti-map-pin"></i> Six Nations — Place Jean Jaurès</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Facebook link -->
+      <div style="text-align:center; margin-top: 50px;">
+        <p style="font-size:14px; color:#888; margin-bottom: 16px;">Vous souhaitez voir les événements plus anciens ?</p>
+        <a href="https://www.facebook.com/SixNations42/?locale=fr_FR" target="_blank" rel="noopener" class="fb-link">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          <span>Voir tous nos événements sur Facebook</span>
+          <i class="ti ti-arrow-right" style="font-size:14px"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-col-hours">
+        <h4>Horaires</h4>
+        <p>Lun – Dim<br>12h – tard</p>
+        <div class="footer-divider"></div>
+        <p>Cuisine servie<br>jusqu'à 21h</p>
+      </div>
+      <div class="footer-col-brand">
+        <a href="index.html" class="footer-logo-text">Six Nations</a>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/SixNations42/?locale=fr_FR" class="fs fb" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/sixnations_fr/?hl=fr" target="_blank" rel="noopener" class="fs" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col-contact">
+        <h4>Contact</h4>
+        <p>14 Pl. Jean Jaurès<br>42000 Saint-Étienne</p>
+        <div class="footer-contact-email">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:ggb.haka@gmail.com">ggb.haka@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <a href="#">Politique de cookies</a>
+      <span>© 2026 Six Nations — Saint-Étienne. Tous droits réservés.</span>
+      <a href="#">Mentions légales</a>
+    </div>
+  </footer>
+
+</body>
+</html>

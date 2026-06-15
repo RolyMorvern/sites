@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie – Six Nations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Open+Sans:wght@300;400;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #EFCA70;
+      --red: #9D261D;
+      --dark: #111111;
+      --gutter: 60px;
+      --section-gap: 80px;
+    }
+
+    body { font-family: 'Open Sans', sans-serif; color: #222; background: #fff; overflow-x: hidden; }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900; color: var(--gold);
+      font-size: 22px; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      background: var(--dark); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 var(--gutter);
+      height: 70px; position: sticky; top: 0; z-index: 200;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: #ccc; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: var(--dark); border: none;
+      padding: 10px 26px; font-size: 13px; font-weight: 700;
+      letter-spacing: 1px; cursor: pointer; text-transform: uppercase;
+      font-family: 'Open Sans', sans-serif; text-decoration: none; display: inline-block;
+    }
+    .nav-cta:hover { background: #d4a93a; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; border-radius: 2px; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0;
+      background: var(--dark); z-index: 300;
+      flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: #fff; text-decoration: none; font-size: 18px; font-weight: 700; }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 28px; cursor: pointer; }
+
+    /* ── HERO STRIP ── */
+    .page-hero {
+      position: relative; height: 35vh; min-height: 220px;
+      width: 100%; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .page-hero img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    .page-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.55); }
+    .page-hero-content { position: relative; z-index: 2; text-align: center; padding: 0 20px; }
+    .page-hero-content .eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block;
+    }
+    .page-hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 7vw, 80px); font-weight: 900;
+      color: #fff; line-height: 1; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .page-hero-content h1 span { color: var(--gold); }
+
+    /* ── GALLERY ── */
+    .gallery-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--section-gap) var(--gutter);
+    }
+
+    .gallery-intro {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .section-rule-center { width: 40px; height: 3px; background: var(--gold); margin: 0 auto 20px; }
+    .gallery-intro p { font-size: 15px; color: #666; line-height: 1.8; }
+
+    /* Masonry-style 3-col grid */
+    .gallery-grid {
+      columns: 3;
+      column-gap: 12px;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: zoom-in;
+      position: relative;
+      display: block;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      transition: transform .4s ease;
+      border-radius: 10px;
+    }
+
+    .gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      transition: background .3s;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-item-overlay i {
+      color: #fff;
+      font-size: 28px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity .3s, transform .3s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.04); }
+    .gallery-item:hover .gallery-item-overlay { background: rgba(0,0,0,0.3); }
+    .gallery-item:hover .gallery-item-overlay i { opacity: 1; transform: scale(1); }
+
+    /* ── MODAL ── */
+    .modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.93); z-index: 1000;
+      align-items: center; justify-content: center;
+      padding: 20px; cursor: zoom-out;
+    }
+    .modal.open { display: flex; }
+    .modal-img-wrap {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      cursor: default;
+    }
+    .modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+      display: block;
+      animation: zoomIn .22s ease;
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.93); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .modal-close {
+      position: fixed; top: 20px; right: 24px;
+      background: none; border: none; color: #fff;
+      font-size: 38px; cursor: pointer; opacity: 0.7; transition: opacity .2s; line-height: 1;
+    }
+    .modal-close:hover { opacity: 1; }
+    .modal-prev, .modal-next {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; font-size: 22px; width: 48px; height: 48px;
+      border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s; backdrop-filter: blur(4px);
+    }
+    .modal-prev { left: 20px; }
+    .modal-next { right: 20px; }
+    .modal-prev:hover, .modal-next:hover { background: rgba(239,202,112,0.3); border-color: var(--gold); }
+    .modal-counter {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.5); font-size: 13px; letter-spacing: 2px;
+      pointer-events: none;
+    }
+
+    /* ── FOOTER ── */
+    .footer { background: var(--dark); color: #aaa; }
+    .footer-main {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      max-width: 1100px; margin: 0 auto;
+      padding: 60px var(--gutter) 50px; text-align: center;
+    }
+    .footer-col-hours h4, .footer-col-contact h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 900; color: #fff;
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    }
+    .footer-col-hours p, .footer-col-contact p { font-size: 14px; color: #aaa; line-height: 2; }
+    .footer-divider { width: 30px; height: 1px; background: #444; margin: 20px auto; }
+    .footer-col-brand {
+      border-left: 1px solid #222; border-right: 1px solid #222;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px; padding: 0 40px;
+    }
+    .footer-logo-text {
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      color: var(--gold); font-size: 26px; letter-spacing: 3px;
+      text-transform: uppercase; text-decoration: none; display: block;
+    }
+    .footer-socials { display: flex; gap: 12px; justify-content: center; }
+    .fs {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid #444;
+      display: flex; align-items: center; justify-content: center;
+      color: #aaa; cursor: pointer; transition: all .2s; text-decoration: none;
+    }
+    .fs:hover { border-color: var(--gold); color: var(--gold); }
+    .fs svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .fs.fb svg { fill: currentColor; stroke: none; }
+    .footer-col-contact a { color: #aaa; text-decoration: none; transition: color .2s; }
+    .footer-col-contact a:hover { color: var(--gold); }
+    .footer-contact-email {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 16px; font-size: 14px; color: #aaa;
+    }
+    .footer-contact-email svg { width: 16px; height: 16px; stroke: #aaa; fill: none; stroke-width: 2; flex-shrink: 0; }
+    .footer-bottom {
+      border-top: 1px solid #222; padding: 20px var(--gutter);
+      text-align: center; font-size: 12px; color: #444;
+    }
+    .footer-bottom a { color: #555; text-decoration: none; margin: 0 10px; }
+    .footer-bottom a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      :root { --gutter: 20px; --section-gap: 50px; }
+      .nav { padding: 0 20px; height: 60px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: block; }
+      .gallery-grid { columns: 2; }
+      .modal-prev { left: 8px; }
+      .modal-next { right: 8px; }
+      .footer-main { grid-template-columns: 1fr; padding: 40px 20px; gap: 40px; }
+      .footer-col-brand { border: none; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 40px 0; }
+    }
+    @media (max-width: 500px) {
+      .gallery-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">×</button>
+    <a href="index.html">Accueil</a>
+    <a href="index.html#notre-histoire">Notre Histoire</a>
+    <a href="menu.html">Menu</a>
+    <a href="events.html">Événements</a>
+    <a href="gallery.html" class="active">Galerie</a>
+    <a href="index.html#contact" style="color:var(--gold)">Contact</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="logo-text">Six Nations</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="index.html#notre-histoire">Notre Histoire</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="events.html">Événements</a></li>
+      <li><a href="gallery.html" class="active">Galerie</a></li>
+    </ul>
+    <a href="index.html#contact" class="nav-cta">Contact</a>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')" aria-label="Ouvrir le menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO STRIP — bar pic, unused so far -->
+  <div class="page-hero">
+    <img src="https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/660307701_1454066316733697_5108973681845484313_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1152&ctp=s2048x1152&_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=E_LefknJoCQQ7kNvwHu3uEF&_nc_oc=AdrzH6BoPGSBmo-tAUDtaQVcntJSwRPKeUZ1kzBmO4uuawLJjrkCHzsDFhKRTjq_rTQ&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=I833eE0XJJQsxAEHstHmqw&_nc_ss=7b2a8&oh=00_Af-rloj2pHLqTHIZaBqqaPOmgvly0KzB27926MQr_GWZeQ&oe=6A3554CC" alt="Le bar du Six Nations">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+      <span class="eyebrow">Bar & Restaurant · Saint-Étienne</span>
+      <h1>Notre <span>Galerie</span></h1>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="gallery-section">
+    <div class="gallery-intro">
+      <div class="section-rule-center"></div>
+      <p>Un aperçu de l'ambiance, de la cuisine et des soirées au Six Nations.</p>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+
+      <div class="gallery-item" onclick="openModal(0)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGTzrfMKVVsuGXjgAFliYLlpOuhY_hXCj8nnAGZHxRxFss62ETfIRZe2SrrIZAHqbtwL_jt6Q6N7rGE1rqgOORBpLtKGAw2Q5Aiz5D4vMjDAlfTsJXm_Hbj17kahkpYQnDkHDqW=s1360-w1360-h1020-rw" alt="Intérieur avec clients">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(1)">
+        <img src="https://scontent-mrs2-1.xx.fbcdn.net/v/t39.30808-6/662849291_1452982696842059_6717135195276803581_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1200&ctp=s1600x1200&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=-Z9rWFshM-8Q7kNvwH3N0ce&_nc_oc=AdrZzs-4_eAW5gVIlsFg0lD3JnWb3zz4KGoSc2_d8Z6oRqNDgkXzdo0cachwNJmPkVo&_nc_zt=23&_nc_ht=scontent-mrs2-1.xx&_nc_gid=LYjOQ0s9xKv3SXKbdjh8sg&_nc_ss=7b2a8&oh=00_Af-z1ZLTAIrMFAxmXEou7dVnPguSPR2aXiZn-Dc1pH8EQQ&oe=6A356FC9" alt="Concert au Six Nations">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(2)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAH1QDIqvklPFipj4LcCPJy7_ntqaDpXR-D4HsekbCuDYclCb4wlxycvxiJNQtvnRMLBn6s5CW9pM2pE_uVkCPZcForLgRwMzQbWlzN7-t-trVqH5GgvFig2Fgilha40ydY_oWD9=s1360-w1360-h1020-rw" alt="Burger maison">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(3)">
+        <img src="https://scontent-mrs2-1.xx.fbcdn.net/v/t51.82787-15/656064877_18106963226500316_5622623608417754611_n.webp?stp=dst-jpg_tt6&cstp=mx1440x1440&ctp=s1440x1440&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=7XZaLWtDiwMQ7kNvwHLeNmm&_nc_oc=Adq7k06GZ0rb8IjRtChGtYfoli-Lz2UAb7QOJyYwRNfJCFnVykq7wPrvgj0cnR8xHds&_nc_zt=23&_nc_ht=scontent-mrs2-1.xx&_nc_gid=B8-2JuRm_5NfI-9vPaWLpw&_nc_ss=7b2a8&oh=00_Af_PsG68_SwFM2SybXfrzIwpF9FW1ibD_d6Ei-4cG6efgg&oe=6A355773" alt="St Patrick's Day">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(4)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGg-eO5cGYt7K8rRS9DUNQMmCuLKRVsySTZ-156AyCA0mEH7x3WzhltXGXoCedQge3EKN2e-HGtg_k9z83OrDuKEaPw9V4G5qhnk_oVq7BxTDW7uKg8V05gE_toQkxBFYJID_OxpA=s1360-w1360-h1020-rw" alt="Bière à la pression">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(5)">
+        <img src="https://scontent-mrs2-2.xx.fbcdn.net/v/t51.82787-15/656949269_18106963208500316_3572823821500080512_n.webp?stp=dst-jpg_tt6&cstp=mx1440x1440&ctp=s1440x1440&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=GPl2QOZ4_jEQ7kNvwFH-nW-&_nc_oc=AdrLAZTHN7iMugpuusrcXEFITiy0wv8dN0KHOhVttgqQKMEi2v14tj-J9VnOThktAbE&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=s6onT8BlB4e6Snlyei4qRQ&_nc_ss=7b2a8&oh=00_Af-Zwc95d2q-pHBFAie7x2n6tZ2r-JQOfTDVcGZVrL0d_Q&oe=6A355BFC" alt="Terrasse place Jean Jaurès">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(6)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAE9WHOcQtr_mHPThEtSXyeQu6uZOWuAknzRqrb7TRIRQxWbltqfPDo34HbV2PbM8S5LD4mPMHwxw9AbaBxAqbOeHPCfC1pfYYLoepwz0rf9Rj9QQbNynOhpAMyYuBWfEsxvcrCM=s1360-w1360-h1020-rw" alt="Planche de fromages">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(7)">
+        <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/646775630_1430699065737089_6408213820247766874_n.jpg?stp=dst-jpg_tt6&cstp=mx1440x1800&ctp=s1440x1800&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=lmtrAfJzntsQ7kNvwFcPAIq&_nc_oc=AdqBc4xxzCj-J6NOauN0QvMGF9BfA3UuwFWyCIl8-V35zbnCsRAATZfutV4ER3C47Oc&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=hiZtF3qH5OQcj0bwGa1xIg&_nc_ss=7b2a8&oh=00_Af-ULinIbZTV1X_jxuLNWnW3Ve5h_HFXyHls2Np5UeifEw&oe=6A355EF0" alt="Joueur de rugby">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(8)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFBIpW537FcZ5xttlxcvhPWnnwqsZLLezbq-O9IRguYXi1hrPsCfRUX65zgYKciuC0-5yIJOxHyh372iIOMhn2QFVPHHOlXV9e-lsXi4jbDOdRrycd5jSUrtGJRKsmpmbWB0x1TEg=s1360-w1360-h1020-rw" alt="Extérieur du Six Nations">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(9)">
+        <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/648069966_1430699062403756_8253828461868579965_n.jpg?stp=dst-jpg_tt6&cstp=mx1440x1800&ctp=s1440x1800&_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=gjBXWP8YU7EQ7kNvwF6L3rn&_nc_oc=AdrVlmj70GqlJgIdLOM_2ENaaxmaZq_Kq46T26PSXhMdC6QPtJSVerB0fq3H1mer9KU&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=6JDUUhVNmUiArcMtOMqY6w&_nc_ss=7b2a8&oh=00_Af_HOpRyRGlOjZYO_mXCUcqCtGKnElx_SWliXq8_fM0O-w&oe=6A3542C4" alt="Clients attablés">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(10)">
+        <img src="https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/655661939_1447325544074441_6568186256109415512_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s2048x1536&_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=9xCAQneqCqwQ7kNvwHMsOg8&_nc_oc=AdoyTUvAViPDln_Kga5dQ3xstvkdMmdNRoj0ZR3CgetuiAIoUehUS1LI57UIwIhvdtg&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=0rAz0vvzo_9EZ7JTLk58VQ&_nc_ss=7b2a8&oh=00_Af8W9_VZBBrX4w5PzJ97XvMxEhbzy1SS4OHsu6a_ukNcSQ&oe=6A3572C2" alt="Concert live">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(11)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFSu50bO0kJJiwUbszNTFyNPBsdcE1Bz7ZmKDE0dcOq5ad0UvyaOBD43bvkq63IfuouvmXf7rHCb1rz96sDjkWflceRH-oPHeR1pTaO9HVUusERKmKJP1rvXZwA_YPOCsg-xevPtw=s1360-w1360-h1020-rw" alt="Poisson grillé">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(12)">
+        <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t51.82787-15/656189050_18106963181500316_7501545195002484933_n.webp?stp=dst-jpg_tt6&cstp=mx1440x1440&ctp=s1440x1440&_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=vqIz4Cl9m-gQ7kNvwEL53Rx&_nc_oc=Adq34Lqw6tbHmW4ZNcR8UKHx-QpTS-lRuPy6w72aQM82O1j1pm8Vv9mrrsiM7tC-B0w&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=n-JeFctWOV_Wl_ZSAi_ldQ&_nc_ss=7b2a8&oh=00_Af-C4rCnSyO1I85nxru4xD_9Dn0VfNli01ExTWt0TC1_tg&oe=6A355A90" alt="Service en salle">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(13)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEkN5bQrD035RJshuYLfv7qGZdFvy7McDhhSQqB4HSTzK1CsNW-tahNyzyK1V_LF30PnXuUJzNgqjcQQO_rsQymgxPjPUEhhdyjZzPz68umYbbw_PVH0JIAKCcGenKDEAW-nxqZWg=s1360-w1360-h1020-rw" alt="Bar à spiritueux">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(14)">
+        <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/648521407_1430699072403755_3411841994990363052_n.jpg?stp=dst-jpg_tt6&cstp=mx1440x1800&ctp=s1440x1800&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Ed9YbvQi1EkQ7kNvwE0ycaP&_nc_oc=AdqQJw1Mr1BcIxqbP6Kpvbx-QJcny0vkp-fLzCsmCkmdmGomaCe_y4YYWJd89s3xE0E&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=R3ALXJBPqtId1NWZgzHPzA&_nc_ss=7b2a8&oh=00_Af-lR895IpzbXpJWqxO_yaZWFHQfXOQV6E2JRS9ka3pEwg&oe=6A3560D8" alt="Maillot Six Nations">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(15)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAE9Q939szI51v2Nk_VKDnQTv1NabXhq3dEkcJCSA417sU8U_WDI0-s_2FGSg1lqgBk9Ony3gpIT3nOzCiGCBOAfdYEfMq6ksRy2o7ajjFwOCXSOo4h3CSmIdoHwedFUj_HXDV6ntw=s1360-w1360-h1020-rw" alt="Dessert">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(16)">
+        <img src="https://scontent-mrs2-3.xx.fbcdn.net/v/t39.30808-6/583351155_1342513024555694_7008153844370465296_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=KcqpzyZSCvcQ7kNvwFtuElO&_nc_oc=AdqciqANziJRUoKSw7u_pC8Gt9zSEaqmUZIcnePkDNJVAzE32WiN0TBfWB8JiImppLk&_nc_zt=23&_nc_ht=scontent-mrs2-3.xx&_nc_gid=JkAsBfTAJ0HgbmIv76rfJg&_nc_ss=7b2a8&oh=00_Af9tzv1H3zmb_X4XchC2LYnbVnXN1gDs9VgTRDBh4vVj8g&oe=6A354202" alt="Frites maison">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+      <div class="gallery-item" onclick="openModal(17)">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEAiGdYKEygKSM9nDNFRc82-lJr67rFLDL1U2ng-CZhHWiw0heXFqsWF7K1fNvyM7CJQgvpohbULZ7WAlzu7xQ81AcxNvAu6MDmUJi-HmRY3EV235aCqAPljhj00ElptlHuar_Z=s1360-w1360-h1020-rw" alt="Dessert chocolat">
+        <div class="gallery-item-overlay"><i class="ti ti-zoom-in"></i></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL LIGHTBOX -->
+  <div class="modal" id="modal" onclick="closeModal()">
+    <button class="modal-close" onclick="closeModal()" aria-label="Fermer">×</button>
+    <button class="modal-prev" onclick="event.stopPropagation(); navigate(-1)" aria-label="Précédent">
+      <i class="ti ti-chevron-left"></i>
+    </button>
+    <div class="modal-img-wrap" onclick="event.stopPropagation()">
+      <img id="modalImg" src="" alt="">
+    </div>
+    <button class="modal-next" onclick="event.stopPropagation(); navigate(1)" aria-label="Suivant">
+      <i class="ti ti-chevron-right"></i>
+    </button>
+    <div class="modal-counter" id="modalCounter"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-col-hours">
+        <h4>Horaires</h4>
+        <p>Lun – Dim<br>12h – tard</p>
+        <div class="footer-divider"></div>
+        <p>Cuisine servie<br>jusqu'à 21h</p>
+      </div>
+      <div class="footer-col-brand">
+        <a href="index.html" class="footer-logo-text">Six Nations</a>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/SixNations42/?locale=fr_FR" target="_blank" rel="noopener" class="fs fb" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/sixnations_fr/?hl=fr" target="_blank" rel="noopener" class="fs" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col-contact">
+        <h4>Contact</h4>
+        <p>14 Pl. Jean Jaurès<br>42000 Saint-Étienne</p>
+        <div class="footer-contact-email">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:ggb.haka@gmail.com">ggb.haka@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <a href="#">Politique de cookies</a>
+      <span>© 2026 Six Nations — Saint-Étienne. Tous droits réservés.</span>
+      <a href="#">Mentions légales</a>
+    </div>
+  </footer>
+
+  <script>
+    // Collect all images in order
+    const items = Array.from(document.querySelectorAll('.gallery-item img'));
+    const srcs  = items.map(img => img.src);
+    let current = 0;
+
+    function openModal(idx) {
+      current = idx;
+      document.getElementById('modalImg').src = srcs[current];
+      document.getElementById('modalCounter').textContent = (current + 1) + ' / ' + srcs.length;
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function navigate(dir) {
+      current = (current + dir + srcs.length) % srcs.length;
+      const img = document.getElementById('modalImg');
+      img.style.opacity = '0';
+      img.style.transform = 'scale(0.95)';
+      img.style.transition = 'opacity .15s, transform .15s';
+      setTimeout(() => {
+        img.src = srcs[current];
+        document.getElementById('modalCounter').textContent = (current + 1) + ' / ' + srcs.length;
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+      }, 150);
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape')      closeModal();
+      if (e.key === 'ArrowRight')  navigate(1);
+      if (e.key === 'ArrowLeft')   navigate(-1);
+    });
+  </script>
+
+</body>
+</html>
