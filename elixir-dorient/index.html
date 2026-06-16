@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Élixir d'Orient – Création de Parfums sur Mesure</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --white: #ffffff;
+    --grey: #6b6b6b;
+    --light-grey: #e8e8e8;
+    --font: 'Inter', system-ui, sans-serif;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); color: var(--black); background: var(--white); overflow-x: hidden; }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--black);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: box-shadow 0.3s;
+  }
+  header.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.5); }
+  nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  /* ── LOGO ── */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  /* ── HAMBURGER — mobile only ── */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 300;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── MOBILE MENU ── */
+  /* Refined: matches the site's black + gold palette, clean layout */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  /* Full-screen fade-in panel instead of circle bleed — more elegant */
+  .mobile-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--black);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.23,1,0.32,1);
+  }
+  .mobile-menu.open { pointer-events: all; }
+  .mobile-menu.open .mobile-menu-backdrop { opacity: 1; }
+
+  .mobile-menu-inner {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 40px;
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    font-family: var(--font);
+    font-weight: 300;
+  }
+  .mobile-menu-close:hover { color: var(--white); }
+
+  /* Gold decorative line above links */
+  .mobile-menu-inner::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: opacity 0.4s 0.5s, transform 0.5s 0.5s cubic-bezier(0.23,1,0.32,1);
+  }
+  .mobile-menu.open .mobile-menu-inner::before { opacity: 1; transform: scaleX(1); }
+
+  .mobile-nav-link {
+    display: block;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 9vw, 52px);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0.02em;
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1a;
+    position: relative;
+    transform: translateY(24px);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1),
+                opacity 0.5s,
+                color 0.25s;
+  }
+  .mobile-menu.open .mobile-nav-link { transform: translateY(0); opacity: 1; }
+  .mobile-menu.open .mobile-nav-link:nth-child(2) { transition-delay: 0.3s; }
+  .mobile-menu.open .mobile-nav-link:nth-child(3) { transition-delay: 0.37s; }
+  .mobile-menu.open .mobile-nav-link:nth-child(4) { transition-delay: 0.44s; }
+  .mobile-menu.open .mobile-nav-link:nth-child(5) { transition-delay: 0.51s; }
+  .mobile-nav-link:hover { color: var(--gold); }
+
+  /* Small index number to the left */
+  .mobile-nav-link .link-num {
+    font-family: var(--font);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    opacity: 0.7;
+    vertical-align: super;
+    margin-right: 10px;
+  }
+
+  .mobile-menu-tagline {
+    margin-top: 28px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.4s 0.7s;
+  }
+  .mobile-menu.open .mobile-menu-tagline { opacity: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 92vh;
+    min-height: 500px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .hero img.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.06);
+    transition: opacity 1.2s ease, transform 1.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .hero img.hero-bg.loaded { opacity: 1; transform: scale(1); }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--white);
+    padding: 0 24px 80px;
+    max-width: 700px;
+  }
+  .hero-content h1 {
+    font-size: clamp(38px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s 0.6s, transform 0.8s 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .hero-content p {
+    font-size: clamp(14px, 2vw, 17px);
+    font-weight: 300;
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s 0.85s, transform 0.8s 0.85s cubic-bezier(0.23,1,0.32,1);
+  }
+  .hero-content .btn-outline {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s 1.05s, transform 0.6s 1.05s cubic-bezier(0.23,1,0.32,1),
+                background 0.25s, color 0.25s;
+  }
+  .hero.visible .hero-content h1 { opacity: 1; transform: translateY(0); }
+  .hero.visible .hero-content p { opacity: 0.9; transform: translateY(0); }
+  .hero.visible .hero-content .btn-outline { opacity: 1; transform: translateY(0); }
+
+  .btn-outline {
+    display: inline-block;
+    padding: 13px 36px;
+    border: 1.5px solid var(--white);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-outline:hover { background: var(--white); color: var(--black); }
+  .btn-dark {
+    display: inline-block;
+    padding: 13px 36px;
+    border: 1.5px solid var(--black);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-dark:hover { background: var(--black); color: var(--white); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+  .product-card { --delay: 0s; }
+  .product-card.reveal { transition-delay: var(--delay); }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px 24px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ── BEST SELLING ── */
+  .section-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
+  }
+  .product-card { text-align: center; cursor: default; }
+  .product-img-wrap {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: #f5f5f5;
+  }
+  /* No hover zoom — removed for better UX */
+  .product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .product-name { font-size: 14px; font-weight: 500; color: var(--grey); line-height: 1.5; }
+
+  /* ── SPLIT SECTIONS ── */
+  .split-section { display: grid; grid-template-columns: 1fr 1fr; }
+  .split-img { overflow: hidden; }
+  .split-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 480px;
+    /* No hover zoom — removed */
+  }
+  .split-text {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--white);
+  }
+  .split-text h2 {
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .split-text p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--grey);
+    margin-bottom: 32px;
+  }
+  .split-gap { padding: 40px 0; background: var(--white); }
+
+  /* ── REVIEWS ── */
+  .reviews-section {
+    background: #0a0a0a;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .reviews-section h2 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .reviews-google-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 52px;
+    opacity: 0;
+    transition: opacity 0.6s 0.2s;
+  }
+  .reviews-google-badge.visible { opacity: 1; }
+  .stars {
+    display: flex;
+    gap: 3px;
+  }
+  .stars svg { width: 18px; height: 18px; fill: var(--gold); }
+  .badge-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
+  }
+  .badge-score {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .review-card {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    padding: 32px 28px;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .review-card.visible { opacity: 1; transform: translateY(0); }
+  .review-card:nth-child(1) { transition-delay: 0s; }
+  .review-card:nth-child(2) { transition-delay: 0.1s; }
+  .review-card:nth-child(3) { transition-delay: 0.2s; }
+  .review-card-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+  .review-card-stars svg { width: 14px; height: 14px; fill: var(--gold); }
+  .review-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .review-author {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── OUR STORY ── */
+  .story-section { padding: 80px 24px; text-align: center; }
+  .story-section h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+  .story-text {
+    max-width: 780px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.85;
+    color: #333;
+  }
+  .story-text p { margin-bottom: 24px; }
+  .story-text p:last-child { margin-bottom: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--light-grey);
+    padding: 28px 24px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer-copy { font-size: 12px; color: var(--grey); text-align: center; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .split-section { grid-template-columns: 1fr; }
+    .split-text { padding: 40px 24px; }
+    .split-img img { min-height: 300px; }
+    .reviews-grid { grid-template-columns: 1fr; max-width: 480px; }
+  }
+  @media (max-width: 480px) {
+    .hero { height: 75vh; }
+    .hero-content { padding-bottom: 48px; }
+    .section { padding: 56px 16px; }
+    .products-grid { gap: 20px 10px; }
+    .reviews-section { padding: 60px 16px; }
+    .logo-text { font-size: 15px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header id="header">
+  <nav>
+    <a href="#" class="logo">
+      <!-- Minimal crescent + star mark -->
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6A12 12 0 1 0 22 30 9 9 0 1 1 22 6Z" fill="#c9a84c" opacity="0.9"/>
+        <circle cx="25" cy="8" r="2" fill="#c9a84c"/>
+        <circle cx="28" cy="14" r="1.2" fill="#c9a84c" opacity="0.6"/>
+      </svg>
+      <span class="logo-text">Élixir d'Orient</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#" class="active">Accueil</a></li>
+      <li><a href="#story">Notre Histoire</a></li>
+      <li><a href="./procedure.html">Procédure</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-backdrop"></div>
+  <div class="mobile-menu-inner">
+    <button class="mobile-menu-close" onclick="closeMenu()">&times;</button>
+    <a href="#" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">01</span>Accueil</a>
+    <a href="#story" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">02</span>Notre Histoire</a>
+    <a href="./procedure.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">03</span>Procédure</a>
+    <a href="./contact.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">04</span>Contact</a>
+    <p class="mobile-menu-tagline">Création de parfums sur mesure · Saint-Étienne</p>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <img class="hero-bg" src="./hero.png" alt="Création de parfum"/>
+  <div class="hero-content">
+    <h1>Création de Parfum</h1>
+    <p>Création de parfums sur mesure à Saint-Étienne</p>
+    <a href="#" class="btn-outline">Contact</a>
+  </div>
+</section>
+
+<!-- Créations -->
+<section class="section" id="shop">
+  <div class="container">
+    <h2 class="section-title reveal">Vos Créations</h2>
+    <div class="products-grid">
+      <div class="product-card reveal" style="--delay:0s">
+        <div class="product-img-wrap"><img src="./p1.png" loading="lazy"/></div>
+        <div class="product-name">Oud Bouquet · Cerise · Hibiscus · Ambre Vanille · Tonka</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.08s">
+        <div class="product-img-wrap"><img src="./p2.png" loading="lazy"/></div>
+        <div class="product-name">Hibiscus · Vanille Gourmande · Cerise · Amande</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.16s">
+        <div class="product-img-wrap"><img src="./p3.png" loading="lazy"/></div>
+        <div class="product-name">Monoï · Vanille · Hibiscus · Cerise</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.24s">
+        <div class="product-img-wrap"><img src="./p4.png" loading="lazy"/></div>
+        <div class="product-name">Vanille · Tabac · Café · Tubéreuse</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0s">
+        <div class="product-img-wrap"><img src="./p5.png" loading="lazy"/></div>
+        <div class="product-name">Fruits Rouges · Hibiscus · Tubéreuse · Oud Bouquet</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.08s">
+        <div class="product-img-wrap"><img src="./p6.png" loading="lazy"/></div>
+        <div class="product-name">Oud Bouquet · Figue Fraîche</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.16s">
+        <div class="product-img-wrap"><img src="./p7.png" loading="lazy"/></div>
+        <div class="product-name">Oud Rose · Fraise · Hibiscus</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.24s">
+        <div class="product-img-wrap"><img src="./p8.png" loading="lazy"/></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Créez Votre Parfum -->
+<section id="myop">
+  <div class="split-section">
+    <div class="split-img reveal-left">
+      <img src="./creer.webp" alt="Créez votre propre parfum"/>
+    </div>
+    <div class="split-text reveal-right">
+      <h2>Créez Votre Propre Parfum</h2>
+      <p>Créez votre propre mélange personnalisé avec votre nom en magasin.</p>
+      <a href="#" class="btn-dark">Réserver</a>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section class="reviews-section" id="reviews">
+  <h2 class="reveal" style="color:var(--white)">Ce que disent nos clients</h2>
+  <div class="reviews-google-badge reveal">
+    <span class="badge-score">5,0</span>
+    <div class="stars">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <span class="badge-text">sur Google · 70+ avis</span>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-card-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="review-text">« Superbe expérience. Un large choix de notes, très bon conseil et très bon dosage du parfumeur qui est super sympa. Parfum très bonne qualité, je reviendrai ! »</p>
+      <span class="review-author">Giovanni</span>
+    </div>
+
+    <div class="review-card">
+      <div class="review-card-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="review-text">« Vraiment une expérience à vivre. Le personnel est au top. Une connaissance approfondie sur les produits et des conseils précieux. Je recommande fortement. Encore merci pour la patience et les conseils. »</p>
+      <span class="review-author">Nahil</span>
+    </div>
+
+    <div class="review-card">
+      <div class="review-card-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <p class="review-text">« Très belle expérience ! Je recommande. Nous avons passé un bon moment, de belles découvertes et on repart avec un parfum 😄 Merci à Furkan pour le bon moment, son partage, sa patience et ses conseils 😊 On reviendra ! »</p>
+      <span class="review-author">Cécile Leonardon</span>
+    </div>
+  </div>
+</section>
+
+<!-- Notre Histoire -->
+<section class="story-section" id="story">
+  <div class="container">
+    <h2 class="reveal">Notre Histoire</h2>
+    <div class="story-text">
+      <p class="reveal" style="transition-delay:0.1s">Élixir d'Orient est né d'une conviction simple : un parfum doit être aussi unique que la personne qui le porte.</p>
+      <p class="reveal" style="transition-delay:0.2s">Passionné par l'univers de la parfumerie depuis de nombreuses années, Furkan Gulen découvre lors d'un voyage à Dubaï l'art de la création de parfums sur mesure. Cette expérience, associée à sa fascination pour le savoir-faire de Grasse, berceau de la parfumerie française, lui donne l'envie de transformer sa passion en métier.</p>
+      <p class="reveal" style="transition-delay:0.3s">C'est ainsi qu'en janvier 2024, à seulement 24 ans, il ouvre Élixir d'Orient au cœur de Saint-Étienne. Plus qu'une boutique, il imagine un lieu dédié à l'échange, à la découverte et à la création. Chaque visite devient une expérience sensorielle où les clients explorent une riche palette de notes florales, boisées, fruitées et orientales afin de composer une fragrance qui leur ressemble.</p>
+      <p class="reveal" style="transition-delay:0.4s">Chez Élixir d'Orient, chaque parfum est créé sur mesure, mélangé et conditionné sous les yeux du client. Parce qu'une senteur évoque souvent un souvenir, une émotion ou une personnalité, nous accordons une importance particulière à l'écoute et au conseil.</p>
+      <p class="reveal" style="transition-delay:0.5s">Notre mission est simple : vous permettre de ne plus porter un parfum parmi tant d'autres, mais de porter le vôtre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2026 Élixir d'Orient — Saint-Étienne</span>
+  </div>
+</footer>
+
+<script>
+  /* ── Mobile menu ── */
+  let menuOpen = false;
+  function toggleMenu() { menuOpen ? closeMenu() : openMenu(); }
+  function openMenu() {
+    menuOpen = true;
+    document.getElementById('mobileMenu').classList.add('open');
+    document.getElementById('hamburger').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menuOpen = false;
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── Header shadow on scroll ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  /* ── Hero entrance ── */
+  const heroBg = document.querySelector('.hero-bg');
+  function heroReady() {
+    document.querySelector('.hero').classList.add('visible');
+    heroBg.classList.add('loaded');
+  }
+  heroBg.complete ? heroReady() : heroBg.addEventListener('load', heroReady);
+
+  /* ── Scroll reveal (all .reveal* + review cards + google badge) ── */
+  const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .review-card, .reviews-google-badge');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  allReveal.forEach(el => observer.observe(el));
+
+  const storySection = document.getElementById('story');
+  const accueilLink = document.querySelector('.nav-links a[href="#"]');
+  const storyLink = document.querySelector('.nav-links a[href="#story"]');
+
+  const storyObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        accueilLink.classList.remove('active');
+        storyLink.classList.add('active');
+      } else {
+        storyLink.classList.remove('active');
+        accueilLink.classList.add('active');
+      }
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+  storyObserver.observe(storySection);
+</script>
+</body>
+</html>

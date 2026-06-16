@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Procédure – Élixir d'Orient</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --gold: #c9a84c;
+    --gold-light: #e2c47a;
+    --white: #ffffff;
+    --grey: #6b6b6b;
+    --light-grey: #e8e8e8;
+    --off-white: #f8f7f5;
+    --font: 'Inter', system-ui, sans-serif;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); color: var(--black); background: var(--white); overflow-x: hidden; }
+
+  /* ── HEADER ── */
+  header { background: var(--black); position: sticky; top: 0; z-index: 100; transition: box-shadow 0.3s; }
+  header.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.5); }
+  nav { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+  .logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+  .logo-text { font-family: var(--font-serif); font-weight: 700; font-size: 18px; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; line-height: 1; }
+  .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+  .nav-links a { color: var(--white); text-decoration: none; font-size: 13px; font-weight: 400; letter-spacing: 0.04em; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; z-index: 300; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu { position: fixed; inset: 0; z-index: 200; pointer-events: none; overflow: hidden; }
+  .mobile-menu-backdrop { position: absolute; inset: 0; background: var(--black); opacity: 0; transition: opacity 0.5s cubic-bezier(0.23,1,0.32,1); }
+  .mobile-menu.open { pointer-events: all; }
+  .mobile-menu.open .mobile-menu-backdrop { opacity: 1; }
+  .mobile-menu-inner { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 40px; }
+  .mobile-menu-inner::before { content: ''; display: block; width: 32px; height: 2px; background: var(--gold); margin-bottom: 32px; opacity: 0; transform: scaleX(0); transform-origin: left; transition: opacity 0.4s 0.5s, transform 0.5s 0.5s cubic-bezier(0.23,1,0.32,1); }
+  .mobile-menu.open .mobile-menu-inner::before { opacity: 1; transform: scaleX(1); }
+  .mobile-menu-close { position: absolute; top: 24px; right: 28px; background: none; border: none; color: rgba(255,255,255,0.5); font-size: 28px; cursor: pointer; line-height: 1; transition: color 0.2s, opacity 0.3s; font-family: var(--font); font-weight: 300; opacity: 0; pointer-events: none; }
+  .mobile-menu.open .mobile-menu-close { opacity: 1; pointer-events: all; }
+  .mobile-menu-close:hover { color: var(--white); }
+  .mobile-nav-link { display: block; color: rgba(255,255,255,0.55); text-decoration: none; font-family: var(--font-serif); font-size: clamp(32px, 9vw, 52px); font-weight: 600; line-height: 1.15; letter-spacing: 0.02em; padding: 10px 0; border-bottom: 1px solid #1a1a1a; transform: translateY(24px); opacity: 0; transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), opacity 0.5s, color 0.25s; }
+  .mobile-menu.open .mobile-nav-link { transform: translateY(0); opacity: 1; }
+  .mobile-menu.open .mobile-nav-link:nth-child(2) { transition-delay: 0.3s; }
+  .mobile-menu.open .mobile-nav-link:nth-child(3) { transition-delay: 0.37s; }
+  .mobile-menu.open .mobile-nav-link:nth-child(4) { transition-delay: 0.44s; }
+  .mobile-menu.open .mobile-nav-link:nth-child(5) { transition-delay: 0.51s; }
+  .mobile-nav-link:hover { color: var(--gold); }
+  .link-num { font-family: var(--font); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; color: var(--gold); opacity: 0.7; vertical-align: super; margin-right: 10px; }
+  .mobile-menu-tagline { margin-top: 28px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #333; opacity: 0; transition: opacity 0.4s 0.7s; }
+  .mobile-menu.open .mobile-menu-tagline { opacity: 1; }
+
+  /* ── PAGE HERO ── */
+  .page-hero { background: var(--black); padding: 120px 24px 108px; text-align: center; position: relative; overflow: hidden; }
+  .page-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.05); transition: opacity 1.2s ease, transform 1.8s cubic-bezier(0.23,1,0.32,1); }
+  .page-hero-img.loaded { opacity: 0.3; transform: scale(1); }
+  .page-hero::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 48px; background: linear-gradient(to bottom, var(--gold), transparent); z-index: 2; }
+  .page-hero-label { font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; opacity: 0; transform: translateY(12px); transition: opacity 0.6s 0.1s, transform 0.6s 0.1s cubic-bezier(0.23,1,0.32,1); position: relative; z-index: 2; }
+  .page-hero h1 { font-size: clamp(36px, 7vw, 72px); font-weight: 800; color: var(--white); letter-spacing: -0.02em; line-height: 1.0; opacity: 0; transform: translateY(20px); transition: opacity 0.7s 0.25s, transform 0.7s 0.25s cubic-bezier(0.23,1,0.32,1); position: relative; z-index: 2; }
+  .page-hero-sub { font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 300; margin-top: 14px; opacity: 0; transform: translateY(16px); transition: opacity 0.7s 0.4s, transform 0.7s 0.4s cubic-bezier(0.23,1,0.32,1); position: relative; z-index: 2; }
+  .page-hero.visible .page-hero-label,
+  .page-hero.visible h1,
+  .page-hero.visible .page-hero-sub { opacity: 1; transform: translateY(0); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1); }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(40px); transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1); }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ── INTRO ── */
+  .intro-section { padding: 88px 24px 80px; text-align: center; }
+  .intro-section .container { max-width: 760px; margin: 0 auto; }
+  .intro-label { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 20px; }
+  .intro-section h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 28px; }
+  .intro-section p { font-size: 16px; line-height: 1.9; color: var(--grey); }
+
+  /* ── STEPS ── */
+  .steps-section { background: var(--off-white); padding: 88px 24px; }
+  .steps-section .container { max-width: 1100px; margin: 0 auto; }
+  .steps-header { text-align: center; margin-bottom: 64px; }
+  .steps-header h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 800; letter-spacing: -0.02em; }
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+  .step-card { background: var(--white); padding: 40px 32px 36px; position: relative; }
+  .step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.3s; }
+  .step-card:hover::before { background: var(--gold); }
+  .step-number { font-family: var(--font-serif); font-size: 52px; font-weight: 700; color: var(--light-grey); line-height: 1; margin-bottom: 20px; transition: color 0.3s; }
+  .step-card:hover .step-number { color: rgba(201,168,76,0.2); }
+  .step-card h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 12px; }
+  .step-card p { font-size: 14px; line-height: 1.75; color: var(--grey); }
+
+  /* ── BOOKING STRIP ── */
+  .booking-strip {
+    background: var(--black);
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .booking-strip .container { max-width: 700px; margin: 0 auto; }
+  .booking-strip .intro-label { color: var(--gold); margin-bottom: 18px; }
+  .booking-strip h2 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 16px; }
+  .booking-strip p { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.5); margin-bottom: 40px; }
+  .calendly-wrap {
+    background: var(--white);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+  }
+  .calendly-wrap iframe { display: block; width: 100%; height: 700px; border: none; }
+
+  /* ── INFO + MAP GRID ── */
+  .info-map-grid { display: grid; grid-template-columns: 1fr 1fr; }
+
+  .location-info { padding: 72px 64px 72px 24px; border-right: 1px solid var(--light-grey); }
+  .info-block { margin-bottom: 48px; }
+  .info-block:last-child { margin-bottom: 0; }
+  .info-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; font-weight: 600; }
+  .info-block address { font-style: normal; font-size: 15px; color: var(--grey); line-height: 1.7; }
+
+  .hours-table { width: 100%; border-collapse: collapse; }
+  .hours-table tr { border-bottom: 1px solid #f0f0f0; }
+  .hours-table tr:last-child { border-bottom: none; }
+  .hours-table td { padding: 7px 0; font-size: 14px; color: var(--grey); }
+  .hours-table td:first-child { text-transform: capitalize; color: var(--black); font-weight: 500; width: 50%; }
+  .hours-table tr.today td { color: var(--gold); font-weight: 600; }
+  .hours-table tr.today td:first-child { color: var(--gold); }
+
+  .map-panel { overflow: hidden; min-height: 420px; }
+  .map-panel iframe { display: block; width: 100%; height: 100%; min-height: 420px; border: none; filter: grayscale(15%); transition: filter 0.4s; }
+  .map-panel iframe:hover { filter: grayscale(0%); }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--light-grey); padding: 28px 24px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+  .footer-copy { font-size: 12px; color: var(--grey); text-align: center; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .steps-grid { grid-template-columns: 1fr 1fr; }
+    .info-map-grid { grid-template-columns: 1fr; }
+    .location-info { padding: 52px 24px 40px; border-right: none; border-bottom: 1px solid var(--light-grey); }
+    .map-panel iframe { min-height: 320px; }
+    .calendly-wrap iframe { height: 580px; }
+  }
+  @media (max-width: 600px) {
+    .steps-grid { grid-template-columns: 1fr; gap: 2px; }
+    .logo-text { font-size: 15px; }
+    .calendly-wrap iframe { height: 520px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header id="header">
+  <nav>
+    <a href="./index.html" class="logo">
+      <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 6A12 12 0 1 0 22 30 9 9 0 1 1 22 6Z" fill="#c9a84c" opacity="0.9"/>
+        <circle cx="25" cy="8" r="2" fill="#c9a84c"/>
+        <circle cx="28" cy="14" r="1.2" fill="#c9a84c" opacity="0.6"/>
+      </svg>
+      <span class="logo-text">Élixir d'Orient</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="./index.html">Accueil</a></li>
+      <li><a href="./index.html#story">Notre Histoire</a></li>
+      <li><a href="./procedure.html" class="active">Procédure</a></li>
+      <li><a href="./contact.html">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-backdrop"></div>
+  <div class="mobile-menu-inner">
+    <button class="mobile-menu-close" onclick="closeMenu()">&times;</button>
+    <a href="./index.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">01</span>Accueil</a>
+    <a href="./index.html#story" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">02</span>Notre Histoire</a>
+    <a href="./procedure.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">03</span>Procédure</a>
+    <a href="./contact.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">04</span>Contact</a>
+    <p class="mobile-menu-tagline">Création de parfums sur mesure · Saint-Étienne</p>
+  </div>
+</div>
+
+<!-- Page Hero -->
+<div class="page-hero" id="pageHero">
+  <img class="page-hero-img" id="pageHeroImg" src="./procedure.png" alt="Image"/>
+  <p class="page-hero-label">De la rencontre à la création</p>
+  <h1>La Procédure</h1>
+  <p class="page-hero-sub">Un atelier unique, guidé pas à pas par notre parfumeur</p>
+</div>
+
+<!-- Intro -->
+<section class="intro-section">
+  <div class="container">
+    <p class="intro-label reveal">L'expérience sur mesure</p>
+    <h2 class="reveal" style="transition-delay:0.08s">Un parfum aussi unique que vous</h2>
+    <p class="reveal" style="transition-delay:0.16s">
+      Chez Élixir d'Orient, créer son propre parfum est bien plus qu'un achat — c'est une expérience sensorielle et personnelle. Accompagné par notre parfumeur, vous explorez une palette de notes soigneusement sélectionnées, alliant traditions orientales et inspirations françaises, pour composer une fragrance qui vous ressemble pleinement. Chaque flacon est mélangé et conditionné sur place, sous vos yeux, et porte votre nom.
+    </p>
+  </div>
+</section>
+
+<!-- Steps -->
+<section class="steps-section">
+  <div class="container">
+    <div class="steps-header">
+      <h2 class="reveal">Comment ça se passe ?</h2>
+    </div>
+    <div class="steps-grid">
+
+      <div class="step-card reveal" style="transition-delay:0s">
+        <div class="step-number">01</div>
+        <h3>La Consultation</h3>
+        <p>Notre parfumeur vous accueille et prend le temps de comprendre vos goûts, vos envies et les émotions que vous souhaitez évoquer. Floral, boisé, oriental, fruité — tout commence par un échange sincère.</p>
+      </div>
+
+      <div class="step-card reveal" style="transition-delay:0.1s">
+        <div class="step-number">02</div>
+        <h3>L'Exploration des Notes</h3>
+        <p>Vous sentez et découvrez notre collection de matières premières : notes de cœur, de tête et de fond. Guidé par notre expert, vous identifiez les accords qui vous parlent et esquissez les contours de votre futur parfum.</p>
+      </div>
+
+      <div class="step-card reveal" style="transition-delay:0.2s">
+        <div class="step-number">03</div>
+        <h3>La Création</h3>
+        <p>Vient ensuite le moment de composer. Notre parfumeur dose et assemble les différentes essences selon vos préférences, ajuste les proportions et vous fait sentir les évolutions de votre fragrance au fil du temps.</p>
+      </div>
+
+      <div class="step-card reveal" style="transition-delay:0.3s">
+        <div class="step-number">04</div>
+        <h3>La Mise en Flacon</h3>
+        <p>Une fois votre formule validée, votre parfum est conditionné dans un élégant flacon, étiqueté à votre nom. Vous repartez avec une création 100 % personnelle, introuvable ailleurs.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Booking -->
+<section class="booking-strip" id="reserver">
+  <div class="container">
+    <p class="intro-label reveal">Réservation</p>
+    <h2 class="reveal" style="transition-delay:0.08s">Réservez votre séance de création</h2>
+    <p class="reveal" style="transition-delay:0.16s">Les ateliers se tiennent directement en boutique, au 39 Rue des Martyrs de Vingré à Saint-Étienne. Choisissez le créneau qui vous convient ci-dessous — la séance dure généralement entre 45 minutes et 1 heure.</p>
+    <div class="calendly-wrap reveal" style="transition-delay:0.24s">
+      <iframe
+        src="https://calendly.com/elixir-dorient42"
+        title="Réserver une séance de création – Élixir d'Orient"
+        loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- Info + Map -->
+<div class="info-map-grid">
+
+  <div class="location-info">
+
+    <div class="info-block reveal">
+      <p class="info-label">Adresse</p>
+      <address>
+        39 Rue des Martyrs de Vingré<br>
+        42000 Saint-Étienne
+      </address>
+    </div>
+
+    <div class="info-block reveal" style="transition-delay:0.1s">
+      <p class="info-label">Horaires d'ouverture</p>
+      <table class="hours-table" id="hoursTable">
+        <tr data-day="1"><td>Lundi</td><td>11:00 – 20:00</td></tr>
+        <tr data-day="2"><td>Mardi</td><td>11:00 – 20:00</td></tr>
+        <tr data-day="3"><td>Mercredi</td><td>11:00 – 20:00</td></tr>
+        <tr data-day="4"><td>Jeudi</td><td>11:00 – 20:00</td></tr>
+        <tr data-day="5"><td>Vendredi</td><td>15:00 – 20:30</td></tr>
+        <tr data-day="6"><td>Samedi</td><td>11:00 – 20:30</td></tr>
+        <tr data-day="0"><td>Dimanche</td><td>11:00 – 20:00</td></tr>
+      </table>
+    </div>
+
+    <div class="info-block reveal" style="transition-delay:0.2s">
+      <p class="info-label">Nous contacter</p>
+      <address style="font-style:normal;font-size:15px;color:var(--grey);line-height:1.7">
+        <a href="./contact.html" style="color:var(--grey);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#0a0a0a'" onmouseout="this.style.color='#6b6b6b'">Formulaire de contact →</a><br>
+        <a href="https://www.instagram.com/elixir.dorientt/" target="_blank" rel="noopener" style="color:var(--grey);text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#0a0a0a'" onmouseout="this.style.color='#6b6b6b'">Instagram @elixir.dorientt →</a>
+      </address>
+    </div>
+
+  </div>
+
+  <div class="map-panel">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2782.2!2d4.3897!3d45.4397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5a9e1e8b0a0a1%3A0x0!2s39+Rue+des+Martyrs+de+Vingr%C3%A9%2C+42000+Saint-%C3%89tienne!5e0!3m2!1sfr!2sfr!4v1"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Élixir d'Orient – Saint-Étienne">
+    </iframe>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2026 Élixir d'Orient — Saint-Étienne</span>
+  </div>
+</footer>
+
+<script>
+  /* ── Mobile menu ── */
+  let menuOpen = false;
+  function toggleMenu() { menuOpen ? closeMenu() : openMenu(); }
+  function openMenu() {
+    menuOpen = true;
+    document.getElementById('mobileMenu').classList.add('open');
+    document.getElementById('hamburger').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    menuOpen = false;
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── Header shadow ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
+  });
+
+  /* ── Page hero ── */
+  const pageHeroImg = document.getElementById('pageHeroImg');
+  function heroReady() { pageHeroImg.classList.add('loaded'); document.getElementById('pageHero').classList.add('visible'); }
+  pageHeroImg.complete ? heroReady() : pageHeroImg.addEventListener('load', heroReady);
+  setTimeout(() => document.getElementById('pageHero').classList.add('visible'), 400);
+
+  /* ── Highlight today's hours ── */
+  const today = new Date().getDay();
+  document.querySelectorAll('#hoursTable tr').forEach(row => {
+    if (parseInt(row.dataset.day) === today) row.classList.add('today');
+  });
+
+  /* ── Scroll reveal ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
