@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Services - Seven Barbershop Le Port</title>
+		<link rel="stylesheet" type="text/css" href="./services.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	</head>
+	<body>
+		<nav id="desktopNavBar">
+			<div class="desktopNavLinks">
+				<a class="active" href="index.html">Services</a>
+				<a href="contact.html">Contact</a>
+			</div>
+			<div class="desktopNavLogo">
+				<a href="../index.html">
+					<img src="./Images/logowebp.webp" alt="logo image">
+				</a>
+			</div>
+			<div class="desktopNavButtons">
+				<div class="desktopNavSocialMedia">		
+					<a target="_blank" href="https://www.instagram.com/sevenbarber_shop/?hl=fr">
+						<svg  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11C3 7.22876 3 5.34315 4.17157 4.17157C5.34315 3 7.22876 3 11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.22876 21 5.34315 21 4.17157 19.8284C3 18.6569 3 16.7712 3 13V11Z" stroke="white" stroke-width="2"/><circle cx="16.5" cy="7.5" r="1.5" fill="white"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/></svg>
+					</a>
+				</div>
+				<button><a style="text-decoration: none; color: black;" href="./contact.html">Réserver</a></button>
+			</div>
+		    <button class="menu" onclick="this.classList.toggle('opened');this.setAttribute('aria-expanded', this.classList.contains('opened'))" aria-label="Main Menu">
+      			<svg width="50" height="50" viewBox="0 0 100 100">
+        		<path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+				<path class="line line2" d="M 20,50 H 80" />
+        		<path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+				</svg>
+			</button>
+		</nav>
+		<div class="mobileNav">
+			<div class="mobileNavLinks">
+				<a class="active" href="services.html">Services</a>
+				<a href="contact.html">Contact</a>
+			</div>
+			<div class="mobileNavSocialMedia">		
+				<a target="_blank" href="https://www.instagram.com/sevenbarber_shop/?hl=fr/">
+					<svg  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11C3 7.22876 3 5.34315 4.17157 4.17157C5.34315 3 7.22876 3 11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.22876 21 5.34315 21 4.17157 19.8284C3 18.6569 3 16.7712 3 13V11Z" stroke="white" stroke-width="2"/><circle cx="16.5" cy="7.5" r="1.5" fill="white"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/></svg>
+				</a>
+			</div>
+			<button class="mobileNavCta"><a style="text-decoration: none; color: black;" href="./contact.html">Réserver</a></button>
+		</div>
+		<section class="hero">
+			<div class="heroOverlay"></div>
+			<h1>Seven Barbershop<br>Le Port</h1>
+			<button class="heroCta"><a style="text-decoration: none; color: black;" href="./contact.html">Réserver</a></button>
+		</section>
+		<main>
+			<section class="menuSection">
+				<img src="./Images/menuSeparator.webp">
+				<h2>Les Préstations</h2>
+				<div class="menuOptionsContainer">
+				<div class="menuOption">
+					<h3>Formules Coupe & Barbe</h3>
+					<p><b>COUPE ET BARBE ADULTE — 40€</b><br>1h</p>
+					<p><b>COUPE ET BARBE ETUDIANTS — 35€</b><br>1h</p>
+					<p><b>COUPE ET BARBE AVEC SOINS — 45€</b><br>1h</p>
+				</div>
+				<div class="menuOption">
+					<h3>Coupe de Cheveux</h3>
+					<p><b>COUPE ADULTE — 25€</b><br>30min</p>
+					<p><b>COUPE ETUDIANT — 20€</b><br>30min</p>
+					<p><b>COUPE TRANSFORMATION — 30€</b><br>30min</p>
+				</div>
+				<div class="menuOption">
+					<h3>Barbe</h3>
+					<p><b>TAILLE DE BARBE + SOINS — 25€</b><br>30min</p>
+					<p><b>TAILLE DE BARBE CLASSIC — 20€</b><br>30min</p>
+				</div>
+			</div>
+				<button class="menuCta"><a style="text-decoration: none; color: white;" href="./contact.html">Réserver</a></button>
+			</section>
+			<section class="contactInfo">
+				<div>
+					<h2>Horaires</h2>
+					<p>Mardi-Samedi : 09h30 à 19h</p>
+					<p>Dimanche-Lundi : Fermé</p>
+				</div>
+				<div>
+					<h2>Contact</h2>
+					<a href="tel:+330743566694">07 43 56 66 94</a>
+				</div>
+				<div>
+					<h2>Adresse</h2>
+					<p>1 Bd Carnot</p>
+					<p>06300 Nice</p>
+				</div>
+			</section>
+			<section id="map"></section>
+		</main>
+		<footer class="footer">
+			<div class="footerColumn">
+				<img src="./Images/logowebp.webp">
+				<div class="footerSocialMedia">		
+					<a target="_blank" href="https://www.instagram.com/sevenbarber_shop/?hl=fr/">
+						<svg  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11C3 7.22876 3 5.34315 4.17157 4.17157C5.34315 3 7.22876 3 11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.22876 21 5.34315 21 4.17157 19.8284C3 18.6569 3 16.7712 3 13V11Z" stroke="white" stroke-width="2"/><circle cx="16.5" cy="7.5" r="1.5" fill="white"/><circle cx="12" cy="12" r="3" stroke="white" stroke-width="2"/></svg>
+					</a>
+				</div>
+			</div>
+			<div class="footerColumn">
+				<a class="footerLink" href="contact.html">Contact</a>
+				<a class="footerLink" href="index.html">Services</a>
+			</div>
+			<div class="footerColumn">
+				<p class="footerHeading"><b>Horaires</b></p>
+				<p>Mardi-Samedi : 09h30 à 19h</p>
+				<p>Dimanche-Lundi : Fermé</p>
+			</div>
+			<div class="footerColumn">
+				<p class="footerHeading"><b>Contact</b></p>
+				<p>1 Bd Carnot</p>
+				<p>06300 Nice</p>
+				<a class="footerLink" href="tel:+330743566694">07 43 56 66 94</a>
+			</div>
+			<div class="footerColumn">
+				<button class="footerCta"><a style="text-decoration: none; color: black;" href="./contact.html">Réserver</a></button>
+			</div>
+		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="./servicesScript.js"></script>
+	</body>
+</html>
