@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact – Élixir d'Orient</title>
+<title>Élixir d'Orient – Création de Parfums sur Mesure</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,7 +15,6 @@
     --white: #ffffff;
     --grey: #6b6b6b;
     --light-grey: #e8e8e8;
-    --off-white: #f8f7f5;
     --font: 'Inter', system-ui, sans-serif;
     --font-serif: 'Cormorant Garamond', Georgia, serif;
   }
@@ -41,8 +40,20 @@
     justify-content: space-between;
     height: 72px;
   }
-  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
-  .logo-icon { width: 36px; height: 36px; flex-shrink: 0; }
+
+  /* ── LOGO ── */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
   .logo-text {
     font-family: var(--font-serif);
     font-weight: 700;
@@ -52,6 +63,7 @@
     text-transform: uppercase;
     line-height: 1;
   }
+
   .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
   .nav-links a {
     color: var(--white);
@@ -63,6 +75,7 @@
   }
   .nav-links a:hover, .nav-links a.active { color: var(--gold); }
 
+  /* ── HAMBURGER — mobile only ── */
   .hamburger {
     display: none;
     background: none;
@@ -86,15 +99,34 @@
   .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* ── MOBILE MENU ── */
-  .mobile-menu { position: fixed; inset: 0; z-index: 200; pointer-events: none; overflow: hidden; }
+  /* Refined: matches the site's black + gold palette, clean layout */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  /* Full-screen fade-in panel instead of circle bleed — more elegant */
   .mobile-menu-backdrop {
-    position: absolute; inset: 0;
+    position: absolute;
+    inset: 0;
     background: var(--black);
     opacity: 0;
     transition: opacity 0.5s cubic-bezier(0.23,1,0.32,1);
   }
   .mobile-menu.open { pointer-events: all; }
   .mobile-menu.open .mobile-menu-backdrop { opacity: 1; }
+
   .mobile-menu-inner {
     position: relative;
     height: 100%;
@@ -103,6 +135,24 @@
     justify-content: center;
     padding: 0 40px;
   }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+    font-family: var(--font);
+    font-weight: 300;
+  }
+  .mobile-menu-close:hover { color: var(--white); }
+
+  /* Gold decorative line above links */
   .mobile-menu-inner::before {
     content: '';
     display: block;
@@ -116,17 +166,7 @@
     transition: opacity 0.4s 0.5s, transform 0.5s 0.5s cubic-bezier(0.23,1,0.32,1);
   }
   .mobile-menu.open .mobile-menu-inner::before { opacity: 1; transform: scaleX(1); }
-  .mobile-menu-close {
-    position: absolute; top: 24px; right: 28px;
-    background: none; border: none;
-    color: rgba(255,255,255,0.5);
-    font-size: 28px; cursor: pointer; line-height: 1;
-    transition: color 0.2s, opacity 0.3s; font-family: var(--font); font-weight: 300;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .mobile-menu.open .mobile-menu-close { opacity: 1; pointer-events: all; }
-  .mobile-menu-close:hover { color: var(--white); }
+
   .mobile-nav-link {
     display: block;
     color: rgba(255,255,255,0.55);
@@ -138,9 +178,12 @@
     letter-spacing: 0.02em;
     padding: 10px 0;
     border-bottom: 1px solid #1a1a1a;
+    position: relative;
     transform: translateY(24px);
     opacity: 0;
-    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1), opacity 0.5s, color 0.25s;
+    transition: transform 0.5s cubic-bezier(0.23,1,0.32,1),
+                opacity 0.5s,
+                color 0.25s;
   }
   .mobile-menu.open .mobile-nav-link { transform: translateY(0); opacity: 1; }
   .mobile-menu.open .mobile-nav-link:nth-child(2) { transition-delay: 0.3s; }
@@ -148,284 +191,335 @@
   .mobile-menu.open .mobile-nav-link:nth-child(4) { transition-delay: 0.44s; }
   .mobile-menu.open .mobile-nav-link:nth-child(5) { transition-delay: 0.51s; }
   .mobile-nav-link:hover { color: var(--gold); }
-  .link-num { font-family: var(--font); font-size: 10px; font-weight: 500; letter-spacing: 0.15em; color: var(--gold); opacity: 0.7; vertical-align: super; margin-right: 10px; }
-  .mobile-menu-tagline { margin-top: 28px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #333; opacity: 0; transition: opacity 0.4s 0.7s; }
+
+  /* Small index number to the left */
+  .mobile-nav-link .link-num {
+    font-family: var(--font);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    opacity: 0.7;
+    vertical-align: super;
+    margin-right: 10px;
+  }
+
+  .mobile-menu-tagline {
+    margin-top: 28px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.4s 0.7s;
+  }
   .mobile-menu.open .mobile-menu-tagline { opacity: 1; }
 
-  /* ── PAGE HERO ── */
-  .page-hero {
-    background: var(--black);
-    padding: 120px 24px 108px;
-    text-align: center;
+  /* ── HERO ── */
+  .hero {
     position: relative;
+    height: 92vh;
+    min-height: 500px;
     overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
   }
-  .page-hero-img {
+  .hero img.hero-bg {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transform: scale(1.05);
+    transform: scale(1.06);
     transition: opacity 1.2s ease, transform 1.8s cubic-bezier(0.23,1,0.32,1);
   }
-  .page-hero-img.loaded { opacity: 0.35; transform: scale(1); }
-  .page-hero::after {
+  .hero img.hero-bg.loaded { opacity: 1; transform: scale(1); }
+  .hero::before {
     content: '';
     position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    z-index: 2;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1;
   }
-  .page-hero-label {
-    font-size: 11px;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.6s 0.1s, transform 0.6s 0.1s cubic-bezier(0.23,1,0.32,1);
+  .hero-content {
     position: relative;
     z-index: 2;
-  }
-  .page-hero h1 {
-    font-size: clamp(36px, 7vw, 72px);
-    font-weight: 800;
+    text-align: center;
     color: var(--white);
-    letter-spacing: -0.02em;
-    line-height: 1.0;
+    padding: 0 24px 80px;
+    max-width: 700px;
+  }
+  .hero-content h1 {
+    font-size: clamp(38px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s 0.6s, transform 0.8s 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .hero-content p {
+    font-size: clamp(14px, 2vw, 17px);
+    font-weight: 300;
+    margin-bottom: 32px;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.7s 0.25s, transform 0.7s 0.25s cubic-bezier(0.23,1,0.32,1);
-    position: relative;
-    z-index: 2;
+    transition: opacity 0.8s 0.85s, transform 0.8s 0.85s cubic-bezier(0.23,1,0.32,1);
   }
-  .page-hero.visible .page-hero-label,
-  .page-hero.visible h1 { opacity: 1; transform: translateY(0); }
+  .hero-content .btn-outline {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s 1.05s, transform 0.6s 1.05s cubic-bezier(0.23,1,0.32,1),
+                background 0.25s, color 0.25s;
+  }
+  .hero.visible .hero-content h1 { opacity: 1; transform: translateY(0); }
+  .hero.visible .hero-content p { opacity: 0.9; transform: translateY(0); }
+  .hero.visible .hero-content .btn-outline { opacity: 1; transform: translateY(0); }
+
+  .btn-outline {
+    display: inline-block;
+    padding: 13px 36px;
+    border: 1.5px solid var(--white);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-outline:hover { background: var(--white); color: var(--black); }
+  .btn-dark {
+    display: inline-block;
+    padding: 13px 36px;
+    border: 1.5px solid var(--black);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-dark:hover { background: var(--black); color: var(--white); }
 
   /* ── SCROLL REVEAL ── */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(36px);
     transition: opacity 0.7s cubic-bezier(0.23,1,0.32,1), transform 0.7s cubic-bezier(0.23,1,0.32,1);
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.23,1,0.32,1), transform 0.8s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+  .product-card { --delay: 0s; }
+  .product-card.reveal { transition-delay: var(--delay); }
 
-  /* ── MAIN GRID ── */
-  .contact-grid {
+  /* ── SECTIONS ── */
+  .section { padding: 80px 24px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ── BEST SELLING ── */
+  .section-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+  }
+  .products-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
   }
+  .product-card { text-align: center; cursor: default; }
+  .product-img-wrap {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: #f5f5f5;
+  }
+  /* No hover zoom — removed for better UX */
+  .product-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .product-name { font-size: 14px; font-weight: 500; color: var(--grey); line-height: 1.5; }
 
-  /* ── LEFT PANEL — info ── */
-  .contact-info {
-    padding: 72px 64px 72px 24px;
-    border-right: 1px solid var(--light-grey);
+  /* ── SPLIT SECTIONS ── */
+  .split-section { display: grid; grid-template-columns: 1fr 1fr; }
+  .split-img { overflow: hidden; }
+  .split-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 480px;
+    /* No hover zoom — removed */
   }
-  .info-block { margin-bottom: 52px; }
-  .info-block:last-child { margin-bottom: 0; }
-  .info-label {
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 14px;
-    font-weight: 600;
+  .split-text {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--white);
   }
-  .info-block h3 {
+  .split-text h2 {
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .split-text p {
     font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    line-height: 1.5;
-  }
-  .info-block p, .info-block address {
-    font-size: 15px;
-    font-style: normal;
-    color: var(--grey);
     line-height: 1.7;
-  }
-  .info-block a {
     color: var(--grey);
-    text-decoration: none;
-    transition: color 0.2s;
+    margin-bottom: 32px;
   }
-  .info-block a:hover { color: var(--black); }
+  .split-gap { padding: 40px 0; background: var(--white); }
 
-  /* Hours table */
-  .hours-table { width: 100%; border-collapse: collapse; }
-  .hours-table tr { border-bottom: 1px solid #f0f0f0; }
-  .hours-table tr:last-child { border-bottom: none; }
-  .hours-table td {
-    padding: 7px 0;
-    font-size: 14px;
-    color: var(--grey);
+  /* ── REVIEWS ── */
+  .reviews-section {
+    background: #0a0a0a;
+    padding: 80px 24px;
+    text-align: center;
   }
-  .hours-table td:first-child {
-    text-transform: capitalize;
-    color: var(--black);
-    font-weight: 500;
-    width: 50%;
+  .reviews-section h2 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 8px;
   }
-  .hours-table tr.today td { color: var(--gold); font-weight: 600; }
-  .hours-table tr.today td:first-child { color: var(--gold); }
-
-  /* Social links */
-  .social-links { display: flex; flex-direction: column; gap: 12px; }
-  .social-link {
+  .reviews-google-badge {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: var(--black);
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s;
-    width: fit-content;
+    gap: 8px;
+    margin-bottom: 52px;
+    opacity: 0;
+    transition: opacity 0.6s 0.2s;
   }
-  .social-link:hover { color: var(--gold); }
-  .social-icon {
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--light-grey);
-    border-radius: 50%;
+  .reviews-google-badge.visible { opacity: 1; }
+  .stars {
+    display: flex;
+    gap: 3px;
+  }
+  .stars svg { width: 18px; height: 18px; fill: var(--gold); }
+  .badge-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
+  }
+  .badge-score {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .review-card {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    padding: 32px 28px;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s cubic-bezier(0.23,1,0.32,1), transform 0.6s cubic-bezier(0.23,1,0.32,1);
+  }
+  .review-card.visible { opacity: 1; transform: translateY(0); }
+  .review-card:nth-child(1) { transition-delay: 0s; }
+  .review-card:nth-child(2) { transition-delay: 0.1s; }
+  .review-card:nth-child(3) { transition-delay: 0.2s; }
+  .review-card-stars { display: flex; gap: 3px; margin-bottom: 16px; }
+  .review-card-stars svg { width: 14px; height: 14px; fill: var(--gold); }
+  .review-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+  .review-author {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── OUR STORY ── */
+  .story-section { padding: 80px 24px; text-align: center; }
+  .story-section h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+  .story-text {
+    max-width: 780px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.85;
+    color: #333;
+  }
+  .story-text p { margin-bottom: 24px; }
+  .story-text p:last-child { margin-bottom: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--light-grey);
+    padding: 28px 24px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: border-color 0.2s, background 0.2s;
-    flex-shrink: 0;
   }
-  .social-link:hover .social-icon { border-color: var(--gold); background: rgba(201,168,76,0.06); }
-  .social-icon svg { width: 16px; height: 16px; }
-
-  /* ── RIGHT PANEL — form ── */
-  .contact-form-wrap {
-    padding: 72px 24px 72px 64px;
-  }
-  .form-title {
-    font-size: clamp(22px, 3vw, 30px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-  }
-  .form-subtitle {
-    font-size: 14px;
-    color: var(--grey);
-    margin-bottom: 40px;
-    line-height: 1.6;
-  }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .form-group label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--black);
-  }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    font-family: var(--font);
-    font-size: 14px;
-    color: var(--black);
-    background: var(--off-white);
-    border: 1px solid transparent;
-    border-bottom: 1.5px solid var(--light-grey);
-    padding: 13px 16px;
-    outline: none;
-    transition: border-color 0.25s, background 0.25s;
-    border-radius: 0;
-    appearance: none;
-    width: 100%;
-  }
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    border-color: transparent;
-    border-bottom-color: var(--gold);
-    background: #fff;
-  }
-  .form-group textarea { resize: vertical; min-height: 120px; }
-
-  .form-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 40px;
-    background: var(--black);
-    color: var(--white);
-    border: none;
-    font-family: var(--font);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.25s, gap 0.25s;
-    margin-top: 8px;
-  }
-  .form-submit:hover { background: #222; gap: 16px; }
-  .form-submit svg { width: 14px; height: 14px; stroke: var(--white); fill: none; stroke-width: 2; transition: transform 0.25s; }
-  .form-submit:hover svg { transform: translateX(4px); }
-
-  /* Success message */
-  .form-success {
-    display: none;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 20px;
-    background: #f0faf0;
-    border-left: 3px solid #4caf76;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #2d6a4a;
-  }
-  .form-success.show { display: flex; }
-
-  /* ── MAP ── */
-  .map-section {
-    border-top: 1px solid var(--light-grey);
-  }
-  .map-section iframe {
-    display: block;
-    width: 100%;
-    height: 400px;
-    border: none;
-    filter: grayscale(20%);
-    transition: filter 0.4s;
-  }
-  .map-section iframe:hover { filter: grayscale(0%); }
-
-  /* ── FOOTER ── */
-  footer { border-top: 1px solid var(--light-grey); padding: 28px 24px; }
-  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
   .footer-copy { font-size: 12px; color: var(--grey); text-align: center; }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .nav-links { display: none; }
     .hamburger { display: flex; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .contact-info { padding: 52px 24px 40px; border-right: none; border-bottom: 1px solid var(--light-grey); }
-    .contact-form-wrap { padding: 48px 24px 52px; }
-    .form-row { grid-template-columns: 1fr; gap: 0; }
-    .map-section iframe { height: 300px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .split-section { grid-template-columns: 1fr; }
+    .split-text { padding: 40px 24px; }
+    .split-img img { min-height: 300px; }
+    .reviews-grid { grid-template-columns: 1fr; max-width: 480px; }
   }
   @media (max-width: 480px) {
-    .page-hero { padding: 60px 20px 56px; }
+    .hero { height: 75vh; }
+    .hero-content { padding-bottom: 48px; }
+    .section { padding: 56px 16px; }
+    .products-grid { gap: 20px 10px; }
+    .reviews-section { padding: 60px 16px; }
     .logo-text { font-size: 15px; }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { transition: none !important; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
   }
 </style>
 </head>
@@ -434,7 +528,8 @@
 <!-- Header -->
 <header id="header">
   <nav>
-    <a href="./index.html" class="logo">
+    <a href="#" class="logo">
+      <!-- Minimal crescent + star mark -->
       <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M22 6A12 12 0 1 0 22 30 9 9 0 1 1 22 6Z" fill="#c9a84c" opacity="0.9"/>
         <circle cx="25" cy="8" r="2" fill="#c9a84c"/>
@@ -444,10 +539,10 @@
     </a>
 
     <ul class="nav-links">
-      <li><a href="./index.html">Accueil</a></li>
-      <li><a href="./index.html#story">Notre Histoire</a></li>
-      <li><a href="./index.html#myop">Procédure</a></li>
-      <li><a href="./contact.html" class="active">Contact</a></li>
+      <li><a href="#" class="active">Accueil</a></li>
+      <li><a href="#story">Notre Histoire</a></li>
+      <li><a href="./procedure.html">Procédure</a></li>
+      <li><a href="./contact.html">Contact</a></li>
     </ul>
 
     <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
@@ -461,138 +556,145 @@
   <div class="mobile-menu-backdrop"></div>
   <div class="mobile-menu-inner">
     <button class="mobile-menu-close" onclick="closeMenu()">&times;</button>
-    <a href="./index.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">01</span>Accueil</a>
-    <a href="./index.html#story" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">02</span>Notre Histoire</a>
-    <a href="./index.html#myop" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">03</span>Procédure</a>
+    <a href="#" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">01</span>Accueil</a>
+    <a href="#story" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">02</span>Notre Histoire</a>
+    <a href="./procedure.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">03</span>Procédure</a>
     <a href="./contact.html" class="mobile-nav-link" onclick="closeMenu()"><span class="link-num">04</span>Contact</a>
     <p class="mobile-menu-tagline">Création de parfums sur mesure · Saint-Étienne</p>
   </div>
 </div>
 
-<!-- Page Hero -->
-<div class="page-hero" id="pageHero">
-  <img class="page-hero-img" id="pageHeroImg" src="./procedure.png" alt=""/>
-  <p class="page-hero-label">Élixir d'Orient · Saint-Étienne</p>
-  <h1>Nous trouver</h1>
-</div>
+<!-- Hero -->
+<section class="hero" id="hero">
+  <img class="hero-bg" src="./hero.png" alt="Création de parfum"/>
+  <div class="hero-content">
+    <h1>Création de Parfum</h1>
+    <p>Création de parfums sur mesure à Saint-Étienne</p>
+    <a href="./procedure.html" class="btn-outline">Contact</a>
+  </div>
+</section>
 
-<!-- Contact Grid -->
-<div class="contact-grid">
-
-  <!-- LEFT — Info -->
-  <div class="contact-info">
-
-    <div class="info-block reveal">
-      <p class="info-label">Adresse</p>
-      <address>
-        39 Rue des Martyrs de Vingré<br>
-        42000 Saint-Étienne
-      </address>
-    </div>
-
-    <div class="info-block reveal" style="transition-delay:0.1s">
-      <p class="info-label">Horaires d'ouverture</p>
-      <table class="hours-table" id="hoursTable">
-        <tr data-day="1"><td>Lundi</td><td>11:00 – 20:00</td></tr>
-        <tr data-day="2"><td>Mardi</td><td>11:00 – 20:00</td></tr>
-        <tr data-day="3"><td>Mercredi</td><td>11:00 – 20:00</td></tr>
-        <tr data-day="4"><td>Jeudi</td><td>11:00 – 20:00</td></tr>
-        <tr data-day="5"><td>Vendredi</td><td>15:00 – 20:30</td></tr>
-        <tr data-day="6"><td>Samedi</td><td>11:00 – 20:30</td></tr>
-        <tr data-day="0"><td>Dimanche</td><td>11:00 – 20:00</td></tr>
-      </table>
-    </div>
-
-    <div class="info-block reveal" style="transition-delay:0.2s">
-      <p class="info-label">Réseaux sociaux</p>
-      <div class="social-links">
-        <a href="https://www.instagram.com/elixir.dorientt/" target="_blank" rel="noopener" class="social-link">
-          <span class="social-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-              <rect x="2" y="2" width="20" height="20" rx="5"/>
-              <circle cx="12" cy="12" r="5"/>
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-            </svg>
-          </span>
-          @elixir.dorientt
-        </a>
-        <a href="https://www.tiktok.com/@elixir.dorient" target="_blank" rel="noopener" class="social-link">
-          <span class="social-icon">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/>
-            </svg>
-          </span>
-          @elixir.dorient
-        </a>
+<!-- Créations -->
+<section class="section" id="shop">
+  <div class="container">
+    <h2 class="section-title reveal">Vos Créations</h2>
+    <div class="products-grid">
+      <div class="product-card reveal" style="--delay:0s">
+        <div class="product-img-wrap"><img src="./p1.png" loading="lazy"/></div>
+        <div class="product-name">Oud Bouquet · Cerise · Hibiscus · Ambre Vanille · Tonka</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.08s">
+        <div class="product-img-wrap"><img src="./p2.png" loading="lazy"/></div>
+        <div class="product-name">Hibiscus · Vanille Gourmande · Cerise · Amande</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.16s">
+        <div class="product-img-wrap"><img src="./p3.png" loading="lazy"/></div>
+        <div class="product-name">Monoï · Vanille · Hibiscus · Cerise</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.24s">
+        <div class="product-img-wrap"><img src="./p4.png" loading="lazy"/></div>
+        <div class="product-name">Vanille · Tabac · Café · Tubéreuse</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0s">
+        <div class="product-img-wrap"><img src="./p5.png" loading="lazy"/></div>
+        <div class="product-name">Fruits Rouges · Hibiscus · Tubéreuse · Oud Bouquet</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.08s">
+        <div class="product-img-wrap"><img src="./p6.png" loading="lazy"/></div>
+        <div class="product-name">Oud Bouquet · Figue Fraîche</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.16s">
+        <div class="product-img-wrap"><img src="./p7.png" loading="lazy"/></div>
+        <div class="product-name">Oud Rose · Fraise · Hibiscus</div>
+      </div>
+      <div class="product-card reveal" style="--delay:0.24s">
+        <div class="product-img-wrap"><img src="./p8.png" loading="lazy"/></div>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- Créez Votre Parfum -->
+<section id="myop">
+  <div class="split-section">
+    <div class="split-img reveal-left">
+      <img src="./creer.webp" alt="Créez votre propre parfum"/>
+    </div>
+    <div class="split-text reveal-right">
+      <h2>Créez Votre Propre Parfum</h2>
+      <p>Créez votre propre mélange personnalisé avec votre nom en magasin.</p>
+      <a href="./procedure.html" class="btn-dark">Réserver</a>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section class="reviews-section" id="reviews">
+  <h2 class="reveal" style="color:var(--white)">Ce que disent nos clients</h2>
+  <div class="reviews-google-badge reveal">
+    <span class="badge-score">5,0</span>
+    <div class="stars">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <span class="badge-text">sur Google · 70+ avis</span>
   </div>
 
-  <!-- RIGHT — Form -->
-  <div class="contact-form-wrap">
-    <h2 class="form-title reveal">Envoyez-nous un message</h2>
-    <p class="form-subtitle reveal" style="transition-delay:0.08s">Une question, une réservation ou simplement envie d'en savoir plus ? Nous vous répondons dans les plus brefs délais.</p>
-
-    <form id="contactForm" novalidate>
-      <div class="form-row">
-        <div class="form-group reveal" style="transition-delay:0.12s">
-          <label for="prenom">Prénom</label>
-          <input type="text" id="prenom" name="prenom" placeholder="Marie" required>
-        </div>
-        <div class="form-group reveal" style="transition-delay:0.16s">
-          <label for="nom">Nom</label>
-          <input type="text" id="nom" name="nom" placeholder="Dupont" required>
-        </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-card-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
+      <p class="review-text">« Superbe expérience. Un large choix de notes, très bon conseil et très bon dosage du parfumeur qui est super sympa. Parfum très bonne qualité, je reviendrai ! »</p>
+      <span class="review-author">Giovanni</span>
+    </div>
 
-      <div class="form-group reveal" style="transition-delay:0.2s">
-        <label for="email">Adresse e-mail</label>
-        <input type="email" id="email" name="email" placeholder="marie@exemple.fr" required>
+    <div class="review-card">
+      <div class="review-card-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
+      <p class="review-text">« Vraiment une expérience à vivre. Le personnel est au top. Une connaissance approfondie sur les produits et des conseils précieux. Je recommande fortement. Encore merci pour la patience et les conseils. »</p>
+      <span class="review-author">Nahil</span>
+    </div>
 
-      <div class="form-group reveal" style="transition-delay:0.24s">
-        <label for="sujet">Sujet</label>
-        <select id="sujet" name="sujet">
-          <option value="">Choisissez un sujet…</option>
-          <option>Réservation d'un atelier</option>
-          <option>Information sur les produits</option>
-          <option>Événement / Mariage</option>
-          <option>Autre</option>
-        </select>
+    <div class="review-card">
+      <div class="review-card-stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
-
-      <div class="form-group reveal" style="transition-delay:0.28s">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Bonjour, je souhaite…" required></textarea>
-      </div>
-
-      <div class="reveal" style="transition-delay:0.32s">
-        <button type="submit" class="form-submit">
-          Envoyer
-          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-      </div>
-
-      <div class="form-success" id="formSuccess">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4caf76" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        Message envoyé ! Nous vous répondrons très bientôt.
-      </div>
-    </form>
+      <p class="review-text">« Très belle expérience ! Je recommande. Nous avons passé un bon moment, de belles découvertes et on repart avec un parfum 😄 Merci à Furkan pour le bon moment, son partage, sa patience et ses conseils 😊 On reviendra ! »</p>
+      <span class="review-author">Cécile Leonardon</span>
+    </div>
   </div>
+</section>
 
-</div>
-
-<!-- Map -->
-<div class="map-section reveal">
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2782.2!2d4.3897!3d45.4397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5a9e1e8b0a0a1%3A0x0!2s39+Rue+des+Martyrs+de+Vingr%C3%A9%2C+42000+Saint-%C3%89tienne!5e0!3m2!1sfr!2sfr!4v1"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-    title="Élixir d'Orient – 39 Rue des Martyrs de Vingré, Saint-Étienne">
-  </iframe>
-</div>
+<!-- Notre Histoire -->
+<section class="story-section" id="story">
+  <div class="container">
+    <h2 class="reveal">Notre Histoire</h2>
+    <div class="story-text">
+      <p class="reveal" style="transition-delay:0.1s">Élixir d'Orient est né d'une conviction simple : un parfum doit être aussi unique que la personne qui le porte.</p>
+      <p class="reveal" style="transition-delay:0.2s">Passionné par l'univers de la parfumerie depuis de nombreuses années, Furkan Gulen découvre lors d'un voyage à Dubaï l'art de la création de parfums sur mesure. Cette expérience, associée à sa fascination pour le savoir-faire de Grasse, berceau de la parfumerie française, lui donne l'envie de transformer sa passion en métier.</p>
+      <p class="reveal" style="transition-delay:0.3s">C'est ainsi qu'en janvier 2024, à seulement 24 ans, il ouvre Élixir d'Orient au cœur de Saint-Étienne. Plus qu'une boutique, il imagine un lieu dédié à l'échange, à la découverte et à la création. Chaque visite devient une expérience sensorielle où les clients explorent une riche palette de notes florales, boisées, fruitées et orientales afin de composer une fragrance qui leur ressemble.</p>
+      <p class="reveal" style="transition-delay:0.4s">Chez Élixir d'Orient, chaque parfum est créé sur mesure, mélangé et conditionné sous les yeux du client. Parce qu'une senteur évoque souvent un souvenir, une émotion ou une personnalité, nous accordons une importance particulière à l'écoute et au conseil.</p>
+      <p class="reveal" style="transition-delay:0.5s">Notre mission est simple : vous permettre de ne plus porter un parfum parmi tant d'autres, mais de porter le vôtre.</p>
+    </div>
+  </div>
+</section>
 
 <!-- Footer -->
 <footer>
@@ -618,46 +720,51 @@
     document.body.style.overflow = '';
   }
 
-  /* ── Header shadow ── */
+  /* ── Header shadow on scroll ── */
   window.addEventListener('scroll', () => {
     document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
   });
 
-  /* ── Page hero entrance ── */
-  const pageHeroImg = document.getElementById('pageHeroImg');
+  /* ── Hero entrance ── */
+  const heroBg = document.querySelector('.hero-bg');
   function heroReady() {
-    pageHeroImg.classList.add('loaded');
-    document.getElementById('pageHero').classList.add('visible');
+    document.querySelector('.hero').classList.add('visible');
+    heroBg.classList.add('loaded');
   }
-  pageHeroImg.complete ? heroReady() : pageHeroImg.addEventListener('load', heroReady);
-  // fallback — show text even if image is slow
-  setTimeout(() => document.getElementById('pageHero').classList.add('visible'), 400);
+  heroBg.complete ? heroReady() : heroBg.addEventListener('load', heroReady);
 
-  /* ── Highlight today's hours ── */
-  const today = new Date().getDay(); // 0=Sun … 6=Sat
-  document.querySelectorAll('#hoursTable tr').forEach(row => {
-    if (parseInt(row.dataset.day) === today) row.classList.add('today');
-  });
-
-  /* ── Scroll reveal ── */
+  /* ── Scroll reveal (all .reveal* + review cards + google badge) ── */
+  const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .review-card, .reviews-google-badge');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  allReveal.forEach(el => observer.observe(el));
 
-  /* ── Form submit (front-end demo) ── */
-  document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('.form-submit');
-    btn.textContent = 'Envoi…';
-    btn.disabled = true;
-    setTimeout(() => {
-      document.getElementById('formSuccess').classList.add('show');
-      btn.style.display = 'none';
-    }, 900);
-  });
+  const storySection = document.getElementById('story');
+  const accueilLink = document.querySelector('.nav-links a[href="#"]');
+  const storyLink = document.querySelector('.nav-links a[href="#story"]');
+
+  const storyObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) {
+        accueilLink.classList.remove('active');
+        storyLink.classList.add('active');
+      } else {
+        storyLink.classList.remove('active');
+        accueilLink.classList.add('active');
+      }
+    },
+    {
+      threshold: 0.2
+    }
+  );
+
+  storyObserver.observe(storySection);
 </script>
 </body>
 </html>
