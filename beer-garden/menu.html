@@ -348,6 +348,12 @@ footer { background: var(--dark); color: white; }
   .subnav-inner a { padding: 0 14px; font-size: 11px; }
   .menu-body { padding: 48px 20px 80px; }
   .float-cta { font-size: 11px; padding: 11px 16px; bottom: 12px; right: 12px; }
+
+  /* Fix horizontal overflow: long item names were forcing the page wider than the viewport */
+  .menu-item-name { white-space: normal; }
+  .menu-item-row { flex-wrap: wrap; align-items: baseline; }
+  .menu-item-dots { display: none; }
+  .menu-item-price { margin-left: auto; padding-left: 12px; }
 }
 </style>
 </head>
