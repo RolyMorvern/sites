@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fast & Diet – Le fastfood bon pour la santé !</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal: #229E79;
+      --teal-dark: #0A7154;
+      --yellow: #f5c842;
+      --dark: #1a1a1a;
+      --gray: #555;
+      --radius: 50px;
+    }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { font-family: 'Inter', sans-serif; color: var(--dark); overflow-x: hidden; }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: var(--dark); color: #ccc; font-size: 13px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 40px;
+    }
+    .open-badge {
+      background: #e84444; color: white; padding: 4px 12px;
+      border-radius: 20px; font-weight: 700; font-size: 12px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 40px; background: white; border-bottom: 1px solid #eee;
+      position: sticky; top: 0; z-index: 200;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-circle {
+      width: 52px; height: 52px; border-radius: 50%; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
+    .nav-logo-text h1 { font-size: 20px; font-weight: 800; line-height: 1.1; color: var(--dark); }
+    .nav-logo-text p { font-size: 12px; color: var(--gray); }
+
+    /* desktop nav right side */
+    .nav-right { display: flex; align-items: center; gap: 32px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: var(--dark); font-weight: 500; font-size: 15px;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .cart-btn {
+      background: var(--teal); color: white; border: none; border-radius: 50%;
+      width: 44px; height: 44px; font-size: 20px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    /* hamburger – hidden on desktop */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px; z-index: 300;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 2px; background: var(--dark);
+      border-radius: 2px; transition: transform .35s, opacity .35s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* mobile drawer */
+    .mobile-menu {
+      position: fixed; inset: 0; background: white; z-index: 190;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 36px;
+      clip-path: circle(0% at calc(100% - 58px) 44px);
+      transition: clip-path .5s cubic-bezier(.77,0,.18,1);
+      pointer-events: none;
+    }
+    .mobile-menu.open {
+      clip-path: circle(150% at calc(100% - 58px) 44px);
+      pointer-events: auto;
+    }
+    .mobile-menu a {
+      font-size: 1.8rem; font-weight: 800; color: var(--dark); text-decoration: none;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .35s, transform .35s, color .2s;
+    }
+    .mobile-menu.open a {
+      opacity: 1; transform: translateY(0);
+    }
+    .mobile-menu.open a:nth-child(1) { transition-delay: .15s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: .22s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: .29s; }
+    .mobile-menu a:hover { color: var(--teal); }
+    .mobile-menu .m-cart {
+      margin-top: 10px;
+      background: var(--teal); color: white; border: none; border-radius: var(--radius);
+      padding: 14px 40px; font-size: 1rem; font-weight: 700; cursor: pointer;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .35s .36s, transform .35s .36s;
+    }
+    .mobile-menu.open .m-cart { opacity: 1; transform: translateY(0); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; min-height: 92vh;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg,#1a3a3a,#0d2020); }
+    .hero-bg::after {
+      content:''; position: absolute; inset: 0;
+      background: url('./hero.png') center/cover no-repeat;
+      opacity: .35;
+    }
+    .hero-content { position: relative; z-index:1; color: white; max-width:600px; padding:20px; }
+    .hero-logo {
+      width:100px; height:100px; border-radius:50%; overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+      margin: 0 auto 28px;
+      background: white;
+    }
+    .hero-logo img { width:100%; height:100%; object-fit:cover; }
+    .hero h2 { font-size: clamp(2.4rem,5vw,3.4rem); font-weight:900; margin-bottom:10px; }
+    .hero p { font-size:1.2rem; opacity:.85; margin-bottom:36px; }
+    .hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+    .btn-dark {
+      background:var(--dark); color:white; padding:15px 38px; border-radius:var(--radius);
+      font-weight:700; font-size:15px; border:none; cursor:pointer; text-decoration:none;
+      transition:opacity .2s;
+    }
+    .btn-dark:hover { opacity:.8; }
+    .btn-outline {
+      background:white; color:var(--dark); padding:15px 38px; border-radius:var(--radius);
+      font-weight:700; font-size:15px; border:2px solid white; cursor:pointer; text-decoration:none;
+      transition:background .2s,color .2s;
+    }
+    .btn-outline:hover { background:transparent; color:white; }
+
+    /* ── ABOUT ── */
+    .about {
+      display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+      max-width:1100px; margin:90px auto; padding:0 40px;
+    }
+    .about-text h2 { font-size:2.2rem; font-weight:900; margin-bottom:20px; }
+    .about-text p { font-size:15px; line-height:1.8; color:#444; margin-bottom:32px; }
+    .about-btns { display:flex; gap:16px; align-items:center; }
+    .btn-solid {
+      background:var(--teal); color:white; padding:13px 30px; border-radius:var(--radius);
+      font-weight:700; font-size:14px; border:none; cursor:pointer; text-decoration:none;
+      transition:opacity .2s;
+    }
+    .btn-solid:hover { opacity:.75; }
+    .btn-link {
+      font-weight:700; font-size:14px; color:var(--dark); text-decoration:none;
+      border-bottom:2px solid var(--dark); padding-bottom:2px;
+    }
+    .about-images {
+      display:grid; grid-template-columns:1fr 1fr; gap:12px;
+    }
+    .about-images img { width:100%; height:200px; object-fit:cover; border-radius:16px; }
+    .about-images img:first-child { grid-column:1; grid-row:1/3; height:412px; }
+
+    /* ── CUSTOM BOWL BANNER ── */
+    .bowl-banner {
+      max-width:1100px; margin:0 auto 80px; padding:0 40px;
+    }
+    .bowl-banner-inner {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      border-radius: 24px; padding: 48px 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+      flex-wrap: wrap;
+    }
+    .bowl-banner-text h2 { font-size: 1.9rem; font-weight:900; color:white; margin-bottom:10px; }
+    .bowl-banner-text p { font-size:15px; color:rgba(255,255,255,.85); line-height:1.7; max-width:480px; }
+    .bowl-banner-cta {
+      background:white; color:var(--teal-dark); padding:15px 36px; border-radius:var(--radius);
+      font-weight:800; font-size:15px; text-decoration:none; white-space:nowrap;
+      transition:transform .2s, box-shadow .2s;
+      display:inline-block;
+    }
+    .bowl-banner-cta:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.2); }
+
+    /* ── GALLERY ── */
+    .gallery-section { background:var(--dark); padding:70px 40px; text-align:center; }
+    .gallery-section h2 { color:white; font-size:2rem; font-weight:900; margin-bottom:40px; }
+    .gallery-grid {
+      display:grid;
+      grid-template-columns: 2fr 1fr 2fr 1fr;
+      grid-template-rows: 200px 200px;
+      gap:12px;
+      max-width:1100px; margin:0 auto;
+    }
+    .gallery-grid .g1 { grid-column:1; grid-row:1/3; }
+    .gallery-grid .g2 { grid-column:2; grid-row:1; }
+    .gallery-grid .g3 { grid-column:2; grid-row:2; }
+    .gallery-grid .g4 { grid-column:3; grid-row:1/3; }
+    .gallery-grid .g5 { grid-column:4; grid-row:1; }
+    .gallery-grid .g6 { grid-column:4; grid-row:2; }
+    .gallery-grid img { width:100%; height:100%; object-fit:cover; border-radius:14px; }
+
+    /* ── SPECIALTIES CAROUSEL ── */
+    .specialties { padding:80px 0; text-align:center; }
+    .specialties h2 { font-size:2rem; font-weight:900; margin-bottom:40px; }
+    .spec-viewport { overflow:hidden; padding:10px 40px 20px; }
+    .spec-track {
+      display:flex; gap:20px;
+      transition: transform .55s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
+    }
+    .spec-card {
+      background:white; border:1px solid #eee; border-radius:18px; overflow:hidden;
+      text-align:left; flex-shrink: 0; /* width set by JS */
+      transition:box-shadow .2s,transform .2s; cursor:pointer;
+    }
+    .spec-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.12); transform:translateY(-3px); }
+    .spec-card img { width:100%; height:175px; object-fit:cover; }
+    .spec-card-body { padding:14px 16px 16px; }
+    .spec-card-body h3 { font-size:14px; font-weight:700; line-height:1.3; margin-bottom:6px; }
+    .spec-card-body .spec-desc { font-size:12px; color:#666; line-height:1.4; margin-bottom:10px; }
+    .spec-card-bottom { display:flex; justify-content:space-between; align-items:center; }
+    .price { font-weight:800; font-size:15px; }
+    .arrow-circle {
+      width:32px; height:32px; border-radius:50%; background:var(--teal); color:white;
+      display:flex; align-items:center; justify-content:center; font-size:16px;
+    }
+    .spec-nav { display:flex; gap:12px; justify-content:center; margin-top:28px; }
+    .spec-nav button {
+      width:40px; height:40px; border-radius:50%; border:2px solid var(--teal);
+      background:white; font-size:18px; cursor:pointer; font-weight:bold; color:var(--teal);
+      transition:background .2s,color .2s;
+    }
+    .spec-nav button:hover { background:var(--teal); color:white; }
+
+    /* progress dots */
+    .spec-dots { display:flex; gap:7px; justify-content:center; margin-top:16px; }
+    .spec-dots span {
+      width:8px; height:8px; border-radius:50%; background:#ddd; transition:background .3s,transform .3s;
+    }
+    .spec-dots span.active { background:var(--teal); transform:scale(1.3); }
+
+    /* ── MAP ── */
+    .map-section { max-width:1100px; margin:0 auto 60px; padding:0 40px; scroll-margin-top:90px; }
+    .map-embed {
+      border-radius:20px; overflow:hidden; width:100%; height:380px;
+      background:#e0e0e0; position:relative;
+    }
+    .map-embed iframe { width:100%; height:100%; border:none; }
+    .map-pin-box {
+      position:absolute; top:40px; left:40px; background:white; border-radius:14px;
+      padding:18px 22px; box-shadow:0 4px 20px rgba(0,0,0,.15);
+    }
+    .map-pin-box h3 { font-size:16px; font-weight:800; margin-bottom:6px; }
+    .map-pin-box p { font-size:13px; color:var(--gray); line-height:1.6; }
+
+    /* ── HOURS ── */
+    .info-section {
+      display:grid; grid-template-columns:1fr 1fr; gap:60px;
+      max-width:1100px; margin:0 auto 80px; padding:0 40px;
+    }
+    .info-section h2 { font-size:1.5rem; font-weight:900; margin-bottom:20px; display:flex; align-items:center; gap:8px; }
+    .dot { width:10px; height:10px; border-radius:50%; background:var(--teal); display:inline-block; }
+    .hours-table { width:100%; border-collapse:collapse; }
+    .hours-table td { padding:8px 0; font-size:14px; border-bottom:1px solid #f0f0f0; }
+    .hours-table td:not(:first-child) { text-align:right; }
+    .hours-table tr.today td { font-weight:700; color: var(--teal-dark); }
+    .badges { display:flex; flex-direction:column; gap:14px; margin-top:10px; }
+    .badge-pill {
+      display:inline-flex; align-items:center; gap:10px;
+      background:#f4f4f4; border-radius:30px; padding:10px 20px;
+      font-weight:600; font-size:14px; width:fit-content;
+    }
+
+    /* ── FOOTER ── */
+    footer { background:linear-gradient(135deg,#1a3a3a,#0d2020); color:white; position:relative; overflow:hidden; }
+    footer::before {
+      content:''; position:absolute; inset:0;
+      background:url('./hero.png') center/cover no-repeat;
+      opacity:.15;
+    }
+    .footer-logo {
+      display:flex; flex-direction:column; align-items:center; padding-top:60px;
+      position:relative; z-index:1;
+    }
+    .footer-logo .logo-circle { width:90px; height:90px; margin-bottom:20px; }
+    .footer-logo h2 { font-size:1.6rem; font-weight:900; }
+    .footer-logo p { font-size:14px; opacity:.7; margin-top:4px; }
+    .footer-cols {
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px;
+      max-width:1100px; margin:50px auto 0; padding:50px 40px 60px;
+      position:relative; z-index:1;
+      border-top:1px solid rgba(255,255,255,.1);
+    }
+    .footer-col h3 { font-size:1rem; font-weight:800; margin-bottom:14px; }
+    .footer-col p { font-size:14px; color:rgba(255,255,255,.7); line-height:1.9; }
+    .insta-link {
+      display:inline-block; margin-top:4px;
+      color:rgba(255,255,255,.75); transition:color .2s;
+    }
+    .insta-link:hover { color:var(--teal); }
+    .insta-link svg { display:block; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:900px) {
+      nav { padding:14px 20px; }
+      .topbar { padding:8px 20px; font-size:11px; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      nav .cart-btn { display:none; }
+
+      .about { grid-template-columns:1fr; }
+      .bowl-banner-inner { padding:36px 32px; }
+      .gallery-grid {
+        grid-template-columns:1fr 1fr;
+        grid-template-rows:repeat(3,180px);
+      }
+      .gallery-grid .g1 { grid-column:1; grid-row:1/3; }
+      .gallery-grid .g2 { grid-column:2; grid-row:1; }
+      .gallery-grid .g3 { grid-column:2; grid-row:2; }
+      .gallery-grid .g4 { grid-column:1; grid-row:3; }
+      .gallery-grid .g5 { grid-column:2; grid-row:3; }
+      .gallery-grid .g6 { display:none; }
+      .spec-card { flex: 0 0 calc((100vw - 80px - 20px) / 2); }
+      .info-section { grid-template-columns:1fr; }
+      .footer-cols { grid-template-columns:1fr; }
+    }
+    @media (max-width:560px) {
+      .spec-card { flex: 0 0 calc(100vw - 80px); }
+      .gallery-grid { grid-template-columns:1fr; grid-template-rows:repeat(5,180px); }
+      .gallery-grid .g1,.gallery-grid .g4 { grid-column:1; grid-row:auto; }
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-box {
+      background: white; border-radius: 24px; overflow: hidden;
+      max-width: 560px; width: 100%;
+      display: flex; flex-direction: column;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(24px) scale(.97);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+      position: relative;
+    }
+    .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+    .modal-close {
+      position: absolute; top: 14px; right: 14px; z-index: 10;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(0,0,0,.45); color: white; border: none;
+      font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .modal-close:hover { background: rgba(0,0,0,.7); }
+    .modal-img-wrap { position: relative; }
+    .modal-img-wrap img { width: 100%; height: 260px; object-fit: cover; display: block; }
+    .modal-category {
+      position: absolute; bottom: 14px; left: 16px;
+      background: var(--teal); color: white; font-size: 12px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px; letter-spacing: .3px;
+    }
+    .modal-body { padding: 24px 28px 28px; }
+    .modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .modal-header h2 { font-size: 1.35rem; font-weight: 900; line-height: 1.2; }
+    .modal-price { font-size: 1.2rem; font-weight: 800; color: var(--teal-dark); white-space: nowrap; }
+    .modal-desc { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 22px; }
+    .modal-nutrition { background: #f7f7f7; border-radius: 16px; padding: 18px 20px; margin-bottom: 22px; }
+    .modal-nut-title { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 14px; }
+    .modal-nut-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .nut-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .nut-val { font-size: 1.1rem; font-weight: 800; color: var(--dark); }
+    .nut-label { font-size: 11px; color: #888; font-weight: 500; }
+    .modal-no-nutrition { font-size: 13px; color: #aaa; font-style: italic; text-align: center; padding: 10px 0; }
+    .modal-cta {
+      display: block; text-align: center;
+      background: var(--teal); color: white; padding: 14px;
+      border-radius: 50px; font-weight: 700; font-size: 15px;
+      text-decoration: none; transition: background .2s;
+    }
+    .modal-cta:hover { background: var(--teal-dark); }
+    @media (max-width: 560px) {
+      .modal-box { border-radius: 18px; }
+      .modal-body { padding: 20px; }
+      .modal-nut-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span>📍 Fast & Diet, 1-7 Rue des Docteurs Charcot, 42100 Saint-Étienne</span>
+  <span class="open-badge">Ouvre à 11:00 (sauf dimanches)</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="./index.html" class="nav-logo">
+    <div class="logo-circle">
+      <img src="./logo.jpg" alt="Fast & Diet logo" />
+    </div>
+    <div class="nav-logo-text">
+      <h1>Fast & Diet</h1>
+      <p>Restaurant healthy &amp; protéiné</p>
+    </div>
+  </a>
+  <!-- desktop right -->
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="https://www.ubereats.com/fr/store/fast-%26-diet/aTLzT_zEQwq8HLpxXLG-5g?srsltid=AfmBOorTcj67mlG6YOBPg5K2zVwPEYNtKvvUchky8LW68DZMIaNlih46" target="_blank">Commander</a>
+      <a href="./menu.html">Menu</a>
+      <a href="#info-pratiques">Infos Pratiques</a>
+    </div>
+  </div>
+  <!-- mobile hamburger -->
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU DRAWER -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="https://www.ubereats.com/fr/store/fast-%26-diet/aTLzT_zEQwq8HLpxXLG-5g?srsltid=AfmBOorTcj67mlG6YOBPg5K2zVwPEYNtKvvUchky8LW68DZMIaNlih46" target="_blank" onclick="closeMobile()">Commander</a>
+  <a href="./menu.html" onclick="closeMobile()">Menu</a>
+  <a href="#info-pratiques" onclick="closeMobile()">Infos Pratiques</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-logo">
+      <img src="./logo.jpg" alt="Fast & Diet" />
+    </div>
+    <h2>Fast &amp; Diet</h2>
+    <p>Le fastfood bon pour la santé !</p>
+    <div class="hero-btns">
+      <a href="https://www.ubereats.com/fr/store/fast-%26-diet/aTLzT_zEQwq8HLpxXLG-5g?srsltid=AfmBOorTcj67mlG6YOBPg5K2zVwPEYNtKvvUchky8LW68DZMIaNlih46" target="_blank" class="btn-dark">Commander</a>
+      <a href="./menu.html" class="btn-outline">Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-text">
+    <h2>À propos de Fast &amp; Diet</h2>
+    <p>Nous proposons des plats savoureux, équilibrés et hyperprotéinés, conçus pour vous apporter le meilleur apport nutritionnel. Découvrez tous les macros nutriments (calories, protéines, lipides et glucides) sur notre menu. Issues d'une étroite collaboration entre un chef cuisinier et une nutritionniste du sport, tous nos plats sont pensés pour répondre aux besoins des sportifs. Avec Fast &amp; Diet il est possible d'atteindre ses objectifs tout en se faisant plaisir !</p>
+    <div class="about-btns">
+      <a href="https://www.ubereats.com/fr/store/fast-%26-diet/aTLzT_zEQwq8HLpxXLG-5g" target="_blank" class="btn-solid">Livraison</a>
+      <a href="./menu.html" class="btn-link">Voir la carte</a>
+    </div>
+  </div>
+  <div class="about-images">
+    <img src="./showcase3.png" alt="Burger" />
+    <img src="./showcase1.png" alt="Bowl salade" />
+    <img src="./showcase2.png" alt="Wrap" />
+  </div>
+</section>
+
+<!-- CUSTOM BOWL BANNER -->
+<section class="bowl-banner">
+  <div class="bowl-banner-inner">
+    <div class="bowl-banner-text">
+      <h2>🥣 Composez votre bowl sur mesure</h2>
+      <p>Choisissez vos ingrédients, vos protéines et vos sauces pour créer le bowl qui vous ressemble — healthy, gourmand et 100 % vous.</p>
+    </div>
+    <a href="./menu.html" class="bowl-banner-cta">Créer mon bowl →</a>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <h2>Good Protein en images</h2>
+  <div class="gallery-grid">
+    <img class="g1" src="./gal1.jpg" alt="Burger poulet" />
+    <img class="g2" src="./gal2.jpg" alt="Bowl" />
+    <img class="g3" src="./gal6.jpg" alt="Wrap" />
+    <img class="g4" src="./gal3.jpg" alt="Burger bacon" />
+    <img class="g5" src="./gal4.jpg" alt="Cookie" />
+    <img class="g6" src="./gal6.jpg" alt="Nuggets" />
+  </div>
+</section>
+
+<!-- SPECIALTIES CAROUSEL -->
+<section class="specialties">
+  <h2>Nos Spécialités</h2>
+  <div class="spec-viewport">
+    <div class="spec-track" id="specTrack">
+
+      <!-- Menu chik power burger -->
+      <div class="spec-card" data-img="./menu/menu-chik-power-burger.png" data-name="Menu chik power burger" data-price="15,90 €" data-desc="Poulet pané maison, salade, oignons caramélisés, Cheddar et sauce zéro. Servi avec frites et boisson au choix." data-kcal="" data-protein="" data-carbs="" data-fat="" data-category="Menus burgers">
+        <img src="./menu/menu-chik-power-burger.png" alt="Menu chik power burger" />
+        <div class="spec-card-body">
+          <h3>Menu chik power burger</h3>
+          <p class="spec-desc">Poulet pané maison, salade, oignons caramélisés, Cheddar et sauce zéro.</p>
+          <div class="spec-card-bottom"><span class="price">15,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Power roll wrap -->
+      <div class="spec-card" data-img="./menu/power-roll-wrap.png" data-name="Power roll wrap" data-price="9,90 €" data-desc="Poulet pané maison, salade, oignons, Cheddar et sauce maison." data-kcal="450" data-protein="35,1" data-carbs="44,72" data-fat="12,2" data-category="Wraps signatures">
+        <img src="./menu/power-roll-wrap.png" alt="Power roll wrap" />
+        <div class="spec-card-body">
+          <h3>Power roll wrap</h3>
+          <p class="spec-desc">Poulet pané maison, salade, oignons, Cheddar et sauce maison. 450 KCAL</p>
+          <div class="spec-card-bottom"><span class="price">9,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- White Fit'zza -->
+      <div class="spec-card" data-img="./menu/white.png" data-name="White 🐔 Fit'zza" data-price="9,90 €" data-desc="Crème fraiche, poulet, poivrons et Emmental." data-kcal="608" data-protein="30" data-carbs="57,5" data-fat="25,5" data-category="Fit'zzas">
+        <img src="./menu/white.png" alt="White Fit'zza" />
+        <div class="spec-card-body">
+          <h3>White 🐔 Fit'zza</h3>
+          <p class="spec-desc">Crème fraiche, poulet, poivrons et Emmental. 608 KCAL</p>
+          <div class="spec-card-bottom"><span class="price">9,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Bowl mexican -->
+      <div class="spec-card" data-img="./menu/bowl-mexican.png" data-name="Bowl mexican" data-price="12,90 €" data-desc="Riz blanc, viande hachée, poivrons verts et sauce rouge, avec une touche de coriandre." data-kcal="690" data-protein="39" data-carbs="72" data-fat="23" data-category="Bowls">
+        <img src="./menu/bowl-mexican.png" alt="Bowl mexican" />
+        <div class="spec-card-body">
+          <h3>Bowl mexican</h3>
+          <p class="spec-desc">Riz blanc, viande hachée, poivrons verts et sauce rouge. 690 KCAL</p>
+          <div class="spec-card-bottom"><span class="price">12,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Beef gain burger -->
+      <div class="spec-card" data-img="./menu/beef-gain-burger.png" data-name="Beef gain burger" data-price="11,00 €" data-desc="Steak façon bouchère, salade, tomates, oignons, Cheddar et sauce maison." data-kcal="587" data-protein="43" data-carbs="40,8" data-fat="26,5" data-category="Burgers">
+        <img src="./menu/beef-gain-burger.png" alt="Beef gain burger" />
+        <div class="spec-card-body">
+          <h3>Beef gain burger</h3>
+          <p class="spec-desc">Steak façon bouchère, salade, tomates, oignons, Cheddar et sauce maison. 587 KCAL</p>
+          <div class="spec-card-bottom"><span class="price">11,00 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Wrap à composer -->
+      <div class="spec-card" data-img="./menu/wrap-a-composer.png" data-name="Wrap à composer" data-price="9,90 €" data-desc="1 protéine + 1 fromage + 3 crudités + sauce. Protéines: saumon (+2€), thon, légumes. Fromages: mozza, cheddar (+1€), fromage frais (+1€). Crudités: salade, tomate, oignon, choux (+0.50€)." data-kcal="" data-protein="" data-carbs="" data-fat="" data-category="Composez vos wraps">
+        <img src="./menu/wrap-a-composer.png" alt="Wrap à composer" />
+        <div class="spec-card-body">
+          <h3>Wrap à composer</h3>
+          <p class="spec-desc">1 protéine + 1 fromage + 3 crudités + sauce.</p>
+          <div class="spec-card-bottom"><span class="price">9,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Crok fit -->
+      <div class="spec-card" data-img="./menu/crok-fit.png" data-name="Crok fit" data-price="4,90 €" data-desc="Pain maison, 2 tranches de Cheddar et jambon." data-kcal="290" data-protein="17,5" data-carbs="19,4" data-fat="15,3" data-category="Petites faims">
+        <img src="./menu/crok-fit.png" alt="Crok fit" />
+        <div class="spec-card-body">
+          <h3>Crok fit</h3>
+          <p class="spec-desc">Pain maison, 2 tranches de Cheddar et jambon. 290 KCAL</p>
+          <div class="spec-card-bottom"><span class="price">4,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Monster zéro -->
+      <div class="spec-card" data-img="./menu/monster-zero.png" data-name="Monster zéro" data-price="3,50 €" data-desc="Zero sugar. La boisson des champions." data-kcal="" data-protein="" data-carbs="" data-fat="" data-category="Boissons">
+        <img src="./menu/monster-zero.png" alt="Monster zéro" />
+        <div class="spec-card-body">
+          <h3>Monster zéro</h3>
+          <p class="spec-desc">Zero sugar. La boisson des champions.</p>
+          <div class="spec-card-bottom"><span class="price">3,50 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Smoothie golden pump -->
+      <div class="spec-card" data-img="./menu/smoothie-golden-pump.png" data-name="Smoothie golden pump" data-price="5,90 €" data-desc="Protéiné, coco et mangue." data-kcal="175" data-protein="26" data-carbs="17" data-fat="1,80" data-category="Smoothies">
+        <img src="./menu/smoothie-golden-pump.png" alt="Smoothie golden pump" />
+        <div class="spec-card-body">
+          <h3>Smoothie golden pump</h3>
+          <p class="spec-desc">Protéiné, coco et mangue. 175 KCAL P:26g</p>
+          <div class="spec-card-bottom"><span class="price">5,90 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+      <!-- Pancake protéiné -->
+      <div class="spec-card" data-img="./menu/pancake-proteine.png" data-name="Pancake protéiné" data-price="7,50 €" data-desc="Pancake maison et coulis." data-kcal="262" data-protein="41,5" data-carbs="18,15" data-fat="2,6" data-category="Desserts">
+        <img src="./menu/pancake-proteine.png" alt="Pancake protéiné" />
+        <div class="spec-card-body">
+          <h3>Pancake protéiné</h3>
+          <p class="spec-desc">Pancake maison et coulis. 262 KCAL P:41,5g</p>
+          <div class="spec-card-bottom"><span class="price">7,50 €</span><span class="arrow-circle">→</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="spec-nav">
+    <button id="specPrev">←</button>
+    <button id="specNext">→</button>
+  </div>
+  <div class="spec-dots" id="specDots"></div>
+</section>
+
+<!-- MAP -->
+<section id="info-pratiques" class="map-section">
+  <div class="map-embed">
+    <iframe
+      src="https://www.openstreetmap.org/export/embed.html?bbox=4.3884815929572%2C45.4190968368%2C4.3984815929572%2C45.4270968368&layer=mapnik&marker=45.42309683682727%2C4.393481592957203"
+      allowfullscreen loading="lazy"></iframe>
+    <div class="map-pin-box">
+      <h3>Fast &amp; Diet</h3>
+      <p>1-7 Rue des Docteurs Charcot<br>42100 Saint-Étienne</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & INFO -->
+<section class="info-section">
+  <div>
+    <h2><span class="dot"></span> Horaires</h2>
+    <table class="hours-table">
+      <tr><td>Lundi</td><td>11:00 – 21:00</td></tr>
+      <tr><td>Mardi</td><td>11:30 – 14:00</td></tr>
+      <tr class="today"><td>Mercredi</td><td>11:00 – 21:00</td></tr>
+      <tr><td>Jeudi</td><td>11:00 – 21:00</td></tr>
+      <tr><td>Vendredi</td><td>11:00 – 21:00</td></tr>
+      <tr><td>Samedi</td><td>11:00 – 21:00</td></tr>
+      <tr><td>Dimanche</td><td colspan="2">Fermé</td></tr>
+    </table>
+  </div>
+  <div>
+    <h2>Infos pratiques</h2>
+    <div class="badges">
+      <div class="badge-pill"><span>📶</span>Healthy</div>
+      <div class="badge-pill"><span>🏠</span>C2</div>
+      <div class="badge-pill"><span>✅</span>Halal</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div id="itemModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalName">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Fermer">✕</button>
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt="" />
+      <span class="modal-category" id="modalCategory"></span>
+    </div>
+    <div class="modal-body">
+      <div class="modal-header">
+        <h2 id="modalName"></h2>
+        <span class="modal-price" id="modalPrice"></span>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-nutrition" id="modalNutrition">
+        <div class="modal-nut-title">Valeurs nutritionnelles</div>
+        <div class="modal-nut-grid">
+          <div class="nut-item"><span class="nut-val" id="nutKcal">—</span><span class="nut-label">Calories</span></div>
+          <div class="nut-item"><span class="nut-val" id="nutProtein">—</span><span class="nut-label">Protéines</span></div>
+          <div class="nut-item"><span class="nut-val" id="nutCarbs">—</span><span class="nut-label">Glucides</span></div>
+          <div class="nut-item"><span class="nut-val" id="nutFat">—</span><span class="nut-label">Lipides</span></div>
+        </div>
+      </div>
+      <a href="./menu.html" class="modal-cta">Voir le menu complet →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="logo-circle">
+      <img src="./logo.jpg" alt="Fast & Diet" />
+    </div>
+    <h2>Fast &amp; Diet</h2>
+    <p>Le fastfood bon pour la santé !</p>
+  </div>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h3>Notre Adresse</h3>
+      <p>1-7 Rue des Docteurs Charcot, 42100 Saint-Étienne</p>
+    </div>
+    <div class="footer-col" style="text-align:center;">
+      <h3>Suivez-nous</h3>
+      <a href="https://www.instagram.com/fast_and_diet/?hl=fr" target="_blank" class="insta-link" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+    </div>
+    <div class="footer-col">
+      <h3>Plus d'infos</h3>
+      <p>Avec Fast &amp; Diet il est possible d'atteindre ses objectifs tout en se faisant plaisir !</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── MOBILE MENU ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeMobile() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.mobile-menu a').forEach(a => {
+    a.addEventListener('click', closeMobile);
+  });
+
+  /* ── MODAL ── */
+  const modal       = document.getElementById('itemModal');
+  const modalClose  = document.getElementById('modalClose');
+
+  function openModal(card) {
+    const d = card.dataset;
+    document.getElementById('modalImg').src      = d.img;
+    document.getElementById('modalImg').alt      = d.name;
+    document.getElementById('modalName').textContent     = d.name;
+    document.getElementById('modalPrice').textContent    = d.price;
+    document.getElementById('modalDesc').textContent     = d.desc;
+    document.getElementById('modalCategory').textContent = d.category;
+
+    const hasNutrition = d.kcal || d.protein || d.carbs || d.fat;
+    const nutGrid = document.getElementById('modalNutrition');
+    if (hasNutrition) {
+      nutGrid.innerHTML = `
+        <div class="modal-nut-title">Valeurs nutritionnelles</div>
+        <div class="modal-nut-grid">
+          <div class="nut-item"><span class="nut-val">${d.kcal || '—'}<small style="font-size:.6em;font-weight:600"> kcal</small></span><span class="nut-label">Calories</span></div>
+          <div class="nut-item"><span class="nut-val">${d.protein ? d.protein+'g' : '—'}</span><span class="nut-label">Protéines</span></div>
+          <div class="nut-item"><span class="nut-val">${d.carbs ? d.carbs+'g' : '—'}</span><span class="nut-label">Glucides</span></div>
+          <div class="nut-item"><span class="nut-val">${d.fat ? d.fat+'g' : '—'}</span><span class="nut-label">Lipides</span></div>
+        </div>`;
+    } else {
+      nutGrid.innerHTML = `<p class="modal-no-nutrition">Valeurs nutritionnelles non disponibles.</p>`;
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.spec-card').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+  });
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ── CAROUSEL ── */
+  const track    = document.getElementById('specTrack');
+  const dotsWrap = document.getElementById('specDots');
+  const viewport = track.parentElement; // .spec-viewport
+  const cards    = Array.from(track.querySelectorAll('.spec-card'));
+  const total    = cards.length;
+  const GAP      = 20;
+  let current    = 0;
+  let autoTimer;
+
+  function visibleCount() {
+    const vw = window.innerWidth;
+    if (vw <= 560) return 1;
+    if (vw <= 900) return 2;
+    return 4;
+  }
+
+  // Compute card width from viewport inner width (clientWidth excludes padding)
+  function setCardSizes() {
+    const vc = visibleCount();
+    // clientWidth excludes padding, but we want the content area between the 40px paddings
+    const style = getComputedStyle(viewport);
+    const padL  = parseFloat(style.paddingLeft)  || 0;
+    const padR  = parseFloat(style.paddingRight) || 0;
+    const innerW = viewport.clientWidth - padL - padR;
+    const w = Math.floor((innerW - GAP * (vc - 1)) / vc);
+    cards.forEach(c => { c.style.width = w + 'px'; });
+  }
+
+  function getCardStep() {
+    // step = card width + gap
+    return cards[0].offsetWidth + GAP;
+  }
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    const max = Math.max(0, total - visibleCount());
+    // one dot per possible position (total - visible + 1)
+    for (let i = 0; i <= max; i++) {
+      const d = document.createElement('span');
+      if (i === 0) d.classList.add('active');
+      d.addEventListener('click', () => { goTo(i); resetAuto(); });
+      dotsWrap.appendChild(d);
+    }
+  }
+
+  function updateDots() {
+    dotsWrap.querySelectorAll('span').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function goTo(index) {
+    const max = Math.max(0, total - visibleCount());
+    current = Math.max(0, Math.min(index, max));
+    track.style.transform = `translateX(-${current * getCardStep()}px)`;
+    updateDots();
+  }
+
+  document.getElementById('specPrev').addEventListener('click', () => {
+    const max = Math.max(0, total - visibleCount());
+    goTo(current <= 0 ? max : current - 1);
+    resetAuto();
+  });
+  document.getElementById('specNext').addEventListener('click', () => {
+    const max = Math.max(0, total - visibleCount());
+    goTo(current >= max ? 0 : current + 1);
+    resetAuto();
+  });
+
+  function autoAdvance() {
+    const max = Math.max(0, total - visibleCount());
+    goTo(current >= max ? 0 : current + 1);
+  }
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(autoAdvance, 3500);
+  }
+
+  function init() {
+    setCardSizes();
+    buildDots();
+    goTo(0);
+    resetAuto();
+  }
+
+  window.addEventListener('load', init);
+  window.addEventListener('resize', () => {
+    clearInterval(autoTimer);
+    setCardSizes();
+    buildDots();
+    goTo(0);
+    resetAuto();
+  });
+</script>
+</body>
+</html>
