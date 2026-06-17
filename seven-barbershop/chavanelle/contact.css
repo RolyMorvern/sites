@@ -420,7 +420,7 @@ main {
 /* ── RESPONSIVE ── */
 @media (max-width: 750px) {
 	h2 {
-		font-size: 2rem;
+		font-size: 1.5rem;
 	}
 	.desktopNavLinks,
 	.desktopNavButtons {
@@ -433,23 +433,34 @@ main {
 		bottom: 0;
 	}
 	.desktopNavLogo img {
-		height: 8.5vh;
+		height: 6vh;
 	}
 	.menu {
 		display: block;
 	}
 	.hero h1 {
-		font-size: 2.75rem;
+		font-size: 2rem;
+	}
+	.mobileNavLinks > a {
+		font-size: 2rem;
+	}
+	.mobileNavCta {
+		font-size: 0.95rem;
+		min-width: 130px;
 	}
 	.planitySection {
-		padding: 40px 20px 30px;
+		padding: 30px 20px 20px;
+	}
+	.planitySection p,
+	.planitySection h2 {
+		font-size: 1rem;
 	}
 	.planityIframe {
-		height: 550px;
+		height: 500px;
 	}
 	.contactFormSectionContainer {
 		flex-direction: column;
-		padding: 30px 20px;
+		padding: 20px;
 	}
 	.contactFormImageContainer {
 		width: 100%;
@@ -462,31 +473,49 @@ main {
 	}
 	.contactForm {
 		width: 100%;
+		font-size: 1rem;
+	}
+	.contactForm form input,
+	.contactForm form textarea {
+		font-size: 1rem;
+	}
+	.submitForm {
+		font-size: 1rem;
+		min-width: 130px;
 	}
 	.contactInfo {
 		flex-direction: column;
-		padding: 20px 20px 40px;
+		padding: 15px 20px 30px;
 	}
 	.contactInfo > div {
 		width: 100%;
 	}
 	.contactInfo h2 {
-		margin: 25px 0 10px;
+		margin: 20px 0 8px;
+	}
+	.contactInfo p,
+	.contactInfo a {
+		font-size: 1rem;
 	}
 	#map {
 		width: calc(100% - 40px);
-		margin: 30px 20px 0;
+		margin: 25px 20px 0;
 	}
 	.footer {
 		flex-direction: column;
-		gap: 50px;
+		gap: 30px;
+		padding: 30px 20px;
+		font-size: 0.95rem;
 	}
 	.footerColumn:first-of-type {
-		width: 25vw;
-		min-width: 250px;
+		width: 40vw;
+		min-width: 140px;
+		max-width: 180px;
 	}
 	.footerCta {
-		width: 25%;
+		width: 40%;
+		min-width: 120px;
 		margin-left: 0;
+		font-size: 0.9rem;
 	}
 }
