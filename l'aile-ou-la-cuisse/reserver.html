@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réserver — L'Aile ou la Cuisse · Saint-Étienne</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Limelight&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --dark-green: #1e3a2f;
+    --mid-green: #2d5a3f;
+    --accent: #BAB98D;
+    --text-dark: #2a2a2a;
+    --text-muted: #555;
+    --serif: 'Libre Baskerville', 'Baskerville Old Face', 'Baskerville', 'Big Caslon', 'Book Antiqua', Georgia, serif;
+    --display: 'Limelight', 'Libre Baskerville', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--serif); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem 3rem;
+  }
+
+  .nav-lang { display: flex; gap: 1.5rem; }
+  .nav-lang a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .nav-lang a:hover { opacity: 0.75; }
+  .nav-lang a.active { border-bottom: 1px solid var(--accent); }
+
+  .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-logo a { text-decoration: none; }
+  .nav-logo svg { width: 160px; height: auto; }
+
+  .btn-reservation {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.65rem 1.6rem;
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    transition: opacity 0.2s;
+    border: none;
+  }
+  .btn-reservation:hover { opacity: 0.85; }
+
+  /* Mobile hamburger */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--accent);
+    transition: all 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--dark-green);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.7; }
+  .mobile-menu .mobile-close {
+    position: absolute;
+    top: 1.6rem; right: 1.8rem;
+    font-size: 1.5rem;
+    color: var(--accent);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--serif);
+  }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    position: relative;
+    height: 46vh;
+    min-height: 320px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 3.5rem;
+  }
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://lh3.googleusercontent.com/gps-cs-s/APNQkAHM8Hy4PcRy3kuIIJYhplZ3ZdTUsSIKmM3RDG-z-5wHGcmoVPVdfIZ8_2hLha1MFO-P8RYV2lvscQzcZuUmCXesHCbRu9h4iQ74lNNZaueC9aRon32LZg4GtnIs1_yqtFCFLoY1EoWhjzRT=s1360-w1360-h1020-rw') center/cover no-repeat;
+    filter: brightness(0.42);
+  }
+  .page-hero-content {
+    position: relative;
+    text-align: center;
+    color: var(--accent);
+  }
+  .page-hero-content .eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    opacity: 0.65;
+    margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+  .page-hero-content h1 {
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+  }
+  .page-hero-divider {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 3rem;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .reserve-page {
+    background: var(--cream);
+    padding: 6rem 0 7rem;
+  }
+  .reserve-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── CALL BANNER ── */
+  .call-banner {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+  .call-banner .label {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--mid-green);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  .call-banner h2 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 0.8rem;
+    line-height: 1.2;
+  }
+  .call-banner p {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+  }
+  .btn-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--mid-green);
+    color: #fff;
+    padding: 1rem 2.4rem;
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 0 14px 0 14px;
+    transition: opacity 0.2s;
+  }
+  .btn-call:hover { opacity: 0.85; }
+  .btn-call svg { flex-shrink: 0; }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .section-divider::before,
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(30,58,47,0.15);
+  }
+
+  /* ── TWO-COL LAYOUT ── */
+  .reserve-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-bottom: 5rem;
+  }
+
+  /* ── INFO PANEL ── */
+  .info-panel h3 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    letter-spacing: 0.03em;
+  }
+  .info-block {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(30,58,47,0.1);
+  }
+  .info-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .info-block .info-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--mid-green);
+    margin-bottom: 0.5rem;
+  }
+  .info-block p, .info-block a {
+    font-size: 0.96rem;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--text-dark);
+    text-decoration: none;
+    display: block;
+  }
+  .info-block a:hover { color: var(--mid-green); text-decoration: underline; text-underline-offset: 3px; }
+
+  .hours-table {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 1.2rem;
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--text-dark);
+  }
+  .hours-table span:nth-child(odd) { font-weight: 700; color: var(--mid-green); white-space: nowrap; }
+
+  .social-row { display: flex; gap: 0.6rem; margin-top: 0.5rem; }
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid var(--mid-green);
+    color: var(--mid-green);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.85rem;
+    border-radius: 0 7px 0 7px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-pill:hover { background: var(--mid-green); color: #fff; }
+
+  /* ── CONTACT FORM ── */
+  .form-panel h3 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 2rem;
+    letter-spacing: 0.03em;
+  }
+  .form-note {
+    font-size: 0.84rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 1.8rem;
+    line-height: 1.7;
+  }
+  .form-group {
+    margin-bottom: 1.3rem;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--mid-green);
+    margin-bottom: 0.45rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: var(--serif);
+    font-size: 0.94rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    background: #fff;
+    border: 1px solid rgba(30,58,47,0.2);
+    border-radius: 0 8px 0 8px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--mid-green);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .form-submit {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.9rem 2.2rem;
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    border: none;
+    border-radius: 0 12px 0 12px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .form-submit:hover { opacity: 0.85; }
+
+  .form-success {
+    display: none;
+    background: rgba(45, 90, 63, 0.08);
+    border: 1px solid rgba(45, 90, 63, 0.25);
+    border-radius: 0 10px 0 10px;
+    padding: 1.2rem 1.4rem;
+    margin-top: 1rem;
+    font-size: 0.94rem;
+    font-style: italic;
+    color: var(--mid-green);
+    line-height: 1.7;
+  }
+
+  /* ── MAP ── */
+  .map-section { margin-bottom: 0; }
+  .map-section h3 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+  .map-wrapper {
+    overflow: hidden;
+    border-radius: 0 16px 0 16px;
+    box-shadow: 0 4px 40px rgba(30,58,47,0.12);
+    height: 400px;
+  }
+  .map-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .map-caption {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+  .map-caption a {
+    color: var(--mid-green);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ── FOOTER ── */
+  footer { background: var(--dark-green); padding: 5rem 2rem 3rem; text-align: center; }
+  .footer-logo { margin-bottom: 2.5rem; }
+  .footer-logo svg { width: min(320px, 85vw); height: auto; overflow: visible; }
+  footer address {
+    font-style: normal;
+    color: rgba(245,240,232,0.7);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 2.3;
+    margin-bottom: 1.5rem;
+  }
+  footer address a { color: rgba(245,240,232,0.8); text-decoration: underline; text-underline-offset: 3px; }
+  footer address a:hover { color: #fff; }
+  .footer-hours { color: rgba(245,240,232,0.7); font-size: 0.95rem; font-weight: 500; margin-bottom: 2rem; }
+  .footer-social { margin-bottom: 2rem; }
+  .footer-social a {
+    display: inline-flex;
+    width: 38px; height: 38px;
+    border: 1px solid rgba(245,240,232,0.3);
+    border-radius: 50%;
+    align-items: center; justify-content: center;
+    color: rgba(245,240,232,0.7);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social a:hover { border-color: rgba(245,240,232,0.8); color: #fff; }
+  .footer-social svg { width: 16px; height: 16px; }
+  .footer-legal {
+    border-top: 1px solid rgba(245,240,232,0.15);
+    padding-top: 1.5rem;
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  }
+  .footer-legal a {
+    color: rgba(245,240,232,0.5); font-size: 0.82rem;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .footer-legal a:hover { color: rgba(245,240,232,0.8); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-lang, .btn-reservation { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    .page-hero { height: 38vh; }
+
+    .reserve-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .map-wrapper { height: 300px; }
+    .reserve-page { padding: 4rem 0 5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-lang">
+    <a href="./index.html">Accueil</a>
+    <a href="./menu.html">La Carte</a>
+  </div>
+
+  <div class="nav-logo">
+    <a href="index.html">
+      <svg viewBox="0 0 180 52" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+        <text x="50%" y="30" text-anchor="middle" font-family="Limelight, Libre Baskerville, Georgia, serif" font-size="16" font-weight="400" fill="#BAB98D" letter-spacing="1.5">L'AILE OU LA CUISSE</text>
+        <text x="50%" y="44" text-anchor="middle" font-family="Libre Baskerville, Baskerville, Georgia, serif" font-size="7.5" fill="rgba(186,185,141,0.65)" letter-spacing="2">Rôtisserie · Saint-Étienne</text>
+      </svg>
+    </a>
+  </div>
+
+  <a href="tel:+33477212556" class="btn-reservation">Réserver</a>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Menu de navigation">
+  <button class="mobile-close" id="mobileClose" aria-label="Fermer">✕</button>
+  <a href="./menu.html" onclick="closeMobileMenu()">Menu</a>
+  <a href="./index.html" onclick="closeMobileMenu()">Accueil</a>
+  <a href="tel:+33477212556" onclick="closeMobileMenu()">Réserver</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="eyebrow">L'Aile ou la Cuisse · Saint-Étienne</p>
+    <h1>Réserver</h1>
+  </div>
+  <div class="page-hero-divider"></div>
+</section>
+
+<!-- ── MAIN ── -->
+<section class="reserve-page">
+  <div class="reserve-container">
+
+    <!-- Call CTA -->
+    <div class="call-banner">
+      <p class="label">La façon la plus rapide</p>
+      <h2>Réservez par téléphone</h2>
+      <p>Pour garantir votre table, appelez-nous directement. Notre équipe est disponible pendant les heures d'ouverture, 7 jours sur 7.</p>
+      <a href="tel:+33477212556" class="btn-call">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.56 3.44 2 2 0 0 1 3.53 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+        04 77 21 25 56
+      </a>
+    </div>
+
+    <div class="section-divider">ou laissez-nous un message</div>
+
+    <!-- Two columns: info + form -->
+    <div class="reserve-grid">
+
+      <!-- Info panel -->
+      <div class="info-panel">
+        <h3>Infos pratiques</h3>
+
+        <div class="info-block">
+          <p class="info-label">Adresse</p>
+          <a href="https://maps.google.com/?q=15+Place+Jean+Jaurès+42000+Saint-Étienne" target="_blank">
+            15 Place Jean Jaurès<br>42000 Saint-Étienne
+          </a>
+        </div>
+
+        <div class="info-block">
+          <p class="info-label">Téléphone</p>
+          <a href="tel:+33477212556">04 77 21 25 56</a>
+        </div>
+
+        <div class="info-block">
+          <p class="info-label">Horaires — 7j/7</p>
+          <div class="hours-table">
+            <span>Lun – Ven &amp; Dim</span><span>12h00–14h00 &nbsp;·&nbsp; 19h00–22h00</span>
+            <span>Samedi</span><span>12h00–15h00 &nbsp;·&nbsp; 19h00–22h30</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <p class="info-label">Suivez-nous</p>
+          <div class="social-row">
+            <a href="https://www.instagram.com/laileoulacuisse.restaurant/" target="_blank" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+              Instagram
+            </a>
+            <a href="https://www.facebook.com/laileoulacuisse42/?locale=fr_FR" target="_blank" class="social-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="15" height="15">
+                <rect x="2" y="2" width="20" height="20" rx="4"/>
+                <path d="M15 2h-2a4 4 0 0 0-4 4v2H7v4h2v8h4v-8h2.5l.5-4H13V6a1 1 0 0 1 1-1h1z"/>
+              </svg>
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="form-panel">
+        <h3>Envoyer un message</h3>
+        <p class="form-note">Vous préférez écrire ? Remplissez ce formulaire et nous vous recontactons dans les plus brefs délais. Pour une réservation rapide, privilégiez l'appel.</p>
+
+        <div id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">Prénom</label>
+              <input type="text" id="fname" name="fname" placeholder="Marie" autocomplete="given-name">
+            </div>
+            <div class="form-group">
+              <label for="lname">Nom</label>
+              <input type="text" id="lname" name="lname" placeholder="Dupont" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="marie@exemple.fr" autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Téléphone</label>
+            <input type="tel" id="phone" name="phone" placeholder="06 00 00 00 00" autocomplete="tel">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date">Date souhaitée</label>
+              <input type="date" id="date" name="date">
+            </div>
+            <div class="form-group">
+              <label for="guests">Nombre de personnes</label>
+              <select id="guests" name="guests">
+                <option value="" disabled selected>Choisir</option>
+                <option>1 personne</option>
+                <option>2 personnes</option>
+                <option>3 personnes</option>
+                <option>4 personnes</option>
+                <option>5 personnes</option>
+                <option>6 personnes</option>
+                <option>7 personnes</option>
+                <option>8 personnes</option>
+                <option>+ de 8 personnes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message (optionnel)</label>
+            <textarea id="message" name="message" placeholder="Allergie, occasion spéciale, heure de préférence…"></textarea>
+          </div>
+
+          <button class="form-submit" id="formSubmit">
+            Envoyer
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          ✓ &nbsp;Merci pour votre message ! Nous vous recontacterons très prochainement. Pour toute urgence, appelez-nous au <a href="tel:+33477212556" style="color:var(--mid-green);">04 77 21 25 56</a>.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Map -->
+    <div class="map-section">
+      <h3>Nous trouver</h3>
+      <div class="map-wrapper">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2784.8!2d4.3908!3d45.4347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5acb1d41e78fd%3A0x4b8f97eaa3d3b4d!2s15%20Pl.%20Jean%20Jaur%C3%A8s%2C%2042000%20Saint-%C3%89tienne!5e0!3m2!1sfr!2sfr!4v1700000000000"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="L'Aile ou la Cuisse — 15 Place Jean Jaurès, Saint-Étienne">
+        </iframe>
+      </div>
+      <p class="map-caption">
+        15 Place Jean Jaurès, 42000 Saint-Étienne ·
+        <a href="https://maps.google.com/?q=15+Place+Jean+Jaurès+42000+Saint-Étienne" target="_blank">Ouvrir dans Google Maps</a>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 340 70" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="50%" y="38" text-anchor="middle" font-family="Limelight, Libre Baskerville, Georgia, serif" font-size="26" font-weight="400" fill="rgba(245,240,232,0.85)" letter-spacing="3">L'AILE OU LA CUISSE</text>
+      <text x="50%" y="56" text-anchor="middle" font-family="Libre Baskerville, Baskerville, Georgia, serif" font-size="9" fill="rgba(245,240,232,0.5)" letter-spacing="2.5">Rôtisserie &amp; Bar à viande · Saint-Étienne</text>
+    </svg>
+  </div>
+
+  <address>
+    <a href="https://maps.google.com/?q=15+Place+Jean+Jaurès+42000+Saint-Étienne" target="_blank">15 Place Jean Jaurès, 42000 Saint-Étienne</a><br>
+    <a href="tel:+33477212556">04 77 21 25 56</a>
+  </address>
+
+  <p class="footer-hours">Lun–Ven &amp; Dim : 12h–14h · 19h–22h &nbsp;|&nbsp; Sam : 12h–15h · 19h–22h30</p>
+
+  <div class="footer-social">
+    <a href="https://www.instagram.com/laileoulacuisse.restaurant/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="5"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://www.facebook.com/laileoulacuisse42/?locale=fr_FR" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="4"/>
+        <path d="M15 2h-2a4 4 0 0 0-4 4v2H7v4h2v8h4v-8h2.5l.5-4H13V6a1 1 0 0 1 1-1h1z"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="footer-legal">
+    <a href="#">Politique de confidentialité</a>
+    <a href="tel:+33477212556">📞 04 77 21 25 56</a>
+  </div>
+</footer>
+
+<script>
+  // ── Mobile menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileClose.addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMobileMenu(); });
+
+  // ── Contact form (simulated submit) ──
+  document.getElementById('formSubmit').addEventListener('click', () => {
+    const fname = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    if (!fname || !email) {
+      document.getElementById('fname').style.borderColor = fname ? '' : '#c0392b';
+      document.getElementById('email').style.borderColor = email ? '' : '#c0392b';
+      return;
+    }
+
+    document.getElementById('contactForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  });
+
+  // Reset border on input
+  ['fname', 'email'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+      this.style.borderColor = '';
+    });
+  });
+
+  // Set min date to today
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.setAttribute('min', today);
+</script>
+</body>
+</html>

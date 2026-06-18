@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Aile ou la Cuisse — Rôtisserie & Bar à viande · Saint-Étienne</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Limelight&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f0e8;
+    --dark-green: #1e3a2f;
+    --mid-green: #2d5a3f;
+    --accent: #BAB98D;
+    --text-dark: #2a2a2a;
+    --text-muted: #555;
+    --serif: 'Libre Baskerville', 'Baskerville Old Face', 'Baskerville', 'Big Caslon', 'Book Antiqua', Georgia, serif;
+    --display: 'Limelight', 'Libre Baskerville', Georgia, serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--serif); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem 3rem;
+  }
+
+  .nav-lang { display: flex; gap: 1.5rem; }
+  .nav-lang a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .nav-lang a:hover { opacity: 0.75; }
+
+  .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-logo svg { width: 160px; height: auto; }
+
+  .btn-reservation {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.65rem 1.6rem;
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    transition: opacity 0.2s;
+    border: none;
+  }
+  .btn-reservation:hover { opacity: 0.85; }
+
+  /* Mobile menu button — hidden on desktop */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--accent);
+    transition: all 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--dark-green);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.7; }
+  .mobile-menu .mobile-close {
+    position: absolute;
+    top: 1.6rem; right: 1.8rem;
+    font-size: 1.5rem;
+    color: var(--accent);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--serif);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://lh3.googleusercontent.com/gps-cs-s/APNQkAG9r7Bco2uh82SoZUOxuL4LgAyaMbxSi957IRUYlMWJZG38hdw8iV1vM9W-vOza2OFGLNetJYLyt3JfuTpsAuE-8Gdet7qV5fV9wHJS7VmoysAASNWKslow3uUHmqJ6oIqFrkGKtkKLthY=s1360-w1360-h1020-rw') center/cover no-repeat;
+    filter: brightness(0.48);
+  }
+  .hero-content {
+    position: relative;
+    text-align: center;
+    color: var(--accent);
+    padding: 0 1.5rem;
+  }
+  .hero-content h1 {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  .hero-content p {
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+    color: var(--accent);
+    opacity: 0.9;
+  }
+  .btn-accent {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.95rem 2.5rem;
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    transition: opacity 0.2s;
+    border: none;
+  }
+  .btn-accent:hover { opacity: 0.85; }
+
+  /* ── SHARED SECTION ── */
+  section { padding: 6rem 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+  /* ── INTRO ── */
+  .intro { background: var(--cream); text-align: center; padding: 5rem 0 3rem; }
+  .intro .collab-label {
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+  .intro .tagline {
+    max-width: 680px;
+    margin: 0 auto 1.2rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.7;
+  }
+  .intro .subtitle {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── CUISINE ── */
+  .cuisine { background: var(--cream); padding: 4rem 0 6rem; }
+  .cuisine-inner {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+  .cuisine-text h2 {
+    font-family: var(--display);
+    font-size: 2.9rem;
+    font-weight: 400;
+    margin-bottom: 1.6rem;
+    line-height: 1.15;
+  }
+  .cuisine-text p {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+  .cuisine-text blockquote {
+    font-style: italic;
+    font-size: 1.08rem;
+    font-weight: 500;
+    line-height: 1.8;
+    color: var(--text-dark);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .cuisine-text .chef-sig {
+    font-style: italic;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .cuisine-text .note {
+    font-style: italic;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .cuisine-img img {
+    width: 100%;
+    height: 640px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── ALL BUTTONS ── */
+  .btn-main {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.85rem 2.2rem;
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    margin-right: 0.8rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-main:hover { opacity: 0.85; }
+
+  /* ── CHEF À RÉSIDENCE ── */
+  .chef-residence { background: var(--cream); padding: 5rem 0; }
+  .chef-residence-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    min-height: 560px;
+  }
+  .chef-photos {
+    position: relative;
+    height: 560px;
+  }
+  .chef-photos img { object-fit: cover; display: block; position: absolute; }
+  .chef-photos .photo-1 {
+    width: 48%;
+    height: 300px;
+    top: 0; left: 0;
+    filter: grayscale(100%);
+    z-index: 1;
+  }
+  .chef-photos .photo-2 {
+    width: 38%;
+    height: 240px;
+    top: 30px; right: 0;
+    filter: grayscale(100%);
+    z-index: 1;
+  }
+  .chef-photos .photo-3 {
+    width: 70%;
+    height: 320px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .chef-residence-text h2 {
+    font-family: var(--display);
+    font-size: 2.7rem;
+    font-weight: 400;
+    margin-bottom: 1.8rem;
+    line-height: 1.15;
+  }
+  .chef-residence-text p {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  /* ── TABLE DU CHEF ── */
+  .table-chef { background: var(--cream); padding: 5rem 0; }
+  .table-chef-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+  .table-chef-text h2 {
+    font-family: var(--display);
+    font-size: 2.7rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    line-height: 1.15;
+  }
+  .table-chef-text p {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .table-chef-img img {
+    width: 100%;
+    height: 460px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── CAROUSEL GALLERY ── */
+  .gallery {
+    background: var(--cream);
+    padding: 0;
+    overflow: hidden;
+  }
+  .carousel-track-wrap { overflow: hidden; width: 100%; }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.18, 1);
+    will-change: transform;
+  }
+  .carousel-track img {
+    width: 33.333vw;
+    height: 65vh;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* ── INFO COLUMNS ── */
+  .info-cols { background: var(--cream); padding: 6rem 0 5rem; }
+  .info-cols-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+  .info-col img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  .info-col h3 {
+    font-family: var(--display);
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+  .info-col p {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.85;
+    color: var(--text-muted);
+  }
+
+  /* ── FOOTER ── */
+  footer { background: var(--dark-green); padding: 5rem 2rem 3rem; text-align: center; }
+  .footer-logo { margin-bottom: 2.5rem; }
+  .footer-logo svg { width: min(320px, 85vw); height: auto; overflow: visible; }
+  footer address {
+    font-style: normal;
+    color: rgba(245,240,232,0.7);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 2.3;
+    margin-bottom: 1.5rem;
+  }
+  footer address a { color: rgba(245,240,232,0.8); text-decoration: underline; text-underline-offset: 3px; }
+  footer address a:hover { color: #fff; }
+  .footer-hours { color: rgba(245,240,232,0.7); font-size: 0.95rem; font-weight: 500; margin-bottom: 2rem; }
+  .footer-social { margin-bottom: 2rem; }
+  .footer-social a {
+    display: inline-flex;
+    width: 38px; height: 38px;
+    border: 1px solid rgba(245,240,232,0.3);
+    border-radius: 50%;
+    align-items: center; justify-content: center;
+    color: rgba(245,240,232,0.7);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social a:hover { border-color: rgba(245,240,232,0.8); color: #fff; }
+  .footer-social svg { width: 16px; height: 16px; }
+  .footer-legal {
+    border-top: 1px solid rgba(245,240,232,0.15);
+    padding-top: 1.5rem;
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  }
+  .footer-legal a {
+    color: rgba(245,240,232,0.5); font-size: 0.82rem;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .footer-legal a:hover { color: rgba(245,240,232,0.8); }
+
+  /* ── CONTACT BLOCKS ── */
+  .contact-block { margin-bottom: 1.6rem; }
+  .contact-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--mid-green);
+    margin-bottom: 0.35rem;
+  }
+  .contact-value {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.75;
+    color: var(--text-dark);
+    text-decoration: none;
+    display: block;
+  }
+  a.contact-value:hover { color: var(--mid-green); text-decoration: underline; text-underline-offset: 3px; }
+  .hours-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 1.2rem;
+    font-size: 0.96rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: var(--text-dark);
+  }
+  .hours-grid span:nth-child(odd) { font-weight: 700; white-space: nowrap; color: var(--mid-green); }
+  .contact-social { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid var(--mid-green);
+    color: var(--mid-green);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0 8px 0 8px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-pill:hover { background: var(--mid-green); color: #fff; }
+
+  /* ── DECO ICONS ── */
+  .deco-icon { display: block; margin: 0 auto 1.5rem; opacity: 0.4; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    /* Show hamburger, hide desktop nav items */
+    .nav-lang, .btn-reservation { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    nav { padding: 1.2rem 1.5rem; }
+
+    .cuisine-inner,
+    .chef-residence-inner,
+    .table-chef-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+    .cuisine-inner { padding: 0 1.5rem; }
+    .chef-residence-inner { padding: 0 1.5rem; }
+    .table-chef-inner { padding: 0 1.5rem; }
+
+    .cuisine-img img { height: 380px; }
+    .table-chef-img img { height: 300px; }
+
+    .chef-photos { height: 420px; }
+    .chef-photos .photo-1 { width: 50%; height: 220px; }
+    .chef-photos .photo-2 { width: 36%; height: 180px; top: 20px; }
+    .chef-photos .photo-3 { width: 76%; height: 240px; }
+
+    .carousel-track img { width: 80vw; height: 55vh; }
+    .carousel-track { width: calc(5 * 80vw * 2); }
+    @keyframes scroll-left {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(calc(-5 * 80vw)); }
+    }
+
+    .info-cols-inner { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    .info-col img { height: 200px; }
+
+    .container { padding: 0 1.5rem; }
+
+    .hero-content h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-lang">
+    <a style="text-decoration: underline;" href="./index.html">Acceuil</a>
+    <a href="./menu.html">La Carte</a>
+  </div>
+
+  <div class="nav-logo">
+    <svg viewBox="0 0 180 52" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="50%" y="30" text-anchor="middle" font-family="Limelight, Libre Baskerville, Georgia, serif" font-size="16" font-weight="400" fill="#BAB98D" letter-spacing="1.5">L'AILE OU LA CUISSE</text>
+      <text x="50%" y="44" text-anchor="middle" font-family="Libre Baskerville, Baskerville, Georgia, serif" font-size="7.5" fill="rgba(186,185,141,0.65)" letter-spacing="2">Rôtisserie · Saint-Étienne</text>
+    </svg>
+  </div>
+  
+
+  <a href="./reserver.html" class="btn-reservation">Réserver</a>
+
+  <!-- Mobile hamburger -->
+  <button class="nav-hamburger" id="hamburger" aria-label="Ouvrir le menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu drawer -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Menu de navigation">
+  <button class="mobile-close" id="mobileClose" aria-label="Fermer">✕</button>
+  <a href="./menu.html" onclick="closeMobileMenu()">Menu</a>
+  <a href="#contact-section" onclick="closeMobileMenu()">Horaires & Contact</a>
+  <a href="./reserver.html" onclick="closeMobileMenu()">Réserver</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>L'Aile ou<br>la Cuisse</h1>
+    <p>Rôtisserie &amp; Bar à viande · Saint-Étienne</p>
+    <a href="./reserver.html" class="btn-accent">Réservez Maintenant</a>
+  </div>
+</section>
+
+<!-- ── INTRO ── -->
+<section class="intro">
+  <div class="container">
+    <p class="collab-label">🍗 Rôtisserie &amp; Bar à viande · Saint-Étienne</p>
+    <p class="tagline">La cuisine façon grand-mère, généreuse et sincère, mijotée avec amour au cœur de la Place Jean Jaurès.</p>
+    <p class="subtitle">Cuisine maison · Sur place &amp; à emporter</p>
+  </div>
+</section>
+
+<!-- ── CUISINE DU CHEF ── -->
+<section class="cuisine" id="cuisine">
+  <div class="cuisine-inner">
+    <div class="cuisine-text">
+      <svg class="deco-icon" width="50" height="60" viewBox="0 0 50 60" fill="none">
+        <ellipse cx="25" cy="18" rx="14" ry="14" stroke="#2d5a3f" stroke-width="1.2" fill="none"/>
+        <path d="M20 32 Q25 38 30 32" stroke="#2d5a3f" stroke-width="1" fill="none"/>
+        <line x1="25" y1="38" x2="25" y2="55" stroke="#2d5a3f" stroke-width="1.2"/>
+        <line x1="18" y1="50" x2="32" y2="50" stroke="#2d5a3f" stroke-width="1.2"/>
+      </svg>
+      <h2>La Rôtisserie</h2>
+      <p>Ici, on célèbre la viande dans toute sa splendeur. Poulets rôtis à la broche, pièces du boucher sélectionnées avec soin, accompagnements du marché — L'Aile ou la Cuisse perpétue une tradition gourmande qui réchauffe les cœurs.</p>
+      <blockquote>"Une cuisine généreuse, façon grand-mère, où chaque plat raconte l'histoire d'un savoir-faire transmis avec passion."</blockquote>
+      <p class="chef-sig">— L'Aile ou la Cuisse, Saint-Étienne</p>
+      <p class="note">Notre carte évolue au fil des saisons et des arrivages. Sur place ou à emporter, 7j/7.</p>
+      <a href="tel:+33477212556" class="btn-main">Appeler</a>
+      <a href="./menu.html" class="btn-main">Menu</a>
+    </div>
+    <div class="cuisine-img">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFuJA5bkVnFav4YawfcN7YdBUjvN-y41_KoGPbTIu9K8n3ON_yziKOYRoEj-rov0jScU6CPho-DxzRUNA2wBuPI04DbxaDSc2yYByxFxnbrDhkOZj0te_zOGiA1Uwerg5kxCtTiC16xkrZ2=s1360-w1360-h1020-rw" alt="Rôtisserie — volaille à la broche">
+    </div>
+  </div>
+</section>
+
+<!-- ── CHEF À RÉSIDENCE ── -->
+<section class="chef-residence" id="chef">
+  <div class="chef-residence-inner">
+    <div class="chef-photos">
+      <img class="photo-1" src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFtIsRfdMSfSwM02RovgdNsyqObagEWKk_EXZCORzeRdH8yqtTAnu2hj2wnBb4RdK8L6hPGauvJt6DMJJklHxl2uEMrCXTErpmhz8ibnFDRB7c0NUimzHwlgQNhpljxhq19qWoBnlPOI6w=s1360-w1360-h1020-rw" alt="Plat maison">
+      <img class="photo-2" src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFFtHOIbMmDekkzNDmCFGRpKGFbYk6qOCSBsAC8i4berBvGYiiAilcnS7AAUnZ4vxf2cpF0p_f0ScFtSfEKcp_LLllt00i3lxBjCHyXJkgCXewOvqQO4gysYP96kcClQ35OyPIuhZHvqoo=s1360-w1360-h1020-rw" alt="Cuisine maison">
+      <img class="photo-3" src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHM8Hy4PcRy3kuIIJYhplZ3ZdTUsSIKmM3RDG-z-5wHGcmoVPVdfIZ8_2hLha1MFO-P8RYV2lvscQzcZuUmCXesHCbRu9h4iQ74lNNZaueC9aRon32LZg4GtnIs1_yqtFCFLoY1EoWhjzRT=s1360-w1360-h1020-rw" alt="Salle du restaurant">
+    </div>
+    <div class="chef-residence-text">
+      <svg class="deco-icon" width="50" height="50" viewBox="0 0 50 50" fill="none">
+        <path d="M25 5 Q32 12 28 20 Q24 28 30 36 Q22 32 18 24 Q14 16 25 5Z" stroke="#2d5a3f" stroke-width="1.2" fill="none"/>
+        <circle cx="25" cy="42" r="4" stroke="#2d5a3f" stroke-width="1.2" fill="none"/>
+      </svg>
+      <h2 id="contact-section">Horaires & Contact</h2>
+
+      <div class="contact-block">
+        <p class="contact-label">Téléphone</p>
+        <a href="tel:+33477212556" class="contact-value">04 77 21 25 56</a>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-label">Adresse</p>
+        <a href="https://maps.google.com/?q=15+Place+Jean+Jaurès+42000+Saint-Étienne" target="_blank" class="contact-value">15 Place Jean Jaurès<br>42000 Saint-Étienne</a>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-label">Horaires d'ouverture — 7j/7</p>
+        <div class="hours-grid">
+          <span>Lun – Ven &amp; Dim</span><span>12h00–14h00 &nbsp;·&nbsp; 19h00–22h00</span>
+          <span>Samedi</span><span>12h00–15h00 &nbsp;·&nbsp; 19h00–22h30</span>
+        </div>
+      </div>
+
+      <div class="contact-block">
+        <p class="contact-label">Suivez-nous</p>
+        <div class="contact-social">
+          <a href="https://www.instagram.com/laileoulacuisse.restaurant/" target="_blank" aria-label="Instagram" class="social-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/laileoulacuisse42/?locale=fr_FR" target="_blank" aria-label="Facebook" class="social-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18">
+              <rect x="2" y="2" width="20" height="20" rx="4"/>
+              <path d="M15 2h-2a4 4 0 0 0-4 4v2H7v4h2v8h4v-8h2.5l.5-4H13V6a1 1 0 0 1 1-1h1z"/>
+            </svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <a href="tel:+33477212556" class="btn-main" style="margin-top:0.5rem;">📞 Appeler pour réserver</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── À EMPORTER ── -->
+<section class="table-chef" id="emporter">
+  <div class="table-chef-inner">
+    <div class="table-chef-text">
+      <svg class="deco-icon" width="48" height="48" viewBox="0 0 48 48" style="margin-left:0;" fill="none">
+        <rect x="10" y="18" width="28" height="22" rx="3" stroke="#2d5a3f" stroke-width="1.2" fill="none"/>
+        <path d="M16 18v-4a8 8 0 0 1 16 0v4" stroke="#2d5a3f" stroke-width="1.2" fill="none"/>
+        <line x1="19" y1="28" x2="29" y2="28" stroke="#2d5a3f" stroke-width="1.2"/>
+      </svg>
+      <h2>À Emporter</h2>
+      <p>Vous n'avez pas le temps de vous attarder ? Nos plats maison sont également disponibles à emporter : poulets rôtis, pièces de viande, accompagnements du marché et plats mijotés façon grand-mère — prêts à réchauffer le repas en famille.</p>
+      <p class="note" style="margin-top:-0.5rem;">Commandez par téléphone et venez récupérer votre commande directement sur place, à la Place Jean Jaurès.</p>
+      <a href="tel:+33477212556" class="btn-main">📞 Commander par téléphone</a>
+    </div>
+    <div class="table-chef-img">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGGoGWa0hbV6HiPLAc9M12gNoJDB7WsfneliVjc0YhyIJcihPqjR61pT_quRRStAOgsQ9nXpZsRevxMHVzE0xyy8byboSn5ixN5VG1W7AaWVebu8o8wTlpBNGZZ0o_GrWxA-HanycQ0ySs=s1360-w1360-h1020-rw" alt="Burger maison — à emporter">
+    </div>
+  </div>
+</section>
+
+<!-- ── AUTO-SCROLLING CAROUSEL ── -->
+<section class="gallery">
+  <div class="carousel-track-wrap">
+    <div class="carousel-track" id="carouselTrack">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFuJA5bkVnFav4YawfcN7YdBUjvN-y41_KoGPbTIu9K8n3ON_yziKOYRoEj-rov0jScU6CPho-DxzRUNA2wBuPI04DbxaDSc2yYByxFxnbrDhkOZj0te_zOGiA1Uwerg5kxCtTiC16xkrZ2=s1360-w1360-h1020-rw" alt="Rôtisserie">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHM8Hy4PcRy3kuIIJYhplZ3ZdTUsSIKmM3RDG-z-5wHGcmoVPVdfIZ8_2hLha1MFO-P8RYV2lvscQzcZuUmCXesHCbRu9h4iQ74lNNZaueC9aRon32LZg4GtnIs1_yqtFCFLoY1EoWhjzRT=s1360-w1360-h1020-rw" alt="Salle du restaurant">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEH40lIAL3Vp79gjn2Ifd4njd-Z0v6zQxeEKpHDx2vnnqa1dUCurONWr8fBy5wTIgwjmGLDY1IHm0-aISaDLCqtiFXL4-Pw5pM0pMT89zUE-6MizSBWewSDF8KjbOxwJSt5MAXDIwMZQFZQ=s1360-w1360-h1020-rw" alt="Vin et repas">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFA6qYD-BeWwL4d7UsaY23q02Auw2HUb06AbVx0jVpOxHrr3IlOlqKP7vHi-DG5kdQrlVO3l3nsdHXeuXk91p7Go8OEjsTlbHhpo42u6fSAqIqXcAVEkG5uJkiZ29xUpx7i0xSedW5sZ07m=s1360-w1360-h1020-rw" alt="Rôtisserie broche">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFAXSJNV6VR6xx174QYZwk18zcUD5kI9e6xKoMxM-b9NPy_8GDBGj5BNKfMm18ktJMonCO8ZqiSX8BxQ2aRJL5YUClAXFWUwHdZyJCa30MDDToexnkdXMJg9AUiWFxY3RJJW6Bmff5ZZyd1=s1360-w1360-h1020-rw" alt="Boisson">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFuJA5bkVnFav4YawfcN7YdBUjvN-y41_KoGPbTIu9K8n3ON_yziKOYRoEj-rov0jScU6CPho-DxzRUNA2wBuPI04DbxaDSc2yYByxFxnbrDhkOZj0te_zOGiA1Uwerg5kxCtTiC16xkrZ2=s1360-w1360-h1020-rw" alt="Rôtisserie">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHM8Hy4PcRy3kuIIJYhplZ3ZdTUsSIKmM3RDG-z-5wHGcmoVPVdfIZ8_2hLha1MFO-P8RYV2lvscQzcZuUmCXesHCbRu9h4iQ74lNNZaueC9aRon32LZg4GtnIs1_yqtFCFLoY1EoWhjzRT=s1360-w1360-h1020-rw" alt="Salle">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAEH40lIAL3Vp79gjn2Ifd4njd-Z0v6zQxeEKpHDx2vnnqa1dUCurONWr8fBy5wTIgwjmGLDY1IHm0-aISaDLCqtiFXL4-Pw5pM0pMT89zUE-6MizSBWewSDF8KjbOxwJSt5MAXDIwMZQFZQ=s1360-w1360-h1020-rw" alt="Vin et repas">
+    </div>
+  </div>
+</section>
+
+<!-- ── INFO COLUMNS ── -->
+<section class="info-cols">
+  <div class="info-cols-inner">
+    <div class="info-col">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFXtXzm2wIqGUMthMW-NuMPy3ulO_nA3o4DUNGlC5Y7mlk5logRO7WG-LrXDh5bN-SuFgzMBeC735Ca083aTDpjjqi-rcvYbN9krFY2U8yayCphBYI6hT87-toQgfr-94ga0NcSIdBCWN0=s1360-w1360-h1020-rw" alt="Intérieur du restaurant">
+      <h3>Le Lieu</h3>
+      <p>En plein cœur de la Place Jean Jaurès à Saint-Étienne, L'Aile ou la Cuisse vous accueille dans un cadre chaleureux et convivial, pour un repas sur place ou une commande à emporter.</p>
+    </div>
+    <div class="info-col">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAG8E29mxFiBpir-kn5Kj3GwmLnktM5MRKxFfAo67A4Ou3oJNmQmYHDGBUQEhI88xaXTNOhTZ1m6URl6KvY5vs-Q0cHdH6hUx2La-dqSNP0BHX5L9ZoappHZcDT-91y5BFZ4rz6hMgrBDpvm=s1360-w1360-h1020-rw" alt="Sélection de vins">
+      <h3>La Cave</h3>
+      <p>Une sélection de vins soigneusement choisie pour accompagner nos viandes rôties et nos plats mijotés. Du vin au verre à la bouteille, notre bar à viande se double d'un vrai bar à vins.</p>
+    </div>
+    <div class="info-col">
+      <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFtIsRfdMSfSwM02RovgdNsyqObagEWKk_EXZCORzeRdH8yqtTAnu2hj2wnBb4RdK8L6hPGauvJt6DMJJklHxl2uEMrCXTErpmhz8ibnFDRB7c0NUimzHwlgQNhpljxhq19qWoBnlPOI6w=s1360-w1360-h1020-rw" alt="Plat maison">
+      <h3>La Cuisine</h3>
+      <p>Tout est fait maison, avec des produits frais et de saison. Poulets rôtis à la broche, viandes grillées, plats mijotés façon grand-mère — une cuisine sincère qui met les beaux produits à l'honneur.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="contact">
+  <div class="footer-logo">
+    <svg viewBox="0 0 340 70" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="50%" y="38" text-anchor="middle" font-family="Limelight, Libre Baskerville, Georgia, serif" font-size="26" font-weight="400" fill="rgba(245,240,232,0.85)" letter-spacing="3">L'AILE OU LA CUISSE</text>
+      <text x="50%" y="56" text-anchor="middle" font-family="Libre Baskerville, Baskerville, Georgia, serif" font-size="9" fill="rgba(245,240,232,0.5)" letter-spacing="2.5">Rôtisserie &amp; Bar à viande · Saint-Étienne</text>
+    </svg>
+  </div>
+
+  <address>
+    <a href="https://maps.google.com/?q=15+Place+Jean+Jaurès+42000+Saint-Étienne" target="_blank">15 Place Jean Jaurès, 42000 Saint-Étienne</a><br>
+    <a href="tel:+33477212556">04 77 21 25 56</a>
+  </address>
+
+  <p class="footer-hours">Lun–Ven &amp; Dim : 12h–14h · 19h–22h &nbsp;|&nbsp; Sam : 12h–15h · 19h–22h30</p>
+
+  <div class="footer-social">
+    <a href="https://www.instagram.com/laileoulacuisse.restaurant/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="5"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://www.facebook.com/laileoulacuisse42/?locale=fr_FR" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="4"/>
+        <path d="M15 2h-2a4 4 0 0 0-4 4v2H7v4h2v8h4v-8h2.5l.5-4H13V6a1 1 0 0 1 1-1h1z"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="footer-legal">
+    <a href="#">Politique de confidentialité</a>
+    <a href="tel:+33477212556">📞 04 77 21 25 56</a>
+  </div>
+</footer>
+
+<script>
+  // ── Mobile menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileClose.addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMobileMenu(); });
+
+  // ── Carousel: show 3, advance 1 every 4 s, loop seamlessly ──
+  (function () {
+    const track = document.getElementById('carouselTrack');
+    const TOTAL = 5; // number of unique images
+    let current = 0;
+
+    function getImgW() {
+      return track.querySelector('img').getBoundingClientRect().width;
+    }
+
+    function advance() {
+      current++;
+      track.style.transition = 'transform 0.8s cubic-bezier(0.77, 0, 0.18, 1)';
+      track.style.transform = `translateX(-${current * getImgW()}px)`;
+
+      // Once we've stepped through all originals, snap silently back to start
+      if (current >= TOTAL) {
+        setTimeout(() => {
+          track.style.transition = 'none';
+          current = 0;
+          track.style.transform = 'translateX(0)';
+        }, 850);
+      }
+    }
+
+    setInterval(advance, 4000);
+  })();
+</script>
+</body>
+</html>
