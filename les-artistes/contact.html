@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Café Les Artistes</title>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --noir: #1a1410;
+    --brun: #2e1f0f;
+    --or: #c9a96e;
+    --or-dark: #b08a4e;
+    --creme: #f4efe6;
+    --creme-light: #faf7f2;
+    --rouge: #8b2323;
+    --rouge-dark: #6e1b1b;
+    --text-dark: #1a1410;
+    --text-body: #3a3028;
+    --text-mid: #6a5a4a;
+    --white: #ffffff;
+    --font-logo: 'Limelight', cursive;
+    --font-display: 'Lora', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --nav-h: 64px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════
+     NAVBAR
+  ══════════════════════════════ */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: var(--noir);
+  }
+
+  .navbar-logo {
+    font-family: var(--font-logo);
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .navbar-links a {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .navbar-links a:hover { opacity: 1; }
+  .navbar-links a.active { opacity: 1; color: var(--or); }
+
+  .navbar-social {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .navbar-social a {
+    color: var(--white);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: flex;
+  }
+
+  .navbar-social a:hover { opacity: 1; }
+
+  .nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .mobile-nav-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    background: var(--noir);
+    z-index: 199;
+    padding: 20px 40px 28px;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mobile-nav-menu.open { display: flex; }
+
+  .mobile-nav-menu a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ══════════════════════════════
+     PAGE HERO
+  ══════════════════════════════ */
+  .page-hero {
+    background: var(--noir);
+    padding: calc(var(--nav-h) + 64px) 64px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-hero::before {
+    content: 'Contact';
+    position: absolute;
+    font-family: var(--font-logo);
+    font-size: clamp(80px, 18vw, 220px);
+    color: rgba(255,255,255,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+
+  .page-hero .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 20px;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5.5vw, 72px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .page-hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.04em;
+  }
+
+  /* ══════════════════════════════
+     CONTACT GRID
+  ══════════════════════════════ */
+  .contact-section {
+    background: var(--creme-light);
+    padding: 80px 64px;
+  }
+
+  .contact-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+  }
+
+  .contact-block h2 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or-dark);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0d5c2;
+  }
+
+  .contact-block p,
+  .contact-block a {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-body);
+    text-decoration: none;
+    display: block;
+  }
+
+  .contact-block a:hover { color: var(--rouge); }
+
+  .contact-block .contact-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--brun);
+    margin-bottom: 8px;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(224,213,194,0.5);
+    font-size: 14px;
+    color: var(--text-body);
+  }
+
+  .hours-row:last-child { border-bottom: none; }
+
+  .hours-row .day {
+    font-weight: 600;
+    color: var(--text-dark);
+    min-width: 100px;
+  }
+
+  .hours-row .time {
+    color: var(--text-mid);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .social-links a {
+    color: var(--text-body);
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    display: flex;
+  }
+
+  .social-links a:hover { opacity: 1; color: var(--rouge); }
+
+  /* ══════════════════════════════
+     MAP
+  ══════════════════════════════ */
+  .map-section {
+    width: 100%;
+    line-height: 0;
+  }
+
+  .map-section iframe {
+    width: 100%;
+    height: 460px;
+    border: none;
+    display: block;
+    filter: grayscale(15%);
+  }
+
+  /* ══════════════════════════════
+     SOCIAL BANNER
+  ══════════════════════════════ */
+  .social-banner {
+    background: linear-gradient(rgba(10,5,0,0.6), rgba(10,5,0,0.6)),
+      url('wall-art.png') center/cover no-repeat;
+    padding: 100px 48px;
+    text-align: center;
+  }
+
+  .social-banner p {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 16px;
+  }
+
+  .social-banner h2 {
+    font-family: var(--font-logo);
+    font-size: clamp(28px, 5vw, 60px);
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 28px;
+    letter-spacing: 0.05em;
+  }
+
+  .social-icons-large {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .social-icons-large a {
+    color: var(--white);
+    opacity: 0.88;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: flex;
+  }
+
+  .social-icons-large a:hover { opacity: 1; }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    background: var(--noir);
+    padding: 56px 64px 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1.5fr auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .footer-brand {
+    font-family: var(--font-logo);
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    color: var(--or);
+  }
+
+  footer h4 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+  }
+
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 12px; }
+
+  footer ul li a {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 1px;
+    transition: color 0.2s;
+  }
+
+  footer ul li a:hover { color: var(--or); border-color: var(--or); }
+
+  .footer-location p,
+  .footer-hours p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+  }
+
+  .footer-hours p span {
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .footer-location a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: underline;
+    display: block;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .footer-social a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    display: flex;
+  }
+
+  .footer-social a:hover { opacity: 1; color: var(--or); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom a {
+    color: rgba(255,255,255,0.35);
+    text-decoration: underline;
+  }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 900px) {
+    .navbar-links, .navbar-social { display: none; }
+    .nav-hamburger { display: flex; }
+    .navbar { padding: 0 24px; }
+
+    .page-hero { padding: calc(var(--nav-h) + 40px) 28px 48px; }
+
+    .contact-section { padding: 56px 28px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+
+    .map-section iframe { height: 320px; }
+
+    footer {
+      grid-template-columns: 1fr 1fr;
+      padding: 48px 28px 32px;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-social { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 520px) {
+    footer { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="navbar-logo">Les Artistes</a>
+
+  <div class="navbar-links">
+    <a href="menu.html">Menu</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+
+  <div class="navbar-social">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile dropdown -->
+<nav class="mobile-nav-menu" id="mobileNavMenu">
+  <a href="index.html" onclick="toggleMobileNav()">Accueil</a>
+  <a href="menu.html" onclick="toggleMobileNav()">Menu</a>
+  <a href="contact.html" onclick="toggleMobileNav()">Contact</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="eyebrow">Café · Bar · Événements</div>
+  <h1>Nous Trouver</h1>
+  <p>Saint-Étienne, Place Jean Jaurès</p>
+</div>
+
+<!-- CONTACT INFO -->
+<section class="contact-section">
+  <div class="contact-grid">
+
+    <!-- Adresse & téléphone -->
+    <div class="contact-block">
+      <h2>Adresse &amp; Contact</h2>
+      <p class="contact-name">Café Les Artistes</p>
+      <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank">
+        11 Place Jean Jaurès<br>42000 Saint-Étienne
+      </a>
+      <p style="margin-top: 4px; color: var(--text-mid); font-size: 14px;">Place Jean Jaurès</p>
+      <a href="tel:+33477336824" style="margin-top: 16px; font-weight: 500;">+33 4 77 33 68 24</a>
+      <div class="social-links" style="margin-top: 24px;">
+        <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Horaires -->
+    <div class="contact-block">
+      <h2>Horaires d'Ouverture</h2>
+      <div class="hours-row">
+        <span class="day">Lundi</span>
+        <span class="time">09:00 – 00:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Mardi</span>
+        <span class="time">09:00 – 01:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Mercredi</span>
+        <span class="time">09:00 – 01:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Jeudi</span>
+        <span class="time">09:00 – 01:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Vendredi</span>
+        <span class="time">09:00 – 01:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Samedi</span>
+        <span class="time">09:00 – 01:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="day">Dimanche</span>
+        <span class="time">09:00 – 00:00</span>
+      </div>
+    </div>
+
+    <!-- Accès -->
+    <div class="contact-block">
+      <h2>Comment Venir</h2>
+      <p style="margin-bottom: 16px;">Nous sommes situés en plein cœur de Saint-Étienne, sur la Place Jean Jaurès — facilement accessible à pied, en tramway ou en voiture.</p>
+      <p style="font-size: 13px; color: var(--text-mid); line-height: 1.8;">
+        <strong style="color: var(--text-dark); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">Tramway</strong><br>
+        Lignes T1 &amp; T2 — arrêt Jean Jaurès
+      </p>
+      <p style="margin-top: 14px; font-size: 13px; color: var(--text-mid); line-height: 1.8;">
+        <strong style="color: var(--text-dark); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">Parking</strong><br>
+        Parking Jean Jaurès à proximité immédiate
+      </p>
+      <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank" style="display: inline-block; margin-top: 24px; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rouge); text-decoration: none; border-bottom: 1px solid var(--rouge); padding-bottom: 2px;">
+        Ouvrir dans Google Maps →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- MAP -->
+<div class="map-section">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2784.8661093!2d4.3878!3d45.4344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5a9b1b0f0f0f1%3A0x0!2s11+Place+Jean+Jaur%C3%A8s%2C+42000+Saint-%C3%89tienne%2C+France!5e0!3m2!1sfr!2sfr!4v1700000000000"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    title="Café Les Artistes — 11 Place Jean Jaurès, Saint-Étienne">
+  </iframe>
+</div>
+
+<!-- SOCIAL BANNER -->
+<section class="social-banner">
+  <p>Retrouvez-nous</p>
+  <h2>@cafelesartistes</h2>
+  <div class="social-icons-large">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Les Artistes</div>
+
+  <div>
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-location">
+    <h4>Adresse</h4>
+    <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank">
+      11 Pl. Jean Jaurès<br>42000 Saint-Étienne
+    </a>
+    <p style="margin-top:8px;">Place Jean Jaurès</p>
+    <a href="tel:+33477336824" style="margin-top:4px;">+33 4 77 33 68 24</a>
+  </div>
+
+  <div class="footer-hours">
+    <h4>Horaires</h4>
+    <p><span>Lun</span> 09:00–00:00</p>
+    <p><span>Mar–Jeu</span> 09:00–01:00</p>
+    <p><span>Ven–Sam</span> 09:00–01:00</p>
+    <p><span>Dim</span> 09:00–00:00</p>
+  </div>
+
+  <div class="footer-social">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+
+  <div class="footer-bottom" style="grid-column: 1 / -1;">
+    <span>© 2024 Café Les Artistes.</span>
+    <a href="#">Mentions légales</a>
+  </div>
+</footer>
+
+<script>
+  function toggleMobileNav() {
+    document.getElementById('mobileNavMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobileNavMenu');
+    const nav  = document.getElementById('navbar');
+    if (menu.classList.contains('open') && !nav.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>

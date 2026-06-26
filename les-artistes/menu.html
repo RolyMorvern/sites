@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Carte — Café Les Artistes</title>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --noir: #1a1410;
+    --brun: #2e1f0f;
+    --or: #c9a96e;
+    --or-dark: #b08a4e;
+    --creme: #f4efe6;
+    --creme-light: #faf7f2;
+    --rouge: #8b2323;
+    --rouge-dark: #6e1b1b;
+    --text-dark: #1a1410;
+    --text-body: #3a3028;
+    --text-mid: #6a5a4a;
+    --white: #ffffff;
+    --font-logo: 'Limelight', cursive;
+    --font-display: 'Lora', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --nav-h: 64px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════
+     NAVBAR
+  ══════════════════════════════ */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: var(--noir);
+    transition: background 0.35s ease;
+  }
+
+  .navbar-logo {
+    font-family: var(--font-logo);
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .navbar-links a {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--white);
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .navbar-links a:hover { opacity: 1; }
+  .navbar-links a.active { opacity: 1; color: var(--or); }
+
+  .navbar-social {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .navbar-social a {
+    color: var(--white);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: flex;
+  }
+
+  .navbar-social a:hover { opacity: 1; }
+
+  .nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .mobile-nav-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    background: var(--noir);
+    z-index: 199;
+    padding: 20px 40px 28px;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mobile-nav-menu.open { display: flex; }
+
+  .mobile-nav-menu a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ══════════════════════════════
+     PAGE HERO
+  ══════════════════════════════ */
+  .page-hero {
+    background: var(--noir);
+    padding: calc(var(--nav-h) + 64px) 64px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-hero::before {
+    content: 'La Carte';
+    position: absolute;
+    font-family: var(--font-logo);
+    font-size: clamp(80px, 18vw, 220px);
+    color: rgba(255,255,255,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+  }
+
+  .page-hero .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 20px;
+  }
+
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5.5vw, 72px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .page-hero p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.04em;
+  }
+
+  /* ══════════════════════════════
+     CATEGORY TABS
+  ══════════════════════════════ */
+  .category-nav {
+    background: var(--creme);
+    padding: 0 64px;
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 100;
+    border-bottom: 1px solid #e8dfd0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .category-nav::-webkit-scrollbar { display: none; }
+
+  .category-nav-inner {
+    display: flex;
+    gap: 0;
+    align-items: center;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  .category-nav a {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    text-decoration: none;
+    padding: 18px 20px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .category-nav a:hover,
+  .category-nav a.active {
+    color: var(--brun);
+    border-bottom-color: var(--or);
+  }
+
+  /* ══════════════════════════════
+     MENU CONTENT
+  ══════════════════════════════ */
+  .menu-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 64px 96px;
+  }
+
+  /* Section heading */
+  .menu-section {
+    padding-top: 72px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8dfd0;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 400;
+    color: var(--brun);
+    line-height: 1.1;
+  }
+
+  .section-header .section-line {
+    flex: 1;
+    height: 1px;
+    background: transparent;
+  }
+
+  /* Subsection */
+  .subsection {
+    margin-bottom: 40px;
+  }
+
+  .subsection-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or-dark);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+  }
+
+  /* Menu item rows */
+  .menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(232,223,208,0.5);
+  }
+
+  .menu-item:last-child { border-bottom: none; }
+
+  .item-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-dark);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .item-desc {
+    font-size: 11.5px;
+    color: var(--text-mid);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  .item-note {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rouge);
+    margin-top: 3px;
+  }
+
+  .item-price {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--or-dark);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Two-column grid for bigger sections */
+  .menu-items-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 48px;
+  }
+
+  .menu-items-2col .menu-item {
+    padding: 11px 0;
+  }
+
+  /* Size variants inline */
+  .size-group {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .size-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    padding: 2px 8px;
+    background: var(--creme);
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* Supplement / extra row */
+  .item-supplement {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed #e0d5c2;
+    margin-top: 6px;
+  }
+
+  .item-supplement .item-name {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-mid);
+  }
+
+  .item-supplement .item-price {
+    font-size: 13px;
+    color: var(--text-mid);
+  }
+
+  /* Section divider */
+  .section-divider {
+    margin: 64px 0 0;
+    border: none;
+    border-top: 1px solid #e8dfd0;
+  }
+
+  /* ══════════════════════════════
+     SOCIAL BANNER
+  ══════════════════════════════ */
+  .social-banner {
+    background: linear-gradient(rgba(10,5,0,0.6), rgba(10,5,0,0.6)),
+      url('wall-art.png') center/cover no-repeat;
+    padding: 100px 48px;
+    text-align: center;
+  }
+
+  .social-banner p {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 16px;
+  }
+
+  .social-banner h2 {
+    font-family: var(--font-logo);
+    font-size: clamp(28px, 5vw, 60px);
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 28px;
+    letter-spacing: 0.05em;
+  }
+
+  .social-icons-large {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .social-icons-large a {
+    color: var(--white);
+    opacity: 0.88;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: flex;
+  }
+
+  .social-icons-large a:hover { opacity: 1; }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    background: var(--noir);
+    padding: 56px 64px 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1.5fr auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .footer-brand {
+    font-family: var(--font-logo);
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    color: var(--or);
+  }
+
+  footer h4 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+  }
+
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 12px; }
+
+  footer ul li a {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 1px;
+    transition: color 0.2s;
+  }
+
+  footer ul li a:hover { color: var(--or); border-color: var(--or); }
+
+  .footer-location p,
+  .footer-hours p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+  }
+
+  .footer-hours p span {
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .footer-location a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: underline;
+    display: block;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .footer-social a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    display: flex;
+  }
+
+  .footer-social a:hover { opacity: 1; color: var(--or); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom a {
+    color: rgba(255,255,255,0.35);
+    text-decoration: underline;
+  }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 900px) {
+    .navbar-links, .navbar-social { display: none; }
+    .nav-hamburger { display: flex; }
+    .navbar { padding: 0 24px; }
+
+    .page-hero { padding: calc(var(--nav-h) + 40px) 24px 48px; }
+
+    .category-nav { padding: 0 24px; }
+
+    .menu-page { padding: 0 24px 64px; }
+
+    .menu-items-2col {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    footer {
+      grid-template-columns: 1fr 1fr;
+      padding: 48px 28px 32px;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-social { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 520px) {
+    footer { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="navbar-logo">Les Artistes</a>
+
+  <div class="navbar-links">
+    <a href="menu.html" class="active">Menu</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="navbar-social">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile dropdown -->
+<nav class="mobile-nav-menu" id="mobileNavMenu">
+  <a href="index.html" onclick="toggleMobileNav()">Accueil</a>
+  <a href="menu.html" onclick="toggleMobileNav()">Menu</a>
+  <a href="contact.html" onclick="toggleMobileNav()">Contact</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="eyebrow">Café · Bar · Événements</div>
+  <h1>Notre Carte</h1>
+  <p>Saint-Étienne, Place Jean Jaurès</p>
+</div>
+
+<!-- CATEGORY NAV -->
+<div class="category-nav">
+  <div class="category-nav-inner">
+    <a href="#boissons-chaudes">Boissons Chaudes</a>
+    <a href="#boissons-froides">Boissons Froides</a>
+    <a href="#glaces">Glaces &amp; Coupes</a>
+    <a href="#bieres">Bières</a>
+    <a href="#alcools">Alcools &amp; Digestifs</a>
+    <a href="#cocktails">Cocktails</a>
+    <a href="#vins">Vins</a>
+    <a href="#creux">Petit Creux</a>
+  </div>
+</div>
+
+<!-- MENU CONTENT -->
+<div class="menu-page">
+
+  <!-- ════════════════════════════
+       BOISSONS CHAUDES
+  ════════════════════════════ -->
+  <section class="menu-section" id="boissons-chaudes">
+    <div class="section-header">
+      <h2>Boissons Chaudes</h2>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">Café — Expresso, Allongé ou Décaféiné</div>
+          <div class="item-note">Tarif avant 15h00</div>
+        </div>
+        <div class="item-price">1,70 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Café Crème</div></div>
+        <div class="item-price">2,20 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Grand Café</div></div>
+        <div class="item-price">3,10 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Grand Crème</div></div>
+        <div class="item-price">3,20 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Café Noisette</div></div>
+        <div class="item-price">2,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Chocolat Chaud</div></div>
+        <div class="item-price">3,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Cappuccino</div></div>
+        <div class="item-price">3,20 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Chocolat Chaud Chantilly</div></div>
+        <div class="item-price">4,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Cappuccino Chantilly</div></div>
+        <div class="item-price">4,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Café Chantilly</div></div>
+        <div class="item-price">3,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">Thé Noir</div>
+          <div class="item-desc">Nature, Earl Grey, Caramel/Vanille ou Fruits rouges</div>
+        </div>
+        <div class="item-price">3,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">Thé Vert</div>
+          <div class="item-desc">Nature, Jasmin ou Menthe</div>
+        </div>
+        <div class="item-price">3,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">Infusion</div>
+          <div class="item-desc">Verveine ou Verveine/Menthe</div>
+        </div>
+        <div class="item-price">3,00 €</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       BOISSONS FROIDES
+  ════════════════════════════ -->
+  <section class="menu-section" id="boissons-froides">
+    <div class="section-header">
+      <h2>Boissons Froides</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Sirops à l'eau</div>
+      <div class="item-desc" style="margin-bottom:14px; font-size:12px; color:var(--text-mid); font-style:italic;">
+        Anis, banane, barbe à papa, caramel, cassis, cerise, citron, coco, fraise, framboise, fruit de la passion, grenadine, kiwi, mangue, menthe, menthe glaciale, mûre, orgeat, pêche, pomme, vanille, violette
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Sirop à l'eau <span class="size-label">25 cl</span></div></div>
+          <div class="item-price">2,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Sirop à l'eau <span class="size-label">50 cl</span></div></div>
+          <div class="item-price">4,00 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Diabolos</div>
+      <div class="item-desc" style="margin-bottom:14px; font-size:12px; color:var(--text-mid); font-style:italic;">
+        Anis, banane, barbe à papa, caramel, cassis, cerise, citron, coco, fraise, framboise, fruit de la passion, grenadine, kiwi, mangue, menthe, menthe glaciale, mûre, orgeat, pêche, pomme, vanille, violette
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Diabolo <span class="size-label">25 cl</span></div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Diabolo <span class="size-label">25 cl</span></div>
+            <div class="item-note">Tarif après 15h00</div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Diabolo <span class="size-label">50 cl</span></div></div>
+          <div class="item-price">5,00 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Sodas &amp; Boissons</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Coca-Cola, Coca-Cola Zero, Coca-Cola Cherry</div></div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Schweppes Tonic, Lemon ou Agrumes</div></div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Tropico</div></div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Orangina, Sprite ou FuzeTea</div></div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Red Bull</div></div>
+          <div class="item-price">4,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Jus de Fruits PAGO</div>
+            <div class="item-desc">Abricot, ACE, Ananas, Banane, Citron, Fraise, Mangue, Orange, Pamplemousse, Poire, Pomme, Tomate, Tropical vitaminé</div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Perrier, Vittel ou Badoit</div></div>
+          <div class="item-price">3,00 €</div>
+        </div>
+      </div>
+      <div class="item-supplement">
+        <div class="item-name">Supplément tranche ou sirop</div>
+        <div class="item-price">+ 0,30 €</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       GLACES & COUPES
+  ════════════════════════════ -->
+  <section class="menu-section" id="glaces">
+    <div class="section-header">
+      <h2>Glaces &amp; Coupes Glacées</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Coupes Spéciales</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Dame Blanche ou Dame Nutella</div>
+            <div class="item-desc">Glace vanille, nappage chocolat, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Café ou Chocolat Liégeois</div>
+            <div class="item-desc">Glace café ou chocolat, vanille, nappage chocolat, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Banana Split</div>
+            <div class="item-desc">Glace chocolat, fraise, vanille, nappage chocolat, banane, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Brooklyn</div>
+            <div class="item-desc">Glace caramel, chocolat, vanille, nappage caramel, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Souvenir d'Enfance</div>
+            <div class="item-desc">Glace nougat, chocolat, praliné noisette, nappage chocolat, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Sundae Fraise</div>
+            <div class="item-desc">Glace fraise, vanille, nappage fruits rouges, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Délice Exotique</div>
+            <div class="item-desc">Glace mangue, passion, citron, chantilly</div>
+          </div>
+          <div class="item-price">7,00 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Coupes de Boules</div>
+      <div class="item-desc" style="margin-bottom:14px; font-size:12px; color:var(--text-mid); font-style:italic;">
+        Cassis, Citron, Fraise, Framboise, Fruit de la passion, Mangue, Café, Caramel, Chocolat, Menthe, Pistache, Rhum-raisin, Vanille
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Coupe 2 Boules</div></div>
+          <div class="item-price">4,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Coupe 3 Boules</div></div>
+          <div class="item-price">6,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Coupe 4 Boules</div></div>
+          <div class="item-price">7,00 €</div>
+        </div>
+      </div>
+      <div class="item-supplement">
+        <div class="item-name">Supplément chantilly + sauce chocolat, fruits rouges ou caramel</div>
+        <div class="item-price">+ 1,00 €</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       LES BIÈRES
+  ════════════════════════════ -->
+  <section class="menu-section" id="bieres">
+    <div class="section-header">
+      <h2>Les Bières</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Pression</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Tigre Bock <span class="size-label">25 cl</span></div></div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Tigre Bock <span class="size-label">50 cl</span></div></div>
+          <div class="item-price">4,90 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Grimbergen Blonde, Blanche, Ambrée ou Rouge <span class="size-label">25 cl</span></div>
+          </div>
+          <div class="item-price">3,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Grimbergen Blonde, Blanche, Ambrée ou Rouge <span class="size-label">50 cl</span></div>
+          </div>
+          <div class="item-price">5,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Bière de Saison <span class="size-label">25 cl</span></div></div>
+          <div class="item-price">3,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Bière de Saison <span class="size-label">50 cl</span></div></div>
+          <div class="item-price">5,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Monaco, Demi-Sirop, Panaché <span class="size-label">25 cl</span></div></div>
+          <div class="item-price">2,70 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Monaco, Demi-Sirop, Panaché <span class="size-label">50 cl</span></div></div>
+          <div class="item-price">4,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Picon Bière <span class="size-label">25 cl</span></div></div>
+          <div class="item-price">3,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Picon Bière <span class="size-label">50 cl</span></div></div>
+          <div class="item-price">5,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left"><div class="item-name">Cervoise <span class="size-label">25 cl</span></div></div>
+          <div class="item-price">4,00 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Bouteilles</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Belzebuth &amp; Leffe</div>
+            <div class="item-desc">Bières blondes — 33 cl</div>
+          </div>
+          <div class="item-price">4,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Tigre Bock &amp; Chimay</div>
+            <div class="item-desc">Bières brunes — 33 cl</div>
+          </div>
+          <div class="item-price">4,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Pietra</div>
+            <div class="item-desc">Bière ambrée — 33 cl</div>
+          </div>
+          <div class="item-price">4,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Leffe Rubis</div>
+            <div class="item-desc">Bière fruitée — 25 cl</div>
+          </div>
+          <div class="item-price">4,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Desperados</div>
+            <div class="item-desc">Bière aromatisée — 33 cl</div>
+          </div>
+          <div class="item-price">4,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Bière Sans Alcool</div>
+            <div class="item-desc">25 cl</div>
+          </div>
+          <div class="item-price">4,00 €</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       ALCOOLS & DIGESTIFS
+  ════════════════════════════ -->
+  <section class="menu-section" id="alcools">
+    <div class="section-header">
+      <h2>Alcools &amp; Digestifs</h2>
+    </div>
+    <div class="menu-items-2col">
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Kir <span class="size-label">12 cl</span></div></div>
+        <div class="item-price">3,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Kir Royal <span class="size-label">12 cl</span></div></div>
+        <div class="item-price">7,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Spritz <span class="size-label">25 cl</span></div></div>
+        <div class="item-price">5,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Porto Blanc ou Rouge <span class="size-label">4 cl</span></div></div>
+        <div class="item-price">3,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Martini Blanc ou Rouge <span class="size-label">4 cl</span></div></div>
+        <div class="item-price">3,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Whisky Jack Daniel's <span class="size-label">4 cl</span></div></div>
+        <div class="item-price">6,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Whisky Glenlivet 12 ans d'âge <span class="size-label">4 cl</span></div></div>
+        <div class="item-price">6,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Whisky Ballantines <span class="size-label">4 cl</span></div></div>
+        <div class="item-price">5,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Gin, Tequila, Vodka</div></div>
+        <div class="item-price">5,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Rhum Havana 3 ans d'âge</div></div>
+        <div class="item-price">5,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Vodka + Red Bull</div></div>
+        <div class="item-price">6,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Get 27, Get 31, Soho, Manzana ou Malibu</div></div>
+        <div class="item-price">5,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left"><div class="item-name">Verveine du Velay, Armagnac ou Cognac</div></div>
+        <div class="item-price">5,00 €</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       COCKTAILS
+  ════════════════════════════ -->
+  <section class="menu-section" id="cocktails">
+    <div class="section-header">
+      <h2>Les Cocktails</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Cocktails Alcoolisés</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Mexicana</div>
+            <div class="item-desc">Tequila, jus d'ananas, Pulco citron vert, grenadine</div>
+          </div>
+          <div class="item-price">7,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">White Russian</div>
+            <div class="item-desc">Vodka, Kahlua, chantilly</div>
+          </div>
+          <div class="item-price">7,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Pina Colada</div>
+            <div class="item-desc">Rhum, jus d'ananas, sirop de coco, chantilly</div>
+          </div>
+          <div class="item-price">7,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Cuba Libre</div>
+            <div class="item-desc">Rhum, citron vert pressé, Coca-Cola</div>
+          </div>
+          <div class="item-price">7,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Sex on the Beach</div>
+            <div class="item-desc">Vodka, jus d'orange, sirop de grenadine</div>
+          </div>
+          <div class="item-price">7,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Mojito ou Mojito Fraise</div>
+            <div class="item-desc">Rhum, menthe, sucre de canne, Perrier (fraises)</div>
+          </div>
+          <div class="item-price">7,50 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Cocktails Sans Alcool</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Apple Cobber</div>
+            <div class="item-desc">Jus de pomme, Pulco citron vert, limonade, sirop de cassis</div>
+          </div>
+          <div class="item-price">6,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Cocotier</div>
+            <div class="item-desc">Ananas, banane, sirop de coco</div>
+          </div>
+          <div class="item-price">6,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Rose Bud</div>
+            <div class="item-desc">Orange, banane, sirop de fraise, grenadine</div>
+          </div>
+          <div class="item-price">6,00 €</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       VINS
+  ════════════════════════════ -->
+  <section class="menu-section" id="vins">
+    <div class="section-header">
+      <h2>Les Vins</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">À la Bouteille</div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Rosé ou Rosé Pamplemousse</div>
+          </div>
+          <div class="item-price">20,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Viognier, Vallée du Rhône</div>
+            <div class="item-desc">Vin blanc</div>
+          </div>
+          <div class="item-price">20,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Gewürztraminer, Alsace</div>
+            <div class="item-desc">Vin blanc</div>
+          </div>
+          <div class="item-price">20,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Villa Chambre d'Amour, Sud-Ouest</div>
+          </div>
+          <div class="item-price">25,00 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Au Verre — 12 cl</div>
+      <div class="menu-items-2col">
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Côtes du Rhône, Vallée du Rhône</div>
+            <div class="item-desc">Vin rouge</div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Bordeaux</div>
+            <div class="item-desc">Vin rouge</div>
+          </div>
+          <div class="item-price">4,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Macon, Bourgogne</div>
+            <div class="item-desc">Vin blanc</div>
+          </div>
+          <div class="item-price">3,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Viognier, Vallée du Rhône</div>
+            <div class="item-desc">Vin blanc</div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Gewürztraminer, Alsace</div>
+            <div class="item-desc">Vin blanc</div>
+          </div>
+          <div class="item-price">3,50 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Villa Chambre d'Amour, Sud-Ouest</div>
+            <div class="item-desc">Vin blanc</div>
+          </div>
+          <div class="item-price">4,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">AOC Côtes de Provence</div>
+            <div class="item-desc">Vin rosé</div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+        <div class="menu-item">
+          <div class="item-left">
+            <div class="item-name">Rosé Pamplemousse</div>
+            <div class="item-desc">Vin rosé</div>
+          </div>
+          <div class="item-price">3,00 €</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       PETIT CREUX
+  ════════════════════════════ -->
+  <section class="menu-section" id="creux">
+    <div class="section-header">
+      <h2>Le Petit Creux des Artistes</h2>
+    </div>
+    <div class="menu-items">
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">½ Saucisson à Partager</div>
+          <div class="item-desc">Cornichons et pain de campagne</div>
+        </div>
+        <div class="item-price">6,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">Saint-Félicien du Pêcheur <span style="font-size:11px; color:var(--text-mid);">(Fromagerie Baret)</span></div>
+          <div class="item-desc">Pain de campagne de chez Fouillat</div>
+        </div>
+        <div class="item-price">6,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="item-left">
+          <div class="item-name">Patatas Bravas Bio</div>
+          <div class="item-desc">Sauce mayonnaise, ketchup et moutarde</div>
+        </div>
+        <div class="item-price">4,90 €</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /menu-page -->
+
+<!-- SOCIAL BANNER -->
+<section class="social-banner">
+  <p>Retrouvez-nous</p>
+  <h2>@cafelesartistes</h2>
+  <div class="social-icons-large">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Les Artistes</div>
+
+  <div>
+    <h4>Navigation</h4>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-location">
+    <h4>Adresse</h4>
+    <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank">
+      11 Pl. Jean Jaurès<br>42000 Saint-Étienne
+    </a>
+    <p style="margin-top:8px;">Place Jean Jaurès</p>
+    <a href="tel:+33477336824" style="margin-top:4px;">+33 4 77 33 68 24</a>
+  </div>
+
+  <div class="footer-hours">
+    <h4>Horaires</h4>
+    <p><span>Lun</span> 09:00–00:00</p>
+    <p><span>Mar–Jeu</span> 09:00–01:00</p>
+    <p><span>Ven–Sam</span> 09:00–01:00</p>
+    <p><span>Dim</span> 09:00–00:00</p>
+  </div>
+
+  <div class="footer-social">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+
+  <div class="footer-bottom" style="grid-column: 1 / -1;">
+    <span>© 2024 Café Les Artistes.</span>
+    <a href="#">Mentions légales</a>
+  </div>
+</footer>
+
+<script>
+  /* ── Mobile nav toggle ── */
+  function toggleMobileNav() {
+    document.getElementById('mobileNavMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobileNavMenu');
+    const nav  = document.getElementById('navbar');
+    if (menu.classList.contains('open') && !nav.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  /* ── Active category tab on scroll ── */
+  const sections = document.querySelectorAll('.menu-section[id]');
+  const navLinks = document.querySelectorAll('.category-nav a');
+
+  function updateActiveTab() {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 140;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+        // Scroll the tab into view
+        link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveTab, { passive: true });
+  updateActiveTab();
+</script>
+</body>
+</html>

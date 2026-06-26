@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Café Les Artistes — Saint-Étienne</title>
+<link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --noir: #1a1410;
+    --brun: #2e1f0f;
+    --or: #c9a96e;
+    --or-dark: #b08a4e;
+    --creme: #f4efe6;
+    --creme-light: #faf7f2;
+    --rouge: #8b2323;
+    --rouge-dark: #6e1b1b;
+    --text-dark: #1a1410;
+    --text-body: #3a3028;
+    --text-mid: #6a5a4a;
+    --white: #ffffff;
+    --font-logo: 'Limelight', cursive;
+    --font-display: 'Lora', Georgia, serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --nav-h: 64px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--text-dark);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ══════════════════════════════
+     NAVBAR (fixed, transparent → black)
+  ══════════════════════════════ */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-h);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    background: transparent;
+    transition: background 0.35s ease;
+  }
+
+  .navbar.scrolled {
+    background: var(--noir);
+  }
+
+  .navbar-logo {
+    font-family: var(--font-logo);
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--noir);
+    text-decoration: none;
+    transition: color 0.35s ease;
+  }
+
+  .navbar.scrolled .navbar-logo {
+    color: var(--white);
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .navbar-links a {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--noir);
+    opacity: 0.85;
+    transition: color 0.35s ease, opacity 0.2s;
+  }
+
+  .navbar.scrolled .navbar-links a {
+    color: var(--white);
+  }
+
+  .navbar-links a:hover { opacity: 1; }
+
+  .navbar-social {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .navbar-social a {
+    color: var(--noir);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: color 0.35s ease, opacity 0.2s;
+    display: flex;
+  }
+
+  .navbar.scrolled .navbar-social a {
+    color: var(--white);
+  }
+
+  .navbar-social a:hover { opacity: 1; }
+
+  /* Hamburger (mobile) */
+  .nav-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--noir);
+    border-radius: 2px;
+    transition: background 0.35s ease, transform 0.3s, opacity 0.3s;
+  }
+
+  .navbar.scrolled .nav-hamburger span {
+    background: var(--white);
+  }
+
+  /* Mobile dropdown */
+  .mobile-nav-menu {
+    display: none;
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    background: var(--noir);
+    z-index: 199;
+    padding: 20px 40px 28px;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mobile-nav-menu.open { display: flex; }
+
+  .mobile-nav-menu a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ══════════════════════════════
+     HERO
+  ══════════════════════════════ */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 560px;
+    background: linear-gradient(rgba(10,5,0,0.35), rgba(10,5,0,0.25)),
+      url('interior.png') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-content {
+    padding: 0 56px;
+    max-width: 680px;
+    margin-top: var(--nav-h);
+  }
+
+  .hero-content h1 {
+    font-family: var(--font-logo);
+    font-size: clamp(42px, 6.5vw, 76px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-content .hero-sub {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 18px;
+  }
+
+  .hero-content p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.65;
+    margin-bottom: 36px;
+    max-width: 460px;
+  }
+
+  .btn-outline-white {
+    display: inline-block;
+    border: 1.5px solid var(--or);
+    color: var(--or);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 32px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-outline-white:hover {
+    background: var(--or);
+    color: var(--noir);
+  }
+
+  /* ══════════════════════════════
+     ADDRESS BANNER
+  ══════════════════════════════ */
+  .location-banner {
+    background: var(--creme);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    padding: 20px 48px;
+    flex-wrap: wrap;
+  }
+
+  .location-banner span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--brun);
+  }
+
+  .location-banner a {
+    font-size: 14px;
+    color: var(--text-dark);
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-dark);
+    padding-bottom: 2px;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .location-banner a:hover { color: var(--rouge); border-color: var(--rouge); }
+
+  /* ══════════════════════════════
+     ABOUT
+  ══════════════════════════════ */
+  .about {
+    background: var(--creme-light);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 0;
+  }
+
+  .about-text {
+    padding: 80px 64px;
+  }
+
+  .about-text h2 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 3.8vw, 50px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--brun);
+    margin-bottom: 32px;
+  }
+
+  .about-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-body);
+    margin-bottom: 18px;
+  }
+
+  .about-text .offre {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .about-text .offre span {
+    background: var(--creme);
+    border: 1px solid #ddd5c4;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brun);
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  .btn-rouge {
+    display: inline-block;
+    background: var(--rouge);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 36px;
+    margin-top: 36px;
+    transition: background 0.2s;
+  }
+
+  .btn-rouge:hover { background: var(--rouge-dark); }
+
+  .about-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 48px 0;
+    background: var(--creme-light);
+    position: relative;
+  }
+
+  .about-img-inner {
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 3/4;
+    background: url('interior.png') center/cover no-repeat;
+    border-radius: 9999px 9999px 0 0;
+    position: relative;
+  }
+
+  .about-img-inner .logo-badge {
+    position: absolute;
+    bottom: -20px; right: -20px;
+    background: var(--white);
+    border-radius: 50%;
+    width: 90px; height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.95;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .about-img-inner .logo-badge span:first-child {
+    font-family: var(--font-logo);
+    font-size: 9px;
+    color: var(--brun);
+    line-height: 1.3;
+  }
+
+  .about-img-inner .logo-badge span:last-child {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--or-dark);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ══════════════════════════════
+     MENU
+  ══════════════════════════════ */
+  .menu-section {
+    padding: 80px 64px;
+    text-align: center;
+    background: var(--white);
+  }
+
+  .menu-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 400;
+    color: var(--brun);
+    margin-bottom: 56px;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .menu-card {
+    text-decoration: none;
+    display: block;
+    cursor: default;
+  }
+
+  .menu-card-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .menu-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--brun);
+    margin-top: 16px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ══════════════════════════════
+     ÉVÉNEMENTS
+  ══════════════════════════════ */
+  .events-section {
+    background: var(--creme);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 0;
+  }
+
+  .events-img {
+    padding: 64px;
+  }
+
+  .events-img img {
+    width: 100%;
+    max-width: 480px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .events-text {
+    padding: 64px 72px 64px 16px;
+  }
+
+  .events-text h2 {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3.2vw, 44px);
+    font-weight: 400;
+    color: var(--brun);
+    margin-bottom: 24px;
+  }
+
+  .events-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-body);
+  }
+
+  /* ══════════════════════════════
+     LOCATION / MARQUEE
+  ══════════════════════════════ */
+  .location-section {
+    padding: 64px 0 80px;
+    background: var(--white);
+    overflow: hidden;
+  }
+
+  .location-top {
+    padding: 0 64px;
+  }
+
+  .location-label {
+    display: inline-block;
+    background: var(--creme);
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dark);
+    padding: 10px 22px;
+    margin-bottom: 40px;
+  }
+
+  .location-stage {
+    position: relative;
+    width: 100%;
+    height: 680px;
+  }
+
+  #marqueeCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  .loc-arch-wrap {
+    position: absolute;
+    left: 35%;
+    top: 0;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 320px;
+    height: 430px;
+  }
+
+  .loc-arch-img {
+    width: 320px;
+    height: 430px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 9999px 9999px 0 0;
+    display: block;
+  }
+
+  .loc-address {
+    position: absolute;
+    left: 35%;
+    top: 450px;
+    z-index: 5;
+    width: 320px;
+    text-align: left;
+  }
+
+  .loc-address h3 {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    white-space: normal;
+  }
+
+  .loc-address a {
+    display: block;
+    color: var(--rouge);
+    font-size: 15px;
+    line-height: 1.7;
+    text-decoration: none;
+  }
+
+  .loc-address a:hover { text-decoration: underline; }
+
+  .loc-address p {
+    font-size: 15px;
+    color: var(--text-body);
+    line-height: 1.7;
+    margin-top: 3px;
+  }
+
+  /* ══════════════════════════════
+     SOCIAL BANNER
+  ══════════════════════════════ */
+  .social-banner {
+    background: linear-gradient(rgba(10,5,0,0.6), rgba(10,5,0,0.6)),
+      url('wall-art.png') center/cover no-repeat;
+    padding: 100px 48px;
+    text-align: center;
+  }
+
+  .social-banner p {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--or);
+    margin-bottom: 16px;
+  }
+
+  .social-banner h2 {
+    font-family: var(--font-logo);
+    font-size: clamp(28px, 5vw, 60px);
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 28px;
+    letter-spacing: 0.05em;
+  }
+
+  .social-icons-large {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .social-icons-large a {
+    color: var(--white);
+    opacity: 0.88;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    display: flex;
+  }
+
+  .social-icons-large a:hover { opacity: 1; }
+
+  /* ══════════════════════════════
+     FOOTER
+  ══════════════════════════════ */
+  footer {
+    background: var(--noir);
+    padding: 56px 64px 40px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1.5fr auto;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .footer-brand {
+    font-family: var(--font-logo);
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    color: var(--or);
+  }
+
+  footer h4 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+  }
+
+  footer ul { list-style: none; }
+
+  footer ul li { margin-bottom: 12px; }
+
+  footer ul li a {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 1px;
+    transition: color 0.2s;
+  }
+
+  footer ul li a:hover { color: var(--or); border-color: var(--or); }
+
+  .footer-location p,
+  .footer-hours p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+  }
+
+  .footer-hours p span {
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .footer-location a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: underline;
+    display: block;
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .footer-social a {
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+    display: flex;
+  }
+
+  .footer-social a:hover { opacity: 1; color: var(--or); }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom a {
+    color: rgba(255,255,255,0.35);
+    text-decoration: underline;
+  }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 900px) {
+    .navbar-links, .navbar-social { display: none; }
+    .nav-hamburger { display: flex; }
+    .navbar { padding: 0 24px; }
+
+    .hero-content { padding: 0 24px; }
+
+    .about { grid-template-columns: 1fr; }
+    .about-text { padding: 48px 28px; }
+    .about-img { padding: 32px 28px 0; }
+    .about-img-inner { max-width: 280px; }
+
+    .menu-section { padding: 56px 24px; }
+    .menu-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .events-section { grid-template-columns: 1fr; }
+    .events-img { padding: 40px 28px 0; }
+    .events-text { padding: 24px 28px 48px; }
+
+    .location-top { padding: 0 28px; }
+    .loc-arch-wrap { width: 160px; height: 220px; }
+    .loc-arch-img { width: 160px; height: 220px; }
+    .loc-address { top: 234px; width: 160px; }
+    .loc-address h3 { font-size: 15px; }
+    .loc-address a, .loc-address p { font-size: 13px; }
+    .location-stage { height: 420px; }
+
+    footer {
+      grid-template-columns: 1fr 1fr;
+      padding: 48px 28px 32px;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-social { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 520px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    .about-img-inner { max-width: 220px; }
+    .events-img img { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+  <a href="#accueil" class="navbar-logo">Les Artistes</a>
+
+  <div class="navbar-links">
+    <a href="menu.html">Menu</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="navbar-social">
+    <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+  </div>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobileNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile dropdown -->
+<nav class="mobile-nav-menu" id="mobileNavMenu">
+  <a href="index.html" onclick="toggleMobileNav()">Accueil</a>
+  <a href="menu.html" onclick="toggleMobileNav()">Menu</a>
+  <a href="contact.html" onclick="toggleMobileNav()">Contact</a>
+</nav>
+
+<!-- PAGE CONTENT -->
+<main id="accueil">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-sub">Café · Bar · Événements</div>
+      <h1>Votre espace pour se retrouver.</h1>
+      <p>Venez profiter de notre espace intérieur réaménagé pour passer un bon moment. Café, bières, gourmandises — on vous attend.</p>
+      <a href="contact.html" class="btn-outline-white">NOUS TROUVER</a>
+    </div>
+  </section>
+
+  <!-- ADDRESS BANNER -->
+  <div class="location-banner">
+    <span>Saint-Étienne</span>
+    <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank">11 Pl. Jean Jaurès →</a>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <div class="about-text">
+      <h2>Un lieu où il fait bon vivre</h2>
+      <p>Le Café Les Artistes, c'est l'endroit idéal pour une pause café entre amis, un verre en soirée ou assister à l'un de nos événements culturels. Notre espace récemment réaménagé vous accueille dans une atmosphère chaleureuse et conviviale.</p>
+      <p>Musique, spectacles, et bonne humeur sont au rendez-vous. Que vous passiez pour un expresso rapide ou une soirée entière, vous êtes chez vous ici.</p>
+      <div class="offre">
+        <span>Café</span>
+        <span>Chocolat</span>
+        <span>Bière</span>
+        <span>Cappuccino</span>
+        <span>Sirop</span>
+        <span>Gourmandises</span>
+        <span>Musique</span>
+        <span>Spectacles</span>
+      </div>
+      <a href="menu.html" class="btn-rouge">VOIR LA CARTE</a>
+    </div>
+    <div class="about-img">
+      <div class="about-img-inner">
+        <div class="logo-badge">
+          <span>Les<br>Artistes</span>
+          <span>42000</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu-section" id="menu">
+    <h2>Notre Carte</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <img class="menu-card-img" src="drink-2.png" alt="Boissons chaudes">
+        <h3>Boissons Chaudes</h3>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-img" src="drinks-dessrt.png" alt="Bières et boissons">
+        <h3>Bières &amp; Boissons</h3>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-img" src="food.png" alt="Gourmandises">
+        <h3>Gourmandises</h3>
+      </div>
+      <div class="menu-card">
+        <img class="menu-card-img" src="live-music.png" alt="Événements">
+        <h3>Événements</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉVÉNEMENTS -->
+  <section class="events-section">
+    <div class="events-img">
+      <img src="wall-art.png" alt="Ambiance Café Les Artistes">
+    </div>
+    <div class="events-text">
+      <h2>Musique &amp; Spectacles</h2>
+      <p>Le Café Les Artistes accueille régulièrement des événements : concerts, soirées à thème, performances live. Un espace où la culture et la convivialité se rencontrent au cœur de Saint-Étienne.</p>
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="location-section" id="contact">
+    <div class="location-top">
+      <div class="location-label">Saint-Étienne</div>
+    </div>
+
+    <div class="location-stage">
+      <canvas id="marqueeCanvas"></canvas>
+
+      <div class="loc-arch-wrap">
+        <img class="loc-arch-img" src="exterior.png" alt="Café Les Artistes extérieur">
+      </div>
+
+      <div class="loc-address">
+        <h3>Café Les Artistes</h3>
+        <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank">
+          11 Pl. Jean Jaurès<br>42000 Saint-Étienne
+        </a>
+        <p>Place Jean Jaurès</p>
+        <a href="tel:+33477336824">+33 4 77 33 68 24</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL BANNER -->
+  <section class="social-banner">
+    <p>Retrouvez-nous</p>
+    <h2>@cafelesartistes</h2>
+    <div class="social-icons-large">
+      <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Les Artistes</div>
+
+    <div>
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-location">
+      <h4>Adresse</h4>
+      <a href="https://maps.google.com/?q=11+Pl.+Jean+Jaurès,+42000+Saint-Étienne,+France" target="_blank">
+        11 Pl. Jean Jaurès<br>42000 Saint-Étienne
+      </a>
+      <p style="margin-top:8px;">Place Jean Jaurès</p>
+      <a href="tel:+33477336824" style="margin-top:4px;">+33 4 77 33 68 24</a>
+    </div>
+
+    <div class="footer-hours">
+      <h4>Horaires</h4>
+      <p><span>Lun</span> 09:00–00:00</p>
+      <p><span>Mar–Jeu</span> 09:00–01:00</p>
+      <p><span>Ven–Sam</span> 09:00–01:00</p>
+      <p><span>Dim</span> 09:00–00:00</p>
+    </div>
+
+    <div class="footer-social">
+      <a href="https://www.instagram.com/cafelesartistes/" target="_blank" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/cafelesartistes/" target="_blank" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+    </div>
+
+    <div class="footer-bottom" style="grid-column: 1 / -1;">
+      <span>© 2024 Café Les Artistes.</span>
+      <a href="#">Mentions légales</a>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  /* ── Navbar scroll behaviour ── */
+  const navbar = document.getElementById('navbar');
+
+  function updateNav() {
+    if (window.scrollY > 20) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  /* ── Mobile nav toggle ── */
+  function toggleMobileNav() {
+    document.getElementById('mobileNavMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobileNavMenu');
+    const nav  = document.getElementById('navbar');
+    if (menu.classList.contains('open') && !nav.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
+  /* ── Canvas Marquee ── */
+  (function() {
+    const canvas = document.getElementById('marqueeCanvas');
+    const stage  = canvas.parentElement;
+    const ctx    = canvas.getContext('2d');
+
+    const PHRASE = 'Venez nous rendre visite.      ';
+    const FONT   = "400 64px 'Lora', Georgia, serif";
+    const COLOR  = '#2e1f0f';
+    const SPEED  = 0.6;
+
+    const HILL_SIGMA  = 320;
+    const HILL_Y_LIFT = 52;
+
+    let offset = 0;
+    let tileW  = 0;
+    let W = 0, H = 0;
+    let archCX = 0;
+
+    function resize() {
+      W = stage.offsetWidth;
+      H = stage.offsetHeight || 460;
+      canvas.width  = W;
+      canvas.height = H;
+      const archEl = stage.querySelector('.loc-arch-wrap');
+      if (archEl) {
+        const stageRect = stage.getBoundingClientRect();
+        const archRect  = archEl.getBoundingClientRect();
+        archCX = archRect.left + archRect.width / 2 - stageRect.left;
+      } else {
+        archCX = W * 0.35;
+      }
+      ctx.font = FONT;
+      tileW = ctx.measureText(PHRASE).width;
+    }
+
+    function hill(canvasX) {
+      const dx = canvasX - archCX;
+      return Math.exp(-(dx * dx) / (2 * HILL_SIGMA * HILL_SIGMA));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.font         = FONT;
+      ctx.fillStyle    = COLOR;
+      ctx.textBaseline = 'alphabetic';
+
+      const BASE_Y = H * 0.44;
+
+      let x = -(offset % tileW) - tileW;
+      const reps = Math.ceil((W + tileW * 3) / tileW) + 2;
+      const fullText = PHRASE.repeat(reps);
+
+      for (let i = 0; i < fullText.length; i++) {
+        const ch = fullText[i];
+        const cw = ctx.measureText(ch).width;
+        const cx = x + cw * 0.5;
+
+        if (x > W) break;
+
+        if (x + cw > 0) {
+          const h     = hill(cx);
+          const drawY = BASE_Y - HILL_Y_LIFT * h;
+          ctx.save();
+          ctx.translate(x, drawY);
+          ctx.fillText(ch, 0, 0);
+          ctx.restore();
+        }
+
+        x += cw;
+      }
+
+      offset += SPEED;
+      requestAnimationFrame(draw);
+    }
+
+    document.fonts.ready.then(() => {
+      resize();
+      function syncAddress() {
+        const archEl = stage.querySelector('.loc-arch-wrap');
+        const addrEl = stage.querySelector('.loc-address');
+        if (!archEl || !addrEl) return;
+        const stageR  = stage.getBoundingClientRect();
+        const archR   = archEl.getBoundingClientRect();
+        const leftPx   = archR.left - stageR.left;
+        const bottomPx = archR.bottom - stageR.top;
+        addrEl.style.left      = leftPx + 'px';
+        addrEl.style.top       = (bottomPx + 14) + 'px';
+        addrEl.style.transform = 'none';
+      }
+      syncAddress();
+      window.addEventListener('resize', () => { resize(); syncAddress(); });
+      requestAnimationFrame(draw);
+    });
+  })();
+</script>
+</body>
+</html>
