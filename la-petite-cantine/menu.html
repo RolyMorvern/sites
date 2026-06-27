@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Menus – La Petite Cantine</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Raleway:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./menuStyles.css">
+	</head>
+	<body>
+		<nav class="desktopNavContainer">
+			<div class="hamburgerIconContainer">
+				<input type="checkbox" id="menuIcon">
+				<label for="menuIcon" class="mobileMenuIcon" onclick="showMobileNav();">
+					<div class="interiorMobileMenu"></div>
+				</label>
+			</div>
+			<div class="desktopNav">
+				<a href="./index.html">Accueil</a>
+				<a href="index.html#aboutUs">À Propos</a>
+				<a class="logoLink logoText" href="./index.html">la petite cantine</a>
+				<a href="index.html#moreInfo">Infos Pratiques</a>
+				<a class="active" href="#">Menus</a>
+			</div>
+		</nav>
+		<div class="mobileNav">
+			<a class="mobileNavLink" href="index.html#hero">Accueil</a>
+			<a class="mobileNavLink" href="index.html#aboutUs">À Propos</a>
+			<a class="mobileNavLink" href="index.html#moreInfo">Infos Pratiques</a>
+			<a class="mobileNavLink active" href="#">Menus</a>
+		</div>
+
+		<!-- 1. MENU DE NOËL -->
+		<section id="firstMenuSection" class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/meal.png'); background-position: center;">
+				<h2>Menu de Noël</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Entrées au Choix</h3>
+					<div class="menuItem"><div><h4>Gambas Grillées sur Velouté de Butternut et Chèvre</h4><p>Moules au curry</p></div></div>
+					<div class="menuItem"><div><h4>Médaillon de Foie Gras Mi-Cuit</h4><p>Compotée d'oignons caramélisés, confiture de figue sur son pain d'épices toasté</p></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Plat</h3>
+					<div class="menuItem"><div><h4>Suprême de Pintade</h4><p>Sauce foie gras</p></div></div>
+					<div class="menuItem"><div><h4>Accompagnements</h4><p>Gratin de pommes de terre aux champignons et purée de potimarron aux éclats de châtaignes</p></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Dessert</h3>
+					<div class="menuItem"><div><h4>Café Gourmand</h4><p>Gourmandises du chef et café</p></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 2. À LA CARTE -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/chicken-meal.png'); background-position: center;">
+				<h2>À La Carte</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Viandes</h3>
+					<div class="menuItem"><div><h4>Poire de Bœuf</h4><p>180–200g</p></div></div>
+					<div class="menuItem"><div><h4>Entrecôte</h4><p>320–500g</p></div></div>
+
+					<h3>Entrées</h3>
+					<div class="menuItem"><div><h4>Escargots de Bourgogne</h4><p>La douzaine servie en persillade</p></div></div>
+					<div class="menuItem"><div><h4>Salade Façon César</h4><p>Salade mélangée, émincé de poulet, petits lardons grillés, croûtons à l'ail, copeaux de parmesan, tomates cerise</p></div></div>
+					<div class="menuItem"><div><h4>Salade du Moment</h4><p>Salade mélangée, crevettes marinées, saumon fumé, betteraves</p></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Hamburger</h3>
+					<div class="menuItem"><div><h4>Hamburger du Chef</h4><p>Pain spécial du boulanger, steak haché régional charolais 200g, sauce burger du chef, oignons rouges, poitrine grillée, fromage fondu (cheddar, fourme d'ambert), salade verte, cornet de frites</p></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 3. MENU DU JOUR -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/fish-meal.png'); background-position: center 30%;">
+				<h2>Menu du Jour</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Du Lundi au Vendredi</h3>
+					<div class="menuItem"><div><h4>Entrée, Plat, Dessert</h4></div></div>
+					<div class="menuItem"><div><h4>Entrée, Plat</h4></div></div>
+					<div class="menuItem"><div><h4>Plat, Dessert</h4></div></div>
+					<div class="menuItem"><div><h4>Plat seul</h4></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Tous les Samedis Midi</h3>
+					<div class="menuItem"><div><h4>Le Chef vous propose</h4><p>Cuisses de grenouilles persillées, rapée, salade verte et dessert</p></div></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 4. DESSERTS -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/aesthetic-dessert.png'); background-position: center;">
+				<h2>Desserts Maison</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3>Cafés Gourmands</h3>
+					<div class="menuItem"><div><h4>Café Gourmand Lavazza</h4><p>Moelleux au chocolat, crème brûlée, nougat glacé et petite madeleine</p></div></div>
+					<div class="menuItem"><div><h4>Thé Gourmand</h4><p>Thé noir earl grey, darjeeling, fruits rouges, vanille passion, citron, thé vert nature, menthe, jasmin — accompagné de moelleux au chocolat, crème brûlée, nougat glacé et petite madeleine</p></div></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3>Desserts à la Carte</h3>
+					<div class="menuItem"><div><h4>Fondant au Chocolat</h4></div></div>
+					<div class="menuItem"><div><h4>Crème Brûlée</h4></div></div>
+					<div class="menuItem"><div><h4>Nougat Glacé</h4></div></div>
+					<div class="menuItem"><div><h4>Dessert du Jour</h4><p>Du lundi au vendredi</p></div></div>
+					<div class="menuItem"><div><h4>Assiette Gourmande</h4><p>Le samedi</p></div></div>
+					<div class="menuItem"><div><h4>Glace 2 Boules</h4></div></div>
+					<div class="menuItem"><div><h4>Fromage Blanc Crème ou Coulis</h4></div></div>
+					<div class="menuItem"><div><h4>Assiette de Fromages Secs</h4></div></div>
+				</div>
+			</div>
+		</section>
+
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="./script.js"></script>
+	</body>
+</html>
