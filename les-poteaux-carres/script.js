@@ -9,12 +9,12 @@ const showMobileNav = () => {
     }
 }
 const galleryImageList = [
-    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGMTheBWDAU1aoXOfdDvnZ3UVi6ABZSv7C2nFHiQY3H7Sk0TytBcvEm8iW9ap3paZRHUnuHIX5HpgaPrt4xw9tExhUulAu-Ww6Sh3H0qEVrgRrWMmPpRNNhJ7-h9iLYkr1pk9Km1mRcIdxx=s1360-w1360-h1020-rw",
-    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAE7OLinKu_9KafWPmxnlPaT6t8VMBG2Ei6VaP1bp7bG23lR9QXXlzosaieyu7S5dA388t07JOLfM6YzDhtTKIRZPRQ5SqeVq34qkbN-V6LvBj4dbCk1lrP2VpbGsRe4wRwpRhjQ2vnmOsbs=s1360-w1360-h1020-rw",
-    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAFppKkYz__NptfI7wskhl3NbK2p2LG0uLL2X3Ijp2zy-Q8UF55d8ioZdE2joOjqM9q5L3onRCcV1PbztfRWxcQyuY73mnpJ1DPdwh6gr858XhKvYmyZNVhGYxC0-GtOvLZgN-UJDgDelYjp=s1360-w1360-h1020-rw",
-    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAHnwM-JfKIEYHiQ1urI8MQaTut7CesNBGmaXn5fZWkz7QbdtdBxw6f1nL889Mf-T5XjfGPGWs-6wcjjHyBafZpknil_lQhWdQqlKcMZK6GcvJ7kU0yfz41qFMS9PMcmco0zWQHX5A=s1360-w1360-h1020-rw",
-    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAEV0VZ05VZvDSJbcBHCbYnXYQzAwwCh9z0uti47l75-RBGcJP5ouYKVcVG57XzW-ow2xMwjPBea8iAbQoRNErRnUBYNJx-_E1aB5MQ3Kz7B4BriBbNwQfHyOTa1-HDgPhTok46t=s1360-w1360-h1020-rw",
-    "https://lh3.googleusercontent.com/gps-cs-s/APNQkAGunfuoTOK7wA3lO6jjIY78Rk5-qCIhqpgpSH74fi5t-jH-2KyPkBsZxEfLqMRSzGBckpVN4Pio10yPfd8pq-J40rwdl1rk02dW7FAtzZ0_fA_YSjIxKSVZRoFtEWVnkHimDqfIE3-W1ZkX=s1360-w1360-h1020-rw",
+    "./Images/meal.png",
+    "./Images/fish-dinner.png",
+    "./Images/salad.png",
+    "./Images/wine-steak.png",
+    "./Images/dessert.png",
+    "./Images/interior-3.png",
 ];
 let i = 0;
 const changeImg = (direction) => {

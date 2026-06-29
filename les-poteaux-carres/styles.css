@@ -126,7 +126,7 @@ input#menuIcon {
 	padding-bottom: 1.5rem;
 }
 .hero {
-	background: url("https://lh3.googleusercontent.com/gps-cs-s/APNQkAFtePCgKRpgILk9acYN7-9ouz3WLALyFIbYTOoJhklhpBX-p3KmnTlLDZbz8azDnVWv18m0I9433hzkdwvuPMyalKRsm12zg8s-folYGdK34Fk3RTCUrpdJsgb6m___rCGWgIs4=s1360-w1360-h1020-rw");
+	background: url("./Images/aesthetic-exterior-entry-door.png");
 	background-size: cover;
 	background-position: center;
 	width: 100vw;
@@ -187,7 +187,7 @@ input#menuIcon {
 	width: 100%;
 	height: 75vh;
 	position: relative;
-	background-image: url("https://lh3.googleusercontent.com/gps-cs-s/APNQkAGMTheBWDAU1aoXOfdDvnZ3UVi6ABZSv7C2nFHiQY3H7Sk0TytBcvEm8iW9ap3paZRHUnuHIX5HpgaPrt4xw9tExhUulAu-Ww6Sh3H0qEVrgRrWMmPpRNNhJ7-h9iLYkr1pk9Km1mRcIdxx=s1360-w1360-h1020-rw");
+	background-image: url("./Images/meal.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -293,7 +293,7 @@ input#menuIcon {
 .moreInfoImage {
 	width: 80vw;
 	aspect-ratio: 1/0.65;
-	background-image: url("https://scontent-mrs2-2.xx.fbcdn.net/v/t39.30808-6/710537019_1477486357316984_360028924877559786_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1350&ctp=s1080x1350&_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Sph6qiL_imAQ7kNvwGt3Doh&_nc_oc=AdqDScuvUHUz8_Ag2ZYGMsQKkqUSGB5j2a0ikolhGlzroJ6wuA2DWIwcX0QWZltmWZ4&_nc_zt=23&_nc_ht=scontent-mrs2-2.xx&_nc_gid=L3nNsxR72Iish8w1ceTiVw&_nc_ss=7b2a8&oh=00_Af990XwcLVnjEiBmLiNa-0-_tmaDYmak2KbHy1RsPicuxA&oe=6A325923");
+	background-image: url("./Images/interior-empty.png");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -311,7 +311,7 @@ input#menuIcon {
 	gap: 50px;
 }
 .moreInfoGridImage {
-	background: url("https://lh3.googleusercontent.com/gps-cs-s/APNQkAGunfuoTOK7wA3lO6jjIY78Rk5-qCIhqpgpSH74fi5t-jH-2KyPkBsZxEfLqMRSzGBckpVN4Pio10yPfd8pq-J40rwdl1rk02dW7FAtzZ0_fA_YSjIxKSVZRoFtEWVnkHimDqfIE3-W1ZkX=s1360-w1360-h1020-rw");
+	background: url("./Images/interior-2.png");
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
