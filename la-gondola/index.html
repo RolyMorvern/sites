@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Gondola · Pizzeria Italienne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Fraunces:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #eef4ef;
+  --dark: #16302b;
+  --teal: #58786d;
+  --teal-deep: #405a51;
+  --mid: #6b8079;
+  --light-border: #d7e3dd;
+  --serif: 'Lora', serif;
+  --display: 'Fraunces', serif;
+  --btn-font: 'Instrument Serif', serif;
+  --script: 'Pinyon Script', cursive;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--serif); background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+/* ────────────────────────────────
+   NAV
+──────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 68px;
+  transition: background 0.35s, border-color 0.35s;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: var(--cream);
+  border-bottom-color: var(--light-border);
+}
+
+.hamburger {
+  background: none; border: none; cursor: pointer;
+  display: flex; flex-direction: column; gap: 5px; padding: 4px;
+  z-index: 300;
+}
+.hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: #fff; transition: background 0.35s;
+}
+nav.scrolled .hamburger span { background: var(--dark); }
+.hamburger.open span { background: var(--dark); }
+
+.nav-logo {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; height: 68px;
+  text-decoration: none;
+  font-family: var(--script);
+  font-size: 2.4rem;
+  color: #fff;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  transition: color 0.35s;
+}
+nav.scrolled .nav-logo { color: var(--dark); }
+
+.nav-right { display: flex; align-items: center; gap: 0.9rem; margin-left: auto; }
+
+.btn-nav-menu {
+  border: 1.5px solid rgba(255,255,255,0.8); background: transparent;
+  color: #fff; padding: 0.42rem 1.1rem;
+  font-family: var(--btn-font); font-size: 1rem;
+  letter-spacing: 0.02em;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: border-color 0.35s, color 0.35s, background 0.2s;
+}
+nav.scrolled .btn-nav-menu { border-color: var(--dark); color: var(--dark); }
+.btn-nav-menu:hover { background: rgba(255,255,255,0.15); }
+nav.scrolled .btn-nav-menu:hover { background: rgba(0,0,0,0.06); }
+
+.nav-socials { display: flex; align-items: center; gap: 0.75rem; }
+.nav-socials a { display: flex; align-items: center; color: #fff; text-decoration: none; transition: color 0.35s, opacity 0.2s; }
+.nav-socials a:hover { opacity: 0.7; }
+nav.scrolled .nav-socials a { color: var(--dark); }
+.nav-socials svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* ────────────────────────────────
+   MOBILE MENU OVERLAY
+──────────────────────────────── */
+.menu-overlay {
+  position: fixed; inset: 0; z-index: 250;
+  background: var(--dark);
+  display: flex; flex-direction: column;
+  padding: 2rem 2.5rem 3rem;
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
+}
+.menu-overlay.open { transform: translateX(0); }
+
+.menu-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.5rem; color: var(--cream); align-self: flex-start;
+  margin-bottom: 2.5rem; width: 36px; height: 36px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+
+.menu-overlay-wordmark {
+  font-family: var(--script);
+  font-size: 2.8rem;
+  color: var(--cream);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.01em;
+}
+
+.menu-main-links { list-style: none; margin-bottom: 3rem; }
+.menu-main-links li { margin-bottom: 0.2rem; }
+.menu-main-links a {
+  font-family: var(--display); font-weight: 900; font-size: clamp(2rem, 5vw, 3rem);
+  text-transform: uppercase; text-decoration: none;
+  color: var(--cream); line-height: 1.15;
+  letter-spacing: 0.02em;
+  display: inline-block;
+  transition: color 0.2s;
+}
+.menu-main-links a:hover { color: var(--teal); }
+
+.menu-sub-links { list-style: none; }
+.menu-sub-links li { margin-bottom: 0.5rem; }
+.menu-sub-links a {
+  font-family: var(--display); font-weight: 500; font-size: 0.8rem;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  text-decoration: none; color: rgba(238,244,239,0.55);
+  transition: color 0.2s;
+}
+.menu-sub-links a:hover { color: var(--cream); }
+
+.menu-footer {
+  margin-top: auto; padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.menu-footer-socials { display: flex; gap: 1rem; }
+.menu-footer-socials a { color: var(--cream); display: flex; opacity: 0.7; transition: opacity 0.2s; }
+.menu-footer-socials a:hover { opacity: 1; }
+.menu-footer-socials svg { width: 20px; height: 20px; fill: currentColor; }
+.menu-tagline { font-size: 0.7rem; font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--teal); }
+
+/* ────────────────────────────────
+   HERO
+──────────────────────────────── */
+.hero {
+  position: relative; height: 100vh; min-height: 600px;
+  display: flex; align-items: flex-end; justify-content: center;
+  overflow: hidden;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity 1s ease;
+}
+.hero-slide.active { opacity: 1; }
+.hero-slide img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,26,22,0.75) 0%, rgba(10,26,22,0.14) 60%);
+  z-index: 1;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 4rem 5rem;
+  color: #fff;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.hero-wordmark {
+  font-family: var(--script);
+  font-size: clamp(4rem, 10vw, 8.5rem);
+  letter-spacing: 0.03em;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.35);
+  letter-spacing: 0.01em;
+}
+
+.hero-subtitle {
+  font-family: var(--display);
+  font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 1.8rem; opacity: 0.9;
+}
+.btn-hero {
+  background: transparent; color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.7);
+  padding: 0.8rem 2.2rem;
+  font-family: var(--btn-font); font-style: normal; font-size: 1.05rem;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-hero:hover { background: rgba(255,255,255,0.12); border-color: #fff; }
+
+/* ────────────────────────────────
+   INTRO
+──────────────────────────────── */
+.intro {
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; max-width: 1200px; margin: 0 auto;
+  padding: 5rem 4rem;
+  gap: 4rem;
+}
+.intro-text h2 {
+  font-family: var(--display); font-weight: 900; font-size: 0.75rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 1.6rem; color: var(--teal);
+}
+.intro-text p {
+  font-family: var(--serif); font-size: 0.95rem; line-height: 1.85;
+  color: #223a34; margin-bottom: 1.2rem;
+}
+.intro-text .intro-links { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+.btn-dark {
+  background: var(--dark); color: var(--cream);
+  border: 1.5px solid var(--dark);
+  padding: 0.72rem 1.6rem;
+  font-family: var(--btn-font); font-style: normal; font-size: 1.05rem;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-dark:hover { background: var(--teal); border-color: var(--teal); }
+
+.btn-outline {
+  border: 1.5px solid var(--dark); background: transparent; color: var(--dark);
+  padding: 0.72rem 1.6rem;
+  font-family: var(--btn-font); font-style: normal; font-size: 1.05rem;
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-outline:hover { background: var(--dark); color: var(--cream); }
+
+.intro-image img {
+  width: 100%; height: 500px; object-fit: cover; display: block;
+}
+
+/* ────────────────────────────────
+   REVIEW STRIP
+──────────────────────────────── */
+.press-strip {
+  background: var(--dark); color: var(--cream);
+  padding: 3rem 4rem; text-align: center;
+}
+.press-strip blockquote {
+  font-family: var(--script);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.6; max-width: 860px; margin: 0 auto 1.2rem;
+  color: var(--cream);
+}
+.press-strip cite {
+  font-family: var(--display); font-size: 0.72rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--teal); font-style: normal;
+}
+.press-strip cite a { color: var(--teal); text-decoration: none; }
+.press-strip cite a:hover { text-decoration: underline; }
+
+/* ────────────────────────────────
+   OPENING HOURS
+──────────────────────────────── */
+.infos {
+  text-align: center; padding: 5rem 2rem;
+  border-top: 1px solid var(--light-border);
+  border-bottom: 1px solid var(--light-border);
+}
+.infos address {
+  font-style: normal;
+  font-family: var(--display); font-size: clamp(1rem, 2.5vw, 1.35rem); font-weight: 500;
+  line-height: 1.7; margin-bottom: 2rem; color: var(--dark);
+}
+.infos address a { color: var(--teal); font-family: var(--display); font-style: normal; text-decoration: none; }
+.infos address a:hover { text-decoration: underline; }
+.infos-note {
+  font-family: var(--serif); font-style: italic; font-size: 0.85rem;
+  color: var(--mid); margin-bottom: 3rem;
+}
+.hours-grid {
+  display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;
+  max-width: 1080px; margin: 0 auto 3.5rem;
+}
+.hour-col {
+  text-align: center; min-width: 118px;
+  padding: 1.6rem 1rem;
+  border-radius: 0;
+  color: var(--mid);
+}
+.hour-col.today {
+  border: 1.5px solid var(--teal); color: var(--dark);
+  background: rgba(255,255,255,0.6);
+}
+.hour-col .day-name {
+  font-family: var(--display); font-weight: 700; font-size: 0.7rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  display: block; margin-bottom: 0.5rem;
+}
+.hour-col .time {
+  font-family: var(--serif); font-size: 0.78rem; display: block; font-weight: 600;
+  line-height: 1.5;
+}
+
+/* ────────────────────────────────
+   FEATURES
+──────────────────────────────── */
+.features {
+  max-width: 900px; margin: 0 auto; padding: 0 2rem;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem 1.2rem;
+}
+.feature-tag {
+  font-family: var(--display); font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--dark);
+  border: 1px solid var(--light-border); padding: 0.5rem 1rem;
+  background: #fff;
+}
+
+/* ────────────────────────────────
+   FULL PHOTO BAND
+──────────────────────────────── */
+.photo-band {
+  height: 100vh; overflow: hidden; position: relative;
+}
+.photo-band img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+
+/* ────────────────────────────────
+   ABOUT + FAQ
+──────────────────────────────── */
+.fatto {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; padding: 5rem 4rem; max-width: 1200px; margin: 0 auto;
+  border-bottom: 1px solid var(--light-border);
+}
+.fatto-left h2 {
+  font-family: var(--script); font-weight: 400; font-size: 2.4rem;
+  margin-bottom: 1.4rem; line-height: 1.2; color: var(--dark);
+}
+.fatto-left p {
+  font-family: var(--serif); font-size: 0.95rem; line-height: 1.85;
+  color: #223a34; margin-bottom: 1.8rem;
+}
+.faq-section h2 {
+  font-family: var(--display); font-weight: 900; font-size: 1.6rem;
+  margin-bottom: 1.4rem; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.faq-item {
+  border-top: 1px solid var(--light-border);
+  overflow: hidden;
+}
+.faq-item:last-of-type { border-bottom: 1px solid var(--light-border); }
+.faq-trigger {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem 0; text-align: left;
+}
+.faq-trigger span {
+  font-family: var(--display); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--dark);
+}
+.faq-plus {
+  font-size: 1.4rem; color: var(--teal); transition: transform 0.3s;
+  flex-shrink: 0; margin-left: 1rem;
+}
+.faq-item.open .faq-plus { transform: rotate(45deg); }
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  font-family: var(--serif); font-size: 0.9rem; line-height: 1.75;
+  color: #33473f; padding: 0 0.2rem;
+}
+.faq-item.open .faq-answer { max-height: 300px; padding-bottom: 1.2rem; }
+
+/* ────────────────────────────────
+   GALLERY
+──────────────────────────────── */
+.gallery {
+  max-width: 1200px; margin: 0 auto; padding: 5rem 4rem;
+}
+.gallery-header {
+  text-align: center; margin-bottom: 2.5rem;
+}
+.gallery-header h2 {
+  font-family: var(--script); font-weight: 400; font-size: 2.4rem;
+  color: var(--dark); line-height: 1.2;
+}
+.gallery-header p {
+  font-family: var(--display); font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--teal);
+  margin-top: 0.6rem;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 220px);
+  gap: 0.6rem;
+}
+.gallery-grid img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.gallery-grid a:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.gallery-grid a:nth-child(2) { grid-column: span 1; grid-row: span 1; }
+.gallery-grid a:nth-child(3) { grid-column: span 1; grid-row: span 1; }
+.gallery-grid a:nth-child(4) { grid-column: span 1; grid-row: span 1; }
+.gallery-grid a:nth-child(5) { grid-column: span 1; grid-row: span 1; }
+.gallery-grid a { display: block; overflow: hidden; }
+
+/* ────────────────────────────────
+   FOOTER
+──────────────────────────────── */
+footer {
+  background: var(--cream); padding: 3.5rem 4rem 2rem;
+  border-top: 1px solid var(--light-border);
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem;
+}
+.footer-wordmark {
+  font-family: var(--script); font-size: 2rem; color: var(--dark);
+  margin-bottom: 0.8rem; display: block;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+.footer-links a {
+  font-family: var(--display); font-size: 0.78rem; text-decoration: none;
+  color: var(--dark); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500;
+}
+.footer-links a:hover { color: var(--teal); }
+.footer-col h4 {
+  font-family: var(--display); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.6rem;
+}
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.35rem; }
+.footer-col ul li { font-family: var(--serif); font-size: 0.82rem; color: var(--dark); font-weight: 500; }
+.footer-col-gap { margin-top: 1.2rem; }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--light-border); padding-top: 1.5rem; flex-wrap: wrap; gap: 1rem;
+}
+.footer-bottom small { font-family: var(--display); font-size: 0.72rem; color: var(--mid); }
+.footer-socials { display: flex; gap: 1.4rem; align-items: center; }
+.footer-socials a {
+  font-family: var(--display); font-size: 0.72rem; text-decoration: none;
+  color: var(--dark); display: flex; align-items: center; gap: 0.4rem;
+}
+.footer-socials a:hover { color: var(--teal); }
+.footer-socials svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* ────────────────────────────────
+   RESPONSIVE
+──────────────────────────────── */
+@media (max-width: 768px) {
+  .btn-nav-menu, .nav-socials { display: none; }
+  .nav-right { margin-left: 0; }
+  nav { padding: 0 1.2rem; }
+  .hero-content { padding: 0 1.5rem 4rem; }
+  .hero-wordmark { font-size: clamp(3.5rem, 16vw, 6rem); }
+  .intro { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2rem; }
+  .intro-image { order: -1; }
+  .intro-image img { height: 280px; }
+  .infos { padding: 3rem 1rem; }
+  .hours-grid { gap: 0.4rem; }
+  .hour-col { min-width: 92px; padding: 1.1rem 0.6rem; }
+  .fatto { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 3rem; }
+  .press-strip { padding: 2.5rem 1.5rem; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  footer { padding: 2.5rem 1.5rem; }
+  .menu-overlay { padding: 1.5rem 1.5rem 2.5rem; }
+  .gallery { padding: 3rem 1.5rem; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 160px); }
+  .gallery-grid a:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE MENU OVERLAY ── -->
+<div class="menu-overlay" id="menuOverlay" role="dialog" aria-modal="true" aria-label="Menu principal">
+  <button class="menu-close" id="menuClose" aria-label="Fermer">✕</button>
+  <div class="menu-overlay-wordmark">La Gondola</div>
+  <ul class="menu-main-links">
+    <li><a href="#intro">La Pizzeria</a></li>
+    <li><a href="menu.html">La Carte</a></li>
+    <li><a href="#faq">Informations</a></li>
+    <li><a href="#contact">Nous Contacter</a></li>
+  </ul>
+  <div class="menu-footer">
+    <div class="menu-footer-socials">
+      <a href="https://www.instagram.com/lagondola_restaurant/" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/people/Pizzeria-Miss-Italia/100043522303474" aria-label="Facebook" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
+      </a>
+    </div>
+    <div class="menu-tagline">Pizzeria Italienne</div>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav id="mainNav">
+  <button class="hamburger" id="hamburgerBtn" aria-label="Ouvrir le menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="index.html" class="nav-logo" aria-label="La Gondola — Accueil">La Gondola</a>
+  <div class="nav-right">
+    <a href="menu.html" class="btn-nav-menu">La Carte</a>
+    <div class="nav-socials">
+      <a href="https://www.instagram.com/lagondola_restaurant/" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/people/Pizzeria-Miss-Italia/100043522303474" aria-label="Facebook" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <div class="hero-slide active">
+    <img src="./Images/interior.png" alt="Salle de La Gondola">
+  </div>
+  <div class="hero-slide">
+    <img src="./Images/meal.png" alt="Pizza fraîchement sortie du four">
+  </div>
+  <div class="hero-slide">
+    <img src="./Images/meal-exterior.png" alt="Notre équipe à l'œuvre en cuisine">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-wordmark">La Gondola</h1>
+    <p class="hero-subtitle">Cucina Italiana Autentica · 13 Rue Dormoy, Saint-Étienne</p>
+    <a href="#contact" class="btn-hero">Horaires &amp; Contact</a>
+  </div>
+</section>
+
+<!-- ── INTRO ── -->
+<section style="border-bottom:1px solid var(--light-border);" id="intro">
+  <div class="intro">
+    <div class="intro-text">
+      <h2>La Gondola · Pizzeria Italienne</h2>
+      <p>Bienvenue à La Gondola, où la tradition italienne se savoure sans détour. Large choix de pizzas artisanales (26 ou 33 cm), pâtes fraîches et plats préparés à l'italienne — sans oublier notre tiramisu maison, la touche finale que nos habitués ne manquent jamais.</p>
+      <p>Que ce soit pour un déjeuner entre collègues, un dîner en famille ou une soirée entre amis, notre salle vous accueille avec le sourire — sur place, à emporter, ou livré directement chez vous.</p>
+      <div class="intro-links">
+        <a href="menu.html" class="btn-dark">La Carte</a>
+        <a href="#contact" class="btn-outline">Nous Trouver</a>
+      </div>
+    </div>
+    <div class="intro-image">
+      <img src="./Images/meal-2.png" alt="Assiette généreuse de La Gondola">
+    </div>
+  </div>
+</section>
+
+<!-- ── REVIEW ── -->
+<div class="press-strip">
+  <blockquote>
+    « Nous sommes venues avec des copines, nous avons trop bien mangé. Les pizzas sont délicieuses et les desserts une tuerie. »
+  </blockquote>
+  <cite>Yassamine Kernou · Avis client</cite>
+</div>
+
+<!-- ── OPENING HOURS ── -->
+<section class="infos" id="contact">
+  <address>
+    13 Rue Dormoy, 42000 Saint-Étienne<br>
+    <a href="tel:0962679813">09 62 67 98 13</a>
+  </address>
+  <p class="infos-note">Cuisine italienne &amp; pizza · Déjeuner &amp; dîner · €€–€€€</p>
+  <div class="hours-grid">
+    <div class="hour-col">
+      <span class="day-name">Dimanche</span>
+      <span class="time">11:30–14:00</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+    <div class="hour-col">
+      <span class="day-name">Lundi</span>
+      <span class="time">11:30–14:00</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+    <div class="hour-col">
+      <span class="day-name">Mardi</span>
+      <span class="time">11:30–14:00</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+    <div class="hour-col">
+      <span class="day-name">Mercredi</span>
+      <span class="time">11:30–14:00</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+    <div class="hour-col">
+      <span class="day-name">Jeudi</span>
+      <span class="time">11:30–14:00</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+    <div class="hour-col">
+      <span class="day-name">Vendredi</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+    <div class="hour-col">
+      <span class="day-name">Samedi</span>
+      <span class="time">11:30–14:00</span>
+      <span class="time">18:30–23:00</span>
+    </div>
+  </div>
+  <div class="features">
+    <span class="feature-tag">Accessible en fauteuil roulant</span>
+    <span class="feature-tag">Cartes bancaires acceptées</span>
+    <span class="feature-tag">Places assises</span>
+    <span class="feature-tag">Plats à emporter</span>
+    <span class="feature-tag">Réservations</span>
+    <span class="feature-tag">Sert de l'alcool</span>
+    <span class="feature-tag">Service à table</span>
+  </div>
+</section>
+
+<!-- ── FULL PHOTO ── -->
+<div class="photo-band">
+  <img src="./Images/pizza-by-oven.png" alt="Pizza cuite au feu de bois chez La Gondola">
+</div>
+
+<!-- ── ABOUT + FAQ ── -->
+<section class="fatto" id="faq">
+  <div class="fatto-left">
+    <h2>L'Italie dans chaque pizza</h2>
+    <p>À La Gondola, la pizza est un savoir-faire artisanal. Pâte travaillée avec soin, ingrédients choisis, cuisson maîtrisée : chaque pizza sortie du four est une petite démonstration d'exigence italienne.</p>
+    <p>Aux côtés des pizzas, nos pâtes fraîches, nos viandes et poissons, et bien sûr notre tiramisu — véritable signature de la maison — complètent une carte pensée pour tous les appétits.</p>
+    <a href="menu.html" class="btn-dark">Voir la carte</a>
+  </div>
+  <div class="faq-section">
+    <h2>Vos questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-trigger" aria-expanded="false">
+        <span>Réservations</span>
+        <span class="faq-plus">＋</span>
+      </button>
+      <div class="faq-answer">
+        Contactez-nous par téléphone au 09 62 67 98 13. Quelques places sont également disponibles sans réservation selon disponibilités.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-trigger" aria-expanded="false">
+        <span>Livraison &amp; à emporter</span>
+        <span class="faq-plus">＋</span>
+      </button>
+      <div class="faq-answer">
+        Toute notre carte est disponible à emporter, et une sélection de plats est livrable via Uber Eats. Commandez directement depuis notre page Uber Eats.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-trigger" aria-expanded="false">
+        <span>Groupes &amp; événements</span>
+        <span class="faq-plus">＋</span>
+      </button>
+      <div class="faq-answer">
+        Pour les groupes ou événements privés, contactez-nous directement par téléphone ou via nos réseaux sociaux. Notre salle accueille aussi bien les repas d'équipe que les célébrations en famille.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-trigger" aria-expanded="false">
+        <span>Les enfants sont-ils les bienvenus ?</span>
+        <span class="faq-plus">＋</span>
+      </button>
+      <div class="faq-answer">
+        Absolument. La Gondola est une pizzeria conviviale ouverte à tous. Notre équipe accueille les familles avec plaisir.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-trigger" aria-expanded="false">
+        <span>Régimes alimentaires &amp; allergies</span>
+        <span class="faq-plus">＋</span>
+      </button>
+      <div class="faq-answer">
+        En cas d'allergie ou de régime particulier, merci d'en informer notre équipe à l'arrivée ou lors de la réservation — votre sécurité est notre priorité.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header">
+    <h2>Un aperçu de la maison</h2>
+    <p>Cucina Italiana Autentica</p>
+  </div>
+  <div class="gallery-grid">
+    <a href="./Images/aesthetic-food.png" target="_blank" rel="noopener">
+      <img src="./Images/aesthetic-food.png" alt="Assortiment de plats de La Gondola">
+    </a>
+    <a href="./Images/pizza.png" target="_blank" rel="noopener">
+      <img src="./Images/pizza.png" alt="Pizza artisanale de La Gondola">
+    </a>
+    <a href="./Images/dessert.png" target="_blank" rel="noopener">
+      <img src="./Images/dessert.png" alt="Dessert maison de La Gondola">
+    </a>
+    <a href="./Images/pizza-2.png" target="_blank" rel="noopener">
+      <img src="./Images/pizza-2.png" alt="Pizza aux olives de La Gondola">
+    </a>
+    <a href="./Images/pizza-3.png" target="_blank" rel="noopener">
+      <img src="./Images/pizza-3.png" alt="Préparation d'une pizza chez La Gondola">
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-wordmark">La Gondola</span>
+      <ul class="footer-links">
+        <li><a href="menu.html">La Carte</a></li>
+        <li><a href="#faq">FAQ &amp; Informations</a></li>
+        <li><a href="#contact">Nous contacter</a></li>
+        <li><a href="mentions-legales.html">Mentions légales</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Adresse</h4>
+      <ul>
+        <li>13 Rue Dormoy</li>
+        <li>42000 Saint-Étienne</li>
+        <li>France</li>
+      </ul>
+      <div class="footer-col-gap">
+        <h4>Téléphone</h4>
+        <ul><li><a href="tel:0962679813" style="color:var(--teal);text-decoration:none;">09 62 67 98 13</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Horaires</h4>
+      <ul>
+        <li>Dim – Jeu, Sam : 11:30–14:00 &amp; 18:30–23:00</li>
+        <li>Vendredi : 18:30–23:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <small>© 2026 La Gondola · Pizzeria Italienne</small>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/lagondola_restaurant/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.facebook.com/people/Pizzeria-Miss-Italia/100043522303474" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.987C18.343 21.128 22 16.991 22 12z"/></svg>
+        Facebook
+      </a>
+      <a href="https://www.ubereats.com/fr/store/la-gondola/-_PDzE2DSVKlWME_yqx9Ng" target="_blank" rel="noopener" aria-label="Uber Eats">
+        Uber Eats
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── SCROLL NAV ──
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── HAMBURGER / MENU OVERLAY ──
+const btn = document.getElementById('hamburgerBtn');
+const overlay = document.getElementById('menuOverlay');
+const closeBtn = document.getElementById('menuClose');
+
+function closeMenu() {
+  overlay.classList.remove('open');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+btn.addEventListener('click', () => {
+  const isOpen = overlay.classList.contains('open');
+  if (isOpen) {
+    closeMenu();
+  } else {
+    overlay.classList.add('open');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+});
+
+closeBtn.addEventListener('click', closeMenu);
+
+document.querySelectorAll('#menuOverlay a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+
+// ── HERO SLIDESHOW ──
+const slides = document.querySelectorAll('.hero-slide');
+let current = 0;
+setInterval(() => {
+  slides[current].classList.remove('active');
+  current = (current + 1) % slides.length;
+  slides[current].classList.add('active');
+}, 5000);
+
+// ── TODAY HIGHLIGHT ──
+const days = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const today = days[new Date().getDay()];
+document.querySelectorAll('.hour-col').forEach(col => {
+  if (col.querySelector('.day-name')?.textContent.trim() === today) {
+    col.classList.add('today');
+  }
+});
+
+// ── FAQ ACCORDION ──
+document.querySelectorAll('.faq-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const item = trigger.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-trigger').setAttribute('aria-expanded', false);
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      trigger.setAttribute('aria-expanded', true);
+    }
+  });
+});
+</script>
+</body>
+</html>
