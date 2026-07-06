@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Carte — Le Grillon · Saint-Étienne</title>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #EFEDDE;
+    --navy: #294C67;
+    --navy-dark: #1f394d;
+    --red: #9A5164;
+    --text-dark: #2a2a2a;
+    --text-muted: #5a5a55;
+    --sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --script: 'Yellowtail', 'Brush Script MT', cursive;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem 3rem;
+  }
+
+  .nav-lang { display: flex; gap: 1.5rem; }
+  .nav-lang a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .nav-lang a:hover { opacity: 0.75; }
+  .nav-lang a.active { border-bottom: 1px solid var(--cream); }
+
+  .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-logo a { text-decoration: none; }
+  .nav-logo svg { width: 190px; height: auto; overflow: visible; }
+
+  .btn-reservation {
+    background: var(--red);
+    color: #fff;
+    padding: 0.65rem 1.6rem;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    transition: opacity 0.2s;
+    border: none;
+  }
+  .btn-reservation:hover { opacity: 0.85; }
+
+  /* Mobile menu button */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--cream);
+    transition: all 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--navy);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.7; }
+  .mobile-menu .mobile-close {
+    position: absolute;
+    top: 1.6rem; right: 1.8rem;
+    font-size: 1.5rem;
+    color: var(--cream);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--sans);
+  }
+
+  /* ── PAGE HERO (slim) ── */
+  .page-hero {
+    position: relative;
+    height: 42vh;
+    min-height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 3.2rem;
+  }
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('./Images/interior-vertically-oriented.png') center/cover no-repeat;
+    filter: brightness(0.4);
+  }
+  .page-hero-content {
+    position: relative;
+    text-align: center;
+    color: var(--cream);
+  }
+  .page-hero-content .eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.8rem;
+  }
+  .page-hero-content h1 {
+    font-family: var(--script);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--cream);
+  }
+  .page-hero-divider {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 3rem;
+    background: var(--cream);
+    opacity: 0.4;
+  }
+
+  /* ── MENU WRAPPER ── */
+  .menu-page {
+    background: var(--cream);
+    padding: 5rem 0 7rem;
+  }
+  .menu-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Intro note */
+  .menu-intro {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .menu-intro p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 0.7rem;
+  }
+  .menu-intro .note-small {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    opacity: 0.8;
+    font-style: italic;
+  }
+
+  /* ── MENU CATEGORY ── */
+  .menu-category { margin-bottom: 3.6rem; }
+  .menu-category-head {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .menu-category-head svg { flex-shrink: 0; }
+  .menu-category-head h2 {
+    font-family: var(--script);
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .menu-category-head .rule {
+    flex: 1;
+    height: 1px;
+    background: rgba(41,76,103,0.18);
+  }
+
+  .menu-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid rgba(41,76,103,0.1);
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item-name {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  .menu-item-name .tag {
+    display: inline-block;
+    margin-left: 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+    border: 1px solid var(--red);
+    border-radius: 0 6px 0 6px;
+    padding: 0.12rem 0.5rem;
+    vertical-align: middle;
+  }
+  .menu-item-desc {
+    font-size: 0.94rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .allergen-note {
+    background: rgba(41,76,103,0.06);
+    border: 1px solid rgba(41,76,103,0.15);
+    border-radius: 0 14px 0 14px;
+    padding: 1.6rem 1.8rem;
+    margin-top: 1rem;
+  }
+  .allergen-note p {
+    font-size: 0.94rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy-dark); padding: 5rem 2rem 3rem; text-align: center; }
+  .footer-logo { margin-bottom: 2.5rem; }
+  .footer-logo svg { width: min(320px, 85vw); height: auto; overflow: visible; }
+  footer address {
+    font-style: normal;
+    color: rgba(239,237,222,0.75);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 2.3;
+    margin-bottom: 1.5rem;
+  }
+  footer address a { color: rgba(239,237,222,0.85); text-decoration: underline; text-underline-offset: 3px; }
+  footer address a:hover { color: #fff; }
+  .footer-hours { color: rgba(239,237,222,0.75); font-size: 0.95rem; font-weight: 400; margin-bottom: 2rem; }
+  .footer-social { margin-bottom: 2rem; display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; }
+  .footer-social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 38px;
+    padding: 0 1.1rem;
+    border: 1px solid rgba(239,237,222,0.3);
+    border-radius: 20px;
+    color: rgba(239,237,222,0.8);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social a:hover { border-color: rgba(239,237,222,0.8); color: #fff; }
+  .footer-social svg { width: 16px; height: 16px; }
+  .footer-legal {
+    border-top: 1px solid rgba(239,237,222,0.15);
+    padding-top: 1.5rem;
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  }
+  .footer-legal a {
+    color: rgba(239,237,222,0.55); font-size: 0.82rem;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .footer-legal a:hover { color: rgba(239,237,222,0.85); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-lang { display: none; }
+    .btn-reservation { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    .page-hero { height: 34vh; }
+    .menu-page { padding: 3.5rem 0 5rem; }
+    .menu-category-head h2 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-lang">
+    <a href="index.html">Accueil</a>
+    <a href="menu.html" class="active">La Carte</a>
+  </div>
+
+  <div class="nav-logo">
+    <a href="index.html">
+      <svg viewBox="0 0 220 60" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="50%" y="42" text-anchor="middle" font-family="Yellowtail, cursive" font-size="34" font-weight="400" fill="#EFEDDE">Le Grillon</text>
+      </svg>
+    </a>
+  </div>
+
+  <a href="./reserver.html" class="btn-reservation">Réserver</a>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Menu de navigation">
+  <button class="mobile-close" id="mobileClose" aria-label="Fermer">✕</button>
+  <a href="./index.html" onclick="closeMobileMenu()">Accueil</a>
+  <a href="./menu.html" onclick="closeMobileMenu()">La Carte</a>
+  <a href="#contact-section" onclick="closeMobileMenu()">Horaires & Contact</a>
+  <a href="./reserver.html" onclick="closeMobileMenu()">Réserver</a>
+</div>
+
+<!-- ── PAGE HERO ── -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-content">
+    <p class="eyebrow">Brasserie traditionnelle</p>
+    <h1>La Carte</h1>
+  </div>
+  <div class="page-hero-divider"></div>
+</section>
+
+<!-- ── MENU ── -->
+<section class="menu-page">
+  <div class="menu-container">
+
+    <div class="menu-intro">
+      <p>Des classiques de brasserie traités avec respect, des produits frais et quelques belles options végétaliennes — le tout dans l'esprit d'une vraie cantine de quartier.</p>
+      <p class="note-small">Carte proposée à titre indicatif · Nos tarifs vous seront communiqués sur place ou par téléphone</p>
+    </div>
+
+    <!-- ENTRÉES -->
+    <div class="menu-category">
+      <div class="menu-category-head">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#294C67" stroke-width="1.3"><circle cx="17" cy="17" r="13"/><path d="M17 8v9l6 3"/></svg>
+        <h2>Entrées</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="menu-item">
+        <p class="menu-item-name">Coquilles Saint-Jacques poêlées</p>
+        <p class="menu-item-desc">Pétoncles saisies à cru, servies avec un beurre citronné et une julienne de légumes de saison.</p>
+      </div>
+      <div class="menu-item">
+        <p class="menu-item-name">Salade lyonnaise <span class="tag">Lardons</span></p>
+        <p class="menu-item-desc">Mesclun, lardons dorés, croûtons maison et vinaigrette à l'échalote.</p>
+      </div>
+      <div class="menu-item">
+        <p class="menu-item-name">Salade d'accompagnement <span class="tag">Végétalien</span></p>
+        <p class="menu-item-desc">Mesclun et légumes de saison, vinaigrette maison — en accompagnement ou en entrée.</p>
+      </div>
+    </div>
+
+    <!-- PLATS -->
+    <div class="menu-category">
+      <div class="menu-category-head">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#294C67" stroke-width="1.3"><ellipse cx="17" cy="17" rx="13" ry="9"/></svg>
+        <h2>Plats</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="menu-item">
+        <p class="menu-item-name">Bar en filet, sauce beurre blanc <span class="tag">Poisson</span></p>
+        <p class="menu-item-desc">Filet de bar poêlé, sauce beurre blanc et légumes du marché.</p>
+      </div>
+      <div class="menu-item">
+        <p class="menu-item-name">Gratin dauphinois maison</p>
+        <p class="menu-item-desc">Pommes de terre fondantes, crème et une pointe d'ail — servi doré, en accompagnement ou en plat selon l'appétit.</p>
+      </div>
+      <div class="menu-item">
+        <p class="menu-item-name">Assiette végétalienne du jour <span class="tag">Végétalien</span></p>
+        <p class="menu-item-desc">Légumes de saison rôtis, céréales et sauce maison — recette selon arrivage.</p>
+      </div>
+    </div>
+
+    <!-- DESSERTS -->
+    <div class="menu-category">
+      <div class="menu-category-head">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#294C67" stroke-width="1.3"><path d="M9 15c0-5 3.5-9 8-9s8 4 8 9"/><path d="M6 15h22l-2 12H8z"/></svg>
+        <h2>Desserts</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="menu-item">
+        <p class="menu-item-name">Fondant au chocolat</p>
+        <p class="menu-item-desc">Cœur coulant au chocolat noir, servi tiède avec une boule de glace vanille.</p>
+      </div>
+      <div class="menu-item">
+        <p class="menu-item-name">Gâteaux maison</p>
+        <p class="menu-item-desc">Sélection de gâteaux du jour, préparés en cuisine.</p>
+      </div>
+    </div>
+
+    <!-- BAR & COCKTAILS -->
+    <div class="menu-category">
+      <div class="menu-category-head">
+        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="#294C67" stroke-width="1.3"><path d="M8 6h18l-9 11z"/><line x1="17" y1="17" x2="17" y2="27"/><line x1="11" y1="27" x2="23" y2="27"/></svg>
+        <h2>Bar &amp; Cocktails</h2>
+        <div class="rule"></div>
+      </div>
+
+      <div class="menu-item">
+        <p class="menu-item-name">Cocktails maison</p>
+        <p class="menu-item-desc">Une sélection de cocktails signature, préparés au bar selon vos envies.</p>
+      </div>
+      <div class="menu-item">
+        <p class="menu-item-name">Vins, bières &amp; softs</p>
+        <p class="menu-item-desc">Une carte de vins choisie pour accompagner vos plats, ainsi que bières pression et boissons sans alcool.</p>
+      </div>
+    </div>
+
+    <div class="allergen-note">
+      <p>Nous vous invitons à informer votre serveur de toute allergie ou intolérance alimentaire avant de passer commande. Notre équipe se fera un plaisir de vous conseiller.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="contact">
+  <div class="footer-logo">
+    <svg viewBox="0 0 340 90" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="50%" y="55" text-anchor="middle" font-family="Yellowtail, cursive" font-size="48" font-weight="400" fill="rgba(239,237,222,0.92)">Le Grillon</text>
+      <text x="50%" y="76" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="9" fill="rgba(239,237,222,0.5)" letter-spacing="2.5">BRASSERIE TRADITIONNELLE · SAINT-ÉTIENNE</text>
+    </svg>
+  </div>
+
+  <address>
+    <a href="https://maps.google.com/?q=48+Rue+Gambetta+42000+Saint-Étienne" target="_blank">48 Rue Gambetta, 42000 Saint-Étienne</a><br>
+    <a href="tel:+33427403653">04 27 40 36 53</a><br>
+    <a href="mailto:brasserie.grillon@gmail.com">brasserie.grillon@gmail.com</a>
+  </address>
+
+  <p class="footer-hours">Lun – Jeu : 10h00–20h00 &nbsp;|&nbsp; Ven : 10h00–22h00 &nbsp;|&nbsp; Sam &amp; Dim : Fermé</p>
+
+  <div class="footer-social">
+    <a href="https://www.facebook.com/100091822174675?locale=lv_LV" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="4"/>
+        <path d="M15 2h-2a4 4 0 0 0-4 4v2H7v4h2v8h4v-8h2.5l.5-4H13V6a1 1 0 0 1 1-1h1z"/>
+      </svg>
+      Facebook
+    </a>
+    <a href="https://www.tripadvisor.fr/Restaurant_Review-g187269-d8804412-Reviews-Le_Grillon-Saint_Etienne_Loire_Auvergne_Rhone_Alpes.html" target="_blank" aria-label="TripAdvisor">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="13" r="4"/>
+        <circle cx="16" cy="13" r="4"/>
+        <path d="M12 9c0-2 2-3 2-3M12 9c0-2-2-3-2-3M2 6h6M16 6h6"/>
+      </svg>
+      TripAdvisor
+    </a>
+  </div>
+
+  <div class="footer-legal">
+    <a href="#">Politique de confidentialité</a>
+    <a href="tel:+33427403653">📞 04 27 40 36 53</a>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileClose.addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMobileMenu(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Grillon — Brasserie traditionnelle · Saint-Étienne</title>
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #EFEDDE;
+    --navy: #294C67;
+    --navy-dark: #1f394d;
+    --red: #9A5164;
+    --text-dark: #2a2a2a;
+    --text-muted: #5a5a55;
+    --sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --script: 'Yellowtail', 'Brush Script MT', cursive;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.6rem 3rem;
+  }
+
+  .nav-lang { display: flex; gap: 1.5rem; }
+  .nav-lang a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .nav-lang a:hover { opacity: 0.75; }
+
+  .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-logo a { text-decoration: none; }
+  .nav-logo svg { width: 190px; height: auto; overflow: visible; }
+
+  .btn-reservation {
+    background: var(--red);
+    color: #fff;
+    padding: 0.65rem 1.6rem;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    transition: opacity 0.2s;
+    border: none;
+  }
+  .btn-reservation:hover { opacity: 0.85; }
+
+  /* Mobile menu button */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--cream);
+    transition: all 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile drawer */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--navy);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+  .mobile-menu a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    transition: opacity 0.2s;
+  }
+  .mobile-menu a:hover { opacity: 0.7; }
+  .mobile-menu .mobile-close {
+    position: absolute;
+    top: 1.6rem; right: 1.8rem;
+    font-size: 1.5rem;
+    color: var(--cream);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--sans);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: url('./Images/aesthetic-interior.png') center/cover no-repeat;
+    filter: brightness(0.42);
+  }
+  .hero-content {
+    position: relative;
+    text-align: center;
+    color: var(--cream);
+    padding: 0 1.5rem;
+  }
+  .hero-content h1 {
+    font-family: var(--script);
+    font-size: clamp(4rem, 11vw, 8rem);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+    color: var(--cream);
+  }
+  .hero-content p {
+    font-size: 0.95rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    color: var(--cream);
+    opacity: 0.9;
+  }
+  .btn-accent {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    padding: 0.95rem 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    transition: opacity 0.2s;
+    border: none;
+  }
+  .btn-accent:hover { opacity: 0.85; }
+
+  /* ── SHARED SECTION ── */
+  section { padding: 6rem 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+
+  /* ── INTRO ── */
+  .intro { background: var(--cream); text-align: center; padding: 5rem 0 3rem; }
+  .intro .collab-label {
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+  }
+  .intro .tagline {
+    max-width: 700px;
+    margin: 0 auto 1.2rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    line-height: 1.75;
+  }
+  .intro .subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── CUISINE ── */
+  .cuisine { background: var(--cream); padding: 4rem 0 6rem; }
+  .cuisine-inner {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+  .cuisine-text h2 {
+    font-family: var(--script);
+    font-size: 3.4rem;
+    font-weight: 400;
+    margin-bottom: 1.4rem;
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .cuisine-text p {
+    font-size: 1.02rem;
+    font-weight: 400;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 1.4rem;
+  }
+  .cuisine-text blockquote {
+    font-style: italic;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--text-dark);
+    margin: 1.4rem 0 0.5rem;
+    border-left: 3px solid var(--red);
+    padding-left: 1.2rem;
+  }
+  .cuisine-text .chef-sig {
+    font-style: italic;
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+  }
+  .cuisine-text .note {
+    font-style: italic;
+    font-size: 0.86rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+  .cuisine-img img {
+    width: 100%;
+    height: 620px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── ALL BUTTONS ── */
+  .btn-main {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    padding: 0.85rem 2.2rem;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    margin-right: 0.8rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .btn-main:hover { opacity: 0.85; }
+  .btn-outline {
+    display: inline-block;
+    background: transparent;
+    color: var(--navy);
+    padding: 0.8rem 2.1rem;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 0 12px 0 12px;
+    margin-right: 0.8rem;
+    margin-bottom: 0.5rem;
+    border: 1.5px solid var(--navy);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { background: var(--navy); color: #fff; }
+
+  /* ── QUARTIER (location) ── */
+  .quartier { background: var(--cream); padding: 5rem 0; }
+  .quartier-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    min-height: 520px;
+  }
+  .quartier-photos {
+    position: relative;
+    height: 520px;
+  }
+  .quartier-photos img { object-fit: cover; display: block; position: absolute; }
+  .quartier-photos .photo-1 {
+    width: 48%;
+    height: 280px;
+    top: 0; left: 0;
+    z-index: 1;
+  }
+  .quartier-photos .photo-2 {
+    width: 38%;
+    height: 220px;
+    top: 30px; right: 0;
+    z-index: 1;
+  }
+  .quartier-photos .photo-3 {
+    width: 68%;
+    height: 300px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .quartier-text h2 {
+    font-family: var(--script);
+    font-size: 3.1rem;
+    font-weight: 400;
+    margin-bottom: 1.6rem;
+    line-height: 1.15;
+    color: var(--navy);
+  }
+  .quartier-text p {
+    font-size: 1.02rem;
+    font-weight: 400;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 1.6rem;
+  }
+
+  /* ── SERVICES / EQUIPEMENTS ── */
+  .services { background: var(--navy); padding: 2rem 0; }
+  .services-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+    text-align: center;
+  }
+  .services h2 {
+    font-family: var(--script);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 1.1rem;
+  }
+  .services > .services-inner > p.services-lead {
+    display: none;
+  }
+  .services-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .service-chip {
+    background: rgba(239,237,222,0.06);
+    border: 1px solid rgba(239,237,222,0.18);
+    border-radius: 0 10px 0 10px;
+    padding: 0.5rem 0.9rem;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .service-chip svg { width: 18px; height: 18px; margin-bottom: 0; flex-shrink: 0; }
+  .service-chip p {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /* ── CAROUSEL GALLERY ── */
+  .gallery {
+    background: var(--cream);
+    padding: 0;
+    overflow: hidden;
+  }
+  .carousel-track-wrap { overflow: hidden; width: 100%; }
+  .carousel-track {
+    display: flex;
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.18, 1);
+    will-change: transform;
+  }
+  .carousel-track img {
+    width: 33.333vw;
+    height: 60vh;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* ── INFO COLUMNS ── */
+  .info-cols { background: var(--cream); padding: 6rem 0 5rem; }
+  .info-cols-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+  .info-col img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 1.2rem;
+  }
+  .info-col h3 {
+    font-family: var(--script);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 0.8rem;
+  }
+  .info-col p {
+    font-size: 0.98rem;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy-dark); padding: 5rem 2rem 3rem; text-align: center; }
+  .footer-logo { margin-bottom: 2.5rem; }
+  .footer-logo svg { width: min(320px, 85vw); height: auto; overflow: visible; }
+  footer address {
+    font-style: normal;
+    color: rgba(239,237,222,0.75);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 2.3;
+    margin-bottom: 1.5rem;
+  }
+  footer address a { color: rgba(239,237,222,0.85); text-decoration: underline; text-underline-offset: 3px; }
+  footer address a:hover { color: #fff; }
+  .footer-hours { color: rgba(239,237,222,0.75); font-size: 0.95rem; font-weight: 400; margin-bottom: 2rem; }
+  .footer-social { margin-bottom: 2rem; display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; }
+  .footer-social a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 38px;
+    padding: 0 1.1rem;
+    border: 1px solid rgba(239,237,222,0.3);
+    border-radius: 20px;
+    color: rgba(239,237,222,0.8);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .footer-social a:hover { border-color: rgba(239,237,222,0.8); color: #fff; }
+  .footer-social svg { width: 16px; height: 16px; }
+  .footer-legal {
+    border-top: 1px solid rgba(239,237,222,0.15);
+    padding-top: 1.5rem;
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  }
+  .footer-legal a {
+    color: rgba(239,237,222,0.55); font-size: 0.82rem;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .footer-legal a:hover { color: rgba(239,237,222,0.85); }
+
+  /* ── DECO ICONS ── */
+  .deco-icon { display: block; margin: 0 auto 1.5rem; opacity: 0.6; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 800px) {
+    .nav-lang, .btn-reservation { display: none; }
+    .nav-hamburger { display: flex; }
+    .mobile-menu { display: flex; }
+
+    nav { padding: 1.2rem 1.5rem; }
+
+    .cuisine-inner,
+    .quartier-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+    .cuisine-inner { padding: 0 1.5rem; }
+    .quartier-inner { padding: 0 1.5rem; }
+
+    .cuisine-img img { height: 380px; }
+
+    .quartier-photos { height: 420px; }
+    .quartier-photos .photo-1 { width: 50%; height: 220px; }
+    .quartier-photos .photo-2 { width: 36%; height: 180px; top: 20px; }
+    .quartier-photos .photo-3 { width: 76%; height: 240px; }
+
+    .services-grid { gap: 0.5rem; }
+    .service-chip { padding: 0.45rem 0.75rem; }
+    .service-chip p { font-size: 0.72rem; white-space: normal; }
+
+    .carousel-track img { width: 80vw; height: 50vh; }
+
+    .info-cols-inner { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    .info-col img { height: 200px; }
+
+    .container { padding: 0 1.5rem; }
+
+    .hero-content h1 { font-size: 3.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-lang">
+    <a style="text-decoration: underline;" href="./index.html">Accueil</a>
+    <a href="./menu.html">La Carte</a>
+  </div>
+
+  <div class="nav-logo">
+    <a href="./index.html">
+      <svg viewBox="0 0 220 60" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="50%" y="42" text-anchor="middle" font-family="Yellowtail, cursive" font-size="34" font-weight="400" fill="#EFEDDE">Le Grillon</text>
+      </svg>
+    </a>
+  </div>
+
+  <a href="./reserver.html" class="btn-reservation">Réserver</a>
+
+  <button class="nav-hamburger" id="hamburger" aria-label="Ouvrir le menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu drawer -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Menu de navigation">
+  <button class="mobile-close" id="mobileClose" aria-label="Fermer">✕</button>
+  <a href="./index.html" onclick="closeMobileMenu()">Accueil</a>
+  <a href="./menu.html" onclick="closeMobileMenu()">La Carte</a>
+  <a href="#contact-section" onclick="closeMobileMenu()">Horaires & Contact</a>
+  <a href="./reserver.html" onclick="closeMobileMenu()">Réserver</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <h1>Le Grillon</h1>
+    <p>Brasserie traditionnelle · Saint-Étienne</p>
+    <a href="./reserver.html" class="btn-accent">Réservez Maintenant</a>
+  </div>
+</section>
+
+<!-- ── INTRO ── -->
+<section class="intro">
+  <div class="container">
+    <p class="collab-label">🍷 Terrasse · Excellents cocktails · Plats végétaliens</p>
+    <p class="tagline">Entrez chez Le Grillon et plongez dans une brasserie retrouvée, où le temps semble s'être arrêté sur les années 30. Ici, les recettes traditionnelles sont traitées avec respect, servies dans un décor de banquettes, miroirs et lumière chaleureuse.</p>
+    <p class="subtitle">Cuisine traditionnelle · Sur place & Terrasse</p>
+  </div>
+</section>
+
+<!-- ── LA BRASSERIE ── -->
+<section class="cuisine" id="brasserie">
+  <div class="cuisine-inner">
+    <div class="cuisine-text">
+      <svg class="deco-icon" width="50" height="50" viewBox="0 0 50 50" fill="none">
+        <path d="M15 6v14a10 10 0 0 0 20 0V6" stroke="#294C67" stroke-width="1.2"/>
+        <line x1="25" y1="30" x2="25" y2="44" stroke="#294C67" stroke-width="1.2"/>
+        <line x1="17" y1="44" x2="33" y2="44" stroke="#294C67" stroke-width="1.2"/>
+      </svg>
+      <h2>La Brasserie</h2>
+      <p>Le gratin dauphinois doré, les pétoncles savoureuses et le fondant au chocolat qui signe la fin d'un repas sur une note gourmande : la carte du Grillon mise sur des produits frais et des classiques maîtrisés. L'équipe accueille avec chaleur et simplicité, parfaite pour un dîner convivial entre amis ou un repas qui sent bon la tradition.</p>
+      <blockquote>« Le Grillon promet une parenthèse réconfortante au cœur de Saint-Étienne. »</blockquote>
+      <p class="chef-sig">— Le Grillon, Saint-Étienne</p>
+      <p class="note">L'expérience peut varier selon l'heure et la table : en soirée tardive, l'offre se resserre et la présentation des accompagnements peut changer selon l'affluence — un signe que la maison fonctionne encore au rythme d'une vraie cantine de quartier.</p>
+      <a href="tel:+33427403653" class="btn-main">Appeler</a>
+      <a href="./menu.html" class="btn-outline">Voir la carte</a>
+    </div>
+    <div class="cuisine-img">
+      <img src="./Images/aesthetic-meal-horizontally-oriented.png" alt="Table dressée à la brasserie Le Grillon">
+    </div>
+  </div>
+</section>
+
+<!-- ── LE QUARTIER ── -->
+<section class="quartier" id="quartier">
+  <div class="quartier-inner">
+    <div class="quartier-photos">
+      <img class="photo-1" src="./Images/exterior.png" alt="Devanture du Grillon, rue Gambetta">
+      <img class="photo-2" src="./Images/interior-vertically-oriented.png" alt="Salle intérieure du Grillon">
+      <img class="photo-3" src="./Images/meal-6.png" alt="Une des spécialités du Grillon">
+    </div>
+    <div class="quartier-text">
+      <svg class="deco-icon" width="48" height="48" viewBox="0 0 48 48" style="margin-left:0;" fill="none">
+        <path d="M24 6c-7 0-12 5.5-12 12 0 9 12 24 12 24s12-15 12-24c0-6.5-5-12-12-12z" stroke="#294C67" stroke-width="1.2" fill="none"/>
+        <circle cx="24" cy="18" r="4" stroke="#294C67" stroke-width="1.2" fill="none"/>
+      </svg>
+      <h2>En Plein Cœur de Saint-Étienne</h2>
+      <p>Le Grillon est situé en plein centre de Saint-Étienne, rue Gambetta, une artère commerçante du centre-ville. L'emplacement est pratique pour un dîner après une balade en centre-ville : accessible en transports en commun (tram/bus) et entouré de boutiques et d'autres cafés.</p>
+      <p class="note" style="font-style:italic; color:var(--text-muted); font-size:0.92rem;">Le stationnement dans le quartier peut être limité en soirée : privilégiez les transports en commun ou un stationnement public à proximité.</p>
+      <a href="https://maps.google.com/?q=48+Rue+Gambetta+42000+Saint-Étienne" target="_blank" class="btn-main">Itinéraire</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES & ÉQUIPEMENTS ── -->
+<section class="services" id="services">
+  <div class="services-inner">
+    <h2>Nos Équipements</h2>
+    <p class="services-lead">Terrasse, groupes, accessibilité — Le Grillon s'organise pour que chaque visite se passe simplement, en semaine comme pour vos occasions particulières.</p>
+    <div class="services-grid">
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><rect x="4" y="10" width="22" height="14" rx="1"/><path d="M4 16h22"/><path d="M9 10V6h12v4"/></svg>
+        <p>Terrasse</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><circle cx="10" cy="9" r="3.5"/><circle cx="20" cy="9" r="3.5"/><path d="M3 26c0-5 4-8 7-8s7 3 7 8"/><path d="M13 26c0-5 4-8 7-8s7 3 7 8"/></svg>
+        <p>Groupes</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><rect x="4" y="12" width="22" height="12" rx="2"/><path d="M9 12V8a6 6 0 0 1 12 0v4"/></svg>
+        <p>Livraison</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><rect x="6" y="4" width="18" height="22" rx="2"/><path d="M11 10h8M11 15h8M11 20h5"/></svg>
+        <p>Réservations</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><path d="M8 4v10a7 7 0 0 0 14 0"/><path d="M8 4h5M15 26v-6"/></svg>
+        <p>Sièges à table</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><circle cx="10" cy="8" r="3"/><path d="M10 11v6l-4 9M10 17l5 3 4 6"/><circle cx="21" cy="22" r="4"/></svg>
+        <p>Accès fauteuil roulant</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><path d="M8 5c3 3 3 6 0 9M15 5c3 3 3 6 0 9M22 5c3 3 3 6 0 9"/><path d="M6 26h18l-2-9H8z"/></svg>
+        <p>Excellents cocktails</p>
+      </div>
+      <div class="service-chip">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#EFEDDE" stroke-width="1.3"><circle cx="15" cy="15" r="10"/><path d="M15 8v7l5 3"/></svg>
+        <p>Plats végétaliens</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── AUTO-SCROLLING CAROUSEL ── -->
+<section class="gallery">
+  <div class="carousel-track-wrap">
+    <div class="carousel-track" id="carouselTrack">
+      <img src="./Images/meal1.png" alt="Plat du Grillon">
+      <img src="./Images/meal-2.png" alt="Plat du Grillon">
+      <img src="./Images/meal-3-horzontal.png" alt="Plat du Grillon">
+      <img src="./Images/meal-4.png" alt="Plat du Grillon">
+      <img src="./Images/meal-5.png" alt="Plat du Grillon">
+      <img src="./Images/meal-7.png" alt="Plat du Grillon">
+      <img src="./Images/meal1.png" alt="Plat du Grillon">
+    </div>
+  </div>
+</section>
+
+<!-- ── INFO COLUMNS ── -->
+<section class="info-cols">
+  <div class="info-cols-inner">
+    <div class="info-col">
+      <img src="./Images/meal-4.png" alt="Terrasse Le Grillon">
+      <h3>La Terrasse</h3>
+      <p>En plein cœur de la rue Gambetta, Le Grillon vous accueille sur sa terrasse pour un apéritif ou un repas complet, à l'ombre des façades du centre-ville stéphanois.</p>
+    </div>
+    <div class="info-col">
+      <img src="./Images/meal-7.png" alt="Cocktails et carte des boissons">
+      <h3>Le Bar</h3>
+      <p>Une sélection de cocktails maison, de vins et de boissons soigneusement choisis pour accompagner vos plats, du déjeuner à l'apéritif du soir.</p>
+    </div>
+    <div class="info-col">
+      <img src="./Images/meal-2.png" alt="Fondant au chocolat maison">
+      <h3>La Cuisine</h3>
+      <p>Gratin dauphinois, pétoncles poêlées, fondant au chocolat maison : une cuisine sincère qui met les produits frais et les classiques à l'honneur, avec aussi de belles options végétaliennes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer id="contact">
+  <div class="footer-logo">
+    <svg viewBox="0 0 340 90" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="50%" y="55" text-anchor="middle" font-family="Yellowtail, cursive" font-size="48" font-weight="400" fill="rgba(239,237,222,0.92)">Le Grillon</text>
+      <text x="50%" y="76" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="9" fill="rgba(239,237,222,0.5)" letter-spacing="2.5">BRASSERIE TRADITIONNELLE · SAINT-ÉTIENNE</text>
+    </svg>
+  </div>
+
+  <address id="contact-section">
+    <a href="https://maps.google.com/?q=48+Rue+Gambetta+42000+Saint-Étienne" target="_blank">48 Rue Gambetta, 42000 Saint-Étienne</a><br>
+    <a href="tel:+33427403653">04 27 40 36 53</a><br>
+    <a href="mailto:brasserie.grillon@gmail.com">brasserie.grillon@gmail.com</a>
+  </address>
+
+  <p class="footer-hours">Lun – Jeu : 10h00–20h00 &nbsp;|&nbsp; Ven : 10h00–22h00 &nbsp;|&nbsp; Sam &amp; Dim : Fermé</p>
+
+  <div class="footer-social">
+    <a href="https://www.facebook.com/100091822174675?locale=lv_LV" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="4"/>
+        <path d="M15 2h-2a4 4 0 0 0-4 4v2H7v4h2v8h4v-8h2.5l.5-4H13V6a1 1 0 0 1 1-1h1z"/>
+      </svg>
+      Facebook
+    </a>
+    <a href="https://www.tripadvisor.fr/Restaurant_Review-g187269-d8804412-Reviews-Le_Grillon-Saint_Etienne_Loire_Auvergne_Rhone_Alpes.html" target="_blank" aria-label="TripAdvisor">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="8" cy="13" r="4"/>
+        <circle cx="16" cy="13" r="4"/>
+        <path d="M12 9c0-2 2-3 2-3M12 9c0-2-2-3-2-3M2 6h6M16 6h6"/>
+      </svg>
+      TripAdvisor
+    </a>
+  </div>
+
+  <div class="footer-legal">
+    <a href="#">Politique de confidentialité</a>
+    <a href="tel:+33427403653">📞 04 27 40 36 53</a>
+  </div>
+</footer>
+
+<script>
+  // ── Mobile menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileClose = document.getElementById('mobileClose');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  mobileClose.addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMobileMenu(); });
+
+  // ── Carousel: show 3, advance 1 every 4 s, loop seamlessly ──
+  (function () {
+    const track = document.getElementById('carouselTrack');
+    const TOTAL = 5; // number of unique images
+    let current = 0;
+
+    function getImgW() {
+      return track.querySelector('img').getBoundingClientRect().width;
+    }
+
+    function advance() {
+      current++;
+      track.style.transition = 'transform 0.8s cubic-bezier(0.77, 0, 0.18, 1)';
+      track.style.transform = `translateX(-${current * getImgW()}px)`;
+
+      if (current >= TOTAL) {
+        setTimeout(() => {
+          track.style.transition = 'none';
+          current = 0;
+          track.style.transform = 'translateX(0)';
+        }, 850);
+      }
+    }
+
+    setInterval(advance, 4000);
+  })();
+</script>
+</body>
+</html>
