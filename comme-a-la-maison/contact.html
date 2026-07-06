@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès / Contact – Comme à la Maison Saint-Étienne</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── reset & root ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --green: #1a3a2a;
+            --green-mid: #2a5040;
+            --gold: #c9a96e;
+            --off-white: #faf8f4;
+            --infos-bg: #F9F9F8;
+            --label-color: #DFD5C9;
+            --dark: #111;
+            --mid: #555;
+            --light-gray: #e8e4dc;
+            --font-oswald: 'Oswald', sans-serif;
+            --font-futura: 'Century Gothic', 'Trebuchet MS', Futura, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font-futura);
+            background: var(--off-white);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            height: 64px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo-box {
+            width: 132px;
+            height: 44px;
+            background: url('./logo.jpg') center/contain no-repeat, white;
+            display: block;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+        .nav-links a {
+            font-family: var(--font-oswald);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0 11px;
+            white-space: nowrap;
+            transition: color 0.2s;
+            line-height: 64px;
+        }
+        .nav-links a:hover {
+            color: var(--green);
+        }
+        .nav-links a.active {
+            color: var(--green);
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .btn-reserve {
+            background: var(--green);
+            color: white;
+            padding: 9px 18px;
+            font-family: var(--font-oswald);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.2s;
+            white-space: nowrap;
+            display: inline-block;
+        }
+        .btn-reserve:hover {
+            background: var(--green-mid);
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--dark);
+            transition: all 0.3s;
+        }
+
+        /* ── MOBILE MENU ── */
+        #mobile-menu {
+            display: flex;
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            background: #0d0d0d;
+            flex-direction: column;
+            overflow-y: auto;
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 0.45s;
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+            visibility: visible;
+            transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1), visibility 0s linear 0s;
+        }
+        .mobile-menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            height: 64px;
+            flex-shrink: 0;
+        }
+        .mobile-menu-logo {
+            width: 120px;
+            height: 40px;
+            background: url('./logo.jpg') center/contain no-repeat, white;
+            display: block;
+            flex-shrink: 0;
+        }
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 22px;
+            line-height: 1;
+            padding: 4px;
+        }
+        .mobile-menu-links {
+            flex: 1;
+            padding: 8px 0;
+        }
+        .mobile-menu-links a {
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            font-family: var(--font-oswald);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.35s ease, transform 0.35s ease, color 0.2s;
+        }
+        #mobile-menu.open .mobile-menu-links a:nth-child(1) {
+            opacity: 1;
+            transform: none;
+            transition-delay: 0.18s;
+        }
+        #mobile-menu.open .mobile-menu-links a:nth-child(2) {
+            opacity: 1;
+            transform: none;
+            transition-delay: 0.25s;
+        }
+        #mobile-menu.open .mobile-menu-links a:nth-child(3) {
+            opacity: 1;
+            transform: none;
+            transition-delay: 0.32s;
+        }
+        .mobile-menu-links a:hover {
+            color: var(--gold);
+        }
+        .mobile-menu-footer {
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.42s;
+        }
+        #mobile-menu.open .mobile-menu-footer {
+            opacity: 1;
+        }
+        .mobile-menu-footer .btn-reserve {
+            width: 100%;
+            text-align: center;
+            padding: 14px;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+        .mobile-social {
+            display: flex;
+            gap: 24px;
+            margin-top: 4px;
+            align-items: center;
+        }
+        .mobile-social a {
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .mobile-social a:hover {
+            color: white;
+        }
+        .mobile-social svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* ── HERO (50vh) ── */
+        .page-hero {
+            margin-top: 64px;
+            height: 50vh;
+            min-height: 280px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .page-hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('./contact.png') center/cover no-repeat;
+        }
+        .page-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.58);
+        }
+        .page-hero-content {
+            position: relative;
+            text-align: center;
+        }
+        .page-hero-content h1 {
+            font-family: var(--font-oswald);
+            font-weight: 600;
+            font-size: clamp(28px, 5vw, 52px);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: white;
+        }
+        .page-hero-content p {
+            font-family: var(--font-futura);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+        }
+
+        /* ── IDENTITY CARD ── */
+        .identity-section {
+            padding: 72px 10vw;
+            background: white;
+        }
+        .identity-card {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border: 1px solid var(--light-gray);
+        }
+        .identity-col-info {
+            padding: 52px 52px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid var(--light-gray);
+        }
+        .identity-eyebrow {
+            font-family: var(--font-oswald);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 10px;
+        }
+        .identity-name {
+            font-family: var(--font-oswald);
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--dark);
+            line-height: 1.05;
+            margin-bottom: 32px;
+        }
+        .identity-separator {
+            width: 32px;
+            height: 2px;
+            background: var(--gold);
+            margin-bottom: 28px;
+        }
+        .identity-detail {
+            margin-bottom: 12px;
+        }
+        .identity-detail a {
+            font-family: var(--font-futura);
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.2s;
+            display: block;
+        }
+        .identity-detail a:hover {
+            color: var(--green);
+        }
+        .identity-detail span {
+            font-family: var(--font-futura);
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--dark);
+            display: block;
+        }
+        .identity-col-map {
+            min-height: 340px;
+        }
+        .identity-col-map iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 340px;
+            border: none;
+            display: block;
+            filter: grayscale(100%) contrast(1.05);
+        }
+
+        /* ── CONTACT FORM ── */
+        .contact-section {
+            padding: 90px 10vw;
+            background: var(--infos-bg);
+        }
+        .contact-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .contact-eyebrow {
+            font-family: var(--font-futura);
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 10px;
+        }
+        .contact-inner h2 {
+            font-family: var(--font-oswald);
+            font-size: 36px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+        .contact-subtitle {
+            font-family: var(--font-futura);
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--mid);
+            margin-bottom: 48px;
+            max-width: 580px;
+        }
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 32px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        .form-group label {
+            font-family: var(--font-oswald);
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--label-color);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: white;
+            border: 1px solid var(--light-gray);
+            padding: 14px 16px;
+            font-family: var(--font-futura);
+            font-size: 13px;
+            color: var(--dark);
+            outline: none;
+            transition: border-color 0.2s;
+            appearance: none;
+            -webkit-appearance: none;
+            border-radius: 0;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+        }
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+        .form-notice {
+            grid-column: 1 / -1;
+            font-family: var(--font-futura);
+            font-size: 11px;
+            line-height: 1.7;
+            color: rgba(85, 85, 85, 0.6);
+        }
+        .form-notice a {
+            color: var(--green);
+        }
+        .form-submit {
+            grid-column: 1 / -1;
+            margin-top: 8px;
+        }
+        .btn-submit {
+            background: var(--green);
+            color: white;
+            padding: 14px 40px;
+            font-family: var(--font-oswald);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+        .btn-submit:hover {
+            background: var(--green-mid);
+        }
+        .form-success {
+            display: none;
+            grid-column: 1 / -1;
+            background: #eaf3ed;
+            border-left: 3px solid var(--green);
+            padding: 18px 20px;
+            font-family: var(--font-futura);
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--green);
+        }
+
+        /* ── INFOS PRATIQUES ── */
+        .section-eyebrow {
+            font-family: var(--font-futura);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--mid);
+            margin-bottom: 10px;
+        }
+        .infos {
+            background: white;
+            padding: 90px 10vw;
+            border-top: 1px solid var(--light-gray);
+        }
+        .infos-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .infos h2 {
+            font-family: var(--font-oswald);
+            font-size: 36px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 8px 0 52px;
+            color: var(--dark);
+        }
+        .infos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px 80px;
+        }
+        .info-block h3 {
+            font-family: var(--font-oswald);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--label-color);
+            margin-bottom: 10px;
+        }
+        .info-block .separator {
+            width: 28px;
+            height: 1px;
+            background: var(--label-color);
+            margin-bottom: 14px;
+            opacity: 0.5;
+        }
+        .info-block p {
+            font-family: var(--font-futura);
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--dark);
+        }
+        .access-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .access-table td {
+            font-family: var(--font-futura);
+            font-size: 14px;
+            padding: 5px 0;
+            vertical-align: top;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        .access-table td:first-child {
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            width: 90px;
+            color: var(--mid);
+            padding-right: 16px;
+        }
+        .infos-access-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .map-iframe {
+            width: 100%;
+            height: 260px;
+            border: none;
+            display: block;
+            filter: grayscale(100%) contrast(1.05);
+        }
+
+        /* ── HORAIRES ── */
+        .horaires {
+            padding: 72px 10vw;
+            background: var(--infos-bg);
+            border-top: 1px solid var(--light-gray);
+        }
+        .horaires-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .horaires-title {
+            font-family: var(--font-oswald);
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.15;
+            color: var(--dark);
+        }
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .hours-row:first-child {
+            border-top: 1px solid var(--light-gray);
+        }
+        .hours-row .days {
+            font-family: var(--font-oswald);
+            font-weight: 500;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--dark);
+        }
+        .hours-row .time {
+            font-family: var(--font-futura);
+            font-size: 13px;
+            color: var(--green);
+            font-weight: 600;
+        }
+        .hours-note {
+            font-family: var(--font-futura);
+            font-size: 12px;
+            color: var(--mid);
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--dark);
+            color: white;
+        }
+        .footer-main-outer {
+            position: relative;
+            background:
+                linear-gradient(to bottom, rgba(10, 10, 10, 0.82) 0%, rgba(10, 10, 10, 0.72) 100%),
+                url('./footer.jpg') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+        .footer-main {
+            padding: 80px 40px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            position: relative;
+            z-index: 1;
+        }
+        .footer-logo-box {
+            width: 150px;
+            height: 50px;
+            background: url('./logo.jpg') center/contain no-repeat, white;
+            display: block;
+            margin-bottom: 22px;
+        }
+        .footer-desc {
+            font-family: var(--font-futura);
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.55);
+            margin-bottom: 24px;
+        }
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .social-link:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .social-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        .footer-col h4 {
+            font-family: var(--font-oswald);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-col p,
+        .footer-col a {
+            font-family: var(--font-futura);
+            font-size: 13px;
+            line-height: 2;
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .footer-reserve-btn {
+            display: inline-block;
+            margin-top: 18px;
+            background: var(--green);
+            color: white;
+            padding: 11px 26px;
+            font-family: var(--font-oswald);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .footer-reserve-btn:hover {
+            background: var(--green-mid);
+        }
+        .footer-bottom {
+            background: #0a0a0a;
+            padding: 16px 40px;
+        }
+        .footer-bottom-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .footer-bottom-inner span,
+        .footer-bottom-inner a {
+            font-family: var(--font-futura);
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+        }
+        .footer-bottom-inner a:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .footer-bottom-inner .sep {
+            color: rgba(255, 255, 255, 0.15);
+            margin: 0 8px;
+        }
+
+        /* ── FLOATING CTA ── */
+        .float-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background: var(--green);
+            color: white;
+            padding: 13px 22px;
+            font-family: var(--font-oswald);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: background 0.2s;
+        }
+        .float-cta:hover {
+            background: var(--green-mid);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+            .nav-right .btn-reserve {
+                display: none;
+            }
+            .nav-hamburger {
+                display: flex;
+            }
+
+            .identity-section {
+                padding: 52px 20px;
+            }
+            .identity-card {
+                grid-template-columns: 1fr;
+            }
+            .identity-col-info {
+                padding: 36px 28px;
+                border-right: none;
+                border-bottom: 1px solid var(--light-gray);
+            }
+            .identity-col-map {
+                min-height: 260px;
+            }
+            .identity-col-map iframe {
+                min-height: 260px;
+            }
+
+            .contact-section {
+                padding: 60px 20px;
+            }
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full {
+                grid-column: 1;
+            }
+            .form-submit {
+                grid-column: 1;
+            }
+            .form-notice {
+                grid-column: 1;
+            }
+            .form-success {
+                grid-column: 1;
+            }
+
+            .infos {
+                padding: 60px 20px;
+            }
+            .infos-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+            .infos-access-row {
+                grid-template-columns: 1fr;
+            }
+            .map-iframe {
+                height: 220px;
+            }
+
+            .horaires {
+                padding: 50px 20px;
+            }
+            .horaires-inner {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 50px 20px 40px;
+            }
+            .footer-bottom {
+                padding: 14px 20px;
+            }
+            .footer-bottom-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            #navbar {
+                padding: 0 16px;
+                height: 56px;
+            }
+            .page-hero {
+                margin-top: 56px;
+            }
+            .float-cta {
+                font-size: 11px;
+                padding: 11px 16px;
+                bottom: 12px;
+                right: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ══ NAVBAR ══ -->
+    <nav id="navbar">
+        <a href="./index.html" class="nav-logo" aria-label="Comme à la Maison – Accueil">
+            <div class="nav-logo-box"></div>
+        </a>
+        <div class="nav-links">
+            <a href="./menu.html">Cartes &amp; Menus</a>
+            <a href="./photos.html">Photos</a>
+            <a href="./contact.html" class="active">Accès / Contact</a>
+        </div>
+        <div class="nav-right">
+            <a href="./contact.html" class="btn-reserve">Réserver</a>
+            <button class="nav-hamburger" id="hamburgerBtn" aria-label="Ouvrir le menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ══ MOBILE MENU ══ -->
+    <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navigation">
+        <div class="mobile-menu-header">
+            <a href="./index.html" class="nav-logo" onclick="closeMobileMenu()" aria-label="Accueil">
+                <div class="mobile-menu-logo"></div>
+            </a>
+            <button class="mobile-menu-close" id="closeMenuBtn" aria-label="Fermer le menu">✕</button>
+        </div>
+        <nav class="mobile-menu-links">
+            <a href="./menu.html" onclick="closeMobileMenu()">Cartes &amp; Menus</a>
+            <a href="./photos.html" onclick="closeMobileMenu()">Photos</a>
+            <a href="./contact.html" onclick="closeMobileMenu()">Accès / Contact</a>
+        </nav>
+        <div class="mobile-menu-footer">
+            <a href="./contact.html" class="btn-reserve" onclick="closeMobileMenu()">Réserver</a>
+            <div class="mobile-social">
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/p/Comme-%C3%A0-la-maison-coffee-shop-Saint%C3%A9-100064129501546/?locale=fr_FR" target="_blank" rel="noopener" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.988H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/comme_a_la_maison_coffeesainte/?hl=fr" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ HERO ══ -->
+    <section class="page-hero">
+        <div class="page-hero-bg"></div>
+        <div class="page-hero-overlay"></div>
+        <div class="page-hero-content">
+            <h1>Accès / Contact</h1>
+            <p>Comme à la Maison · Saint-Étienne</p>
+        </div>
+    </section>
+
+    <!-- ══ IDENTITY CARD ══ -->
+    <section class="identity-section">
+        <div class="identity-card">
+            <div class="identity-col-info">
+                <p class="identity-eyebrow">Coffee Shop Cosy &amp; Convivial</p>
+                <h2 class="identity-name">Comme à la Maison</h2>
+                <div class="identity-separator"></div>
+                <div class="identity-detail">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=25+Rue+du+Onze+Novembre+42100+Saint-%C3%89tienne" target="_blank" rel="noopener">
+                        25 Rue du Onze Novembre<br>42100 Saint-Étienne
+                    </a>
+                </div>
+                <div class="identity-detail">
+                    <a href="tel:+33477017198">+33 4 77 01 71 98</a>
+                </div>
+                <div class="identity-detail" style="margin-top: 8px;">
+                    <a href="mailto:contact@commealamaison-sainte.fr">contact@commealamaison-sainte.fr</a>
+                </div>
+            </div>
+            <div class="identity-col-map">
+                <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.147636405617!2d4.386988!3d45.447453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5adad4b4b4b4b%3A0x4b4b4b4b4b4b4b4b!2s25%20Rue%20du%20Onze%20Novembre%2C%2042100%20Saint-%C3%89tienne!5e0!3m2!1sfr!2sfr!4v1700000000000"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Comme à la Maison – 25 Rue du Onze Novembre, Saint-Étienne">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<!-- ══ CONTACT FORM ══ -->
+<section class="contact-section">
+    <div class="contact-inner">
+        <p class="contact-eyebrow">Écrivez-nous</p>
+        <h2>Nous contacter</h2>
+        <p class="contact-subtitle">Vous désirez nous contacter ? Remplissez le formulaire ci-dessous et nous reviendrons vers vous au plus vite. Pour toute demande de réservation (brunch, groupe, etc.), vous pouvez également nous appeler directement.</p>
+
+        <form class="contact-form" id="contactForm" novalidate>
+
+            <div class="form-group">
+                <label for="prenom">Prénom *</label>
+                <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nom">Nom *</label>
+                <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Adresse e-mail *</label>
+                <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telephone">Téléphone</label>
+                <input type="tel" id="telephone" name="telephone" placeholder="06 00 00 00 00">
+            </div>
+
+            <div class="form-group full">
+                <label for="objet">Objet *</label>
+                <select id="objet" name="objet" required>
+                    <option value="" disabled selected>Sélectionnez un objet</option>
+                    <option value="reservation">Réservation de table (brunch, etc.)</option>
+                    <option value="groupe">Réservation de groupe</option>
+                    <option value="information">Renseignement général</option>
+                    <option value="autre">Autre</option>
+                </select>
+            </div>
+
+            <div class="form-group full">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" placeholder="Votre message…" required></textarea>
+            </div>
+
+            <p class="form-notice">
+                Conformément à l'article L.223-2 du code de la consommation, nous vous rappelons que vous pouvez vous inscrire sur la liste d'opposition au démarchage téléphonique Bloctel : <a href="https://www.bloctel.gouv.fr" target="_blank" rel="noopener">bloctel.gouv.fr</a>. Les champs marqués d'un * sont obligatoires.
+            </p>
+
+            <div class="form-submit">
+                <button type="submit" class="btn-submit">Envoyer le message</button>
+            </div>
+
+            <div class="form-success" id="formSuccess">
+                <strong>Merci !</strong> Nous avons bien reçu votre message et reviendrons vers vous au plus vite.
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<!-- ══ INFOS PRATIQUES ══ -->
+<section class="infos">
+    <div class="infos-inner">
+        <p class="section-eyebrow">Comme à la Maison – Coffee Shop Stéphanois</p>
+        <h2>Infos pratiques</h2>
+        <div class="infos-grid">
+
+            <div class="info-block">
+                <h3>Cuisine</h3>
+                <div class="separator"></div>
+                <p>Café, Brunch, Pâtisserie, Restauration rapide maison</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Type d'établissement</h3>
+                <div class="separator"></div>
+                <p>Coffee Shop, Salon de thé, Brunch</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Services &amp; équipements</h3>
+                <div class="separator"></div>
+                <p>Wifi gratuit, climatisation, jeux pour enfants, table à langer, animaux acceptés, pantoufles en libre accès</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Moyens de paiement</h3>
+                <div class="separator"></div>
+                <p>Espèces, Carte Bleue, Visa, Mastercard, Ticket Restaurant, paiement mobile</p>
+            </div>
+
+            <!-- ACCÈS — full width, 2 columns -->
+            <div class="infos-access-row">
+                <div class="info-block">
+                    <h3>Accès</h3>
+                    <div class="separator"></div>
+                    <table class="access-table">
+                        <tr><td>Tram</td><td>T2 – T3 (arrêt Tréfilerie)</td></tr>
+                        <tr><td>Bus</td><td>M1 – M2 – M3 – M4 – M7</td></tr>
+                        <tr><td>Parking</td><td>Parking Tréfilerie – Rue du Onze Novembre</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <iframe
+                    class="map-iframe"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.147636405617!2d4.386988!3d45.447453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f5adad4b4b4b4b%3A0x4b4b4b4b4b4b4b4b!2s25%20Rue%20du%20Onze%20Novembre%2C%2042100%20Saint-%C3%89tienne!5e0!3m2!1sfr!2sfr!4v1700000000000"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Comme à la Maison – 25 Rue du Onze Novembre, Saint-Étienne">
+                </iframe>
+            </div>
+        </div>
+
+    </div>
+</div>
+</section>
+
+<!-- ══ HORAIRES ══ -->
+<section class="horaires">
+    <div class="horaires-inner">
+        <div>
+            <h2 class="horaires-title">Horaires<br>Comme à la Maison</h2>
+        </div>
+        <div class="horaires-hours">
+            <div class="hours-row">
+                <span class="days">Lundi – Vendredi</span>
+                <span class="time">10:00 – 19:00</span>
+            </div>
+            <div class="hours-row">
+                <span class="days">Samedi</span>
+                <span class="time">Fermé</span>
+            </div>
+            <div class="hours-row">
+                <span class="days">Dimanche</span>
+                <span class="time">Fermé</span>
+            </div>
+            <div class="hours-note">Brunch sur réservation (samedi) – nous consulter</div>
+            <div class="hours-note">Fermé les jours fériés</div>
+        </div>
+        <div>
+            <!-- colonne vide pour la grille -->
+        </div>
+    </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="footer-main-outer">
+        <div class="footer-main">
+            <div>
+                <div class="footer-logo-box" role="img" aria-label="Comme à la Maison"></div>
+                <p class="footer-desc">Le coffee shop le plus cosy de Saint-Étienne, à deux pas de la faculté Tréfilerie. Café, brunch, restauration maison, wifi gratuit et une ambiance comme à la maison.</p>
+                <div class="footer-social">
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/p/Comme-%C3%A0-la-maison-coffee-shop-Saint%C3%A9-100064129501546/?locale=fr_FR" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.988H7.898V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/comme_a_la_maison_coffeesainte/?hl=fr" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Adresse</h4>
+                <p>25 Rue du Onze Novembre<br />42100 Saint-Étienne</p>
+                <p style="margin-top:10px">+33 4 77 01 71 98</p>
+                <p style="margin-top:4px">contact@commealamaison-sainte.fr</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Réservation</h4>
+                <p>Brunch sur réservation (samedi)</p>
+                <a href="./contact.html" class="footer-reserve-btn">Réserver</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+            <span>© 2026 Comme à la Maison. Tous droits réservés.</span>
+            <div>
+                <a href="./mentions-legales.html">Mentions légales</a>
+                <span class="sep">|</span>
+                <a href="./confidentialite.html">Politique de confidentialité</a>
+                <span class="sep">|</span>
+                <a href="./cgu.html">CGU</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<a href="./contact.html" class="float-cta">Réserver un brunch</a>
+
+<script>
+    // ── MOBILE MENU ──
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburgerBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+
+    function closeMobileMenu() {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    closeMenuBtn.addEventListener('click', closeMobileMenu);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeMobileMenu();
+    });
+
+    // ── CONTACT FORM ──
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const required = this.querySelectorAll('[required]');
+        let valid = true;
+        required.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.borderColor = '#c0392b';
+                valid = false;
+            } else {
+                field.style.borderColor = '';
+            }
+        });
+        if (!valid) return;
+
+        const submitBtn = this.querySelector('.btn-submit');
+        submitBtn.textContent = 'Envoi en cours…';
+        submitBtn.disabled = true;
+        setTimeout(() => {
+            document.getElementById('formSuccess').style.display = 'block';
+            submitBtn.style.display = 'none';
+            this.querySelectorAll('input, select, textarea').forEach(f => f.disabled = true);
+        }, 900);
+    });
+</script>
+
+</body>
+</html>
