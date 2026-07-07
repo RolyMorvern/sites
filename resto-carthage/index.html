@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Resto Carthage – Restaurant à Saint-Étienne</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Raleway:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./styles.css">
+	</head>
+	<body>
+		<nav class="desktopNavContainer">
+			<div class="hamburgerIconContainer">
+				<input type="checkbox" id="menuIcon">
+				<label for="menuIcon" class="mobileMenuIcon" onclick="showMobileNav();">
+				        <div class="interiorMobileMenu"></div>
+				 </label>
+			</div>
+			<div class="desktopNav">
+				<a class="active" href="#hero" style="color:#0d4f9e;">Accueil</a>
+				<a href="#aboutUs">À Propos</a>
+				<a class="logoLink" href="./index.html"><span style="color:#0d4f9e; font-weight:800; letter-spacing:0.05em; font-size:1.3rem; white-space:nowrap;">RESTO CARTHAGE</span></a>
+				<a href="#moreInfo">Infos Pratiques</a>
+				<a href="./menu.html">Menus</a>
+			</div>
+		</nav>
+		<div class="scrollNavDesktop">
+			<a href="#hero">Accueil</a>
+			<a class="active aboutUsNavTitle" href="#aboutUs">À Propos</a>
+			<a class="moreInfoNavTitle" href="#moreInfo">Infos Pratiques</a>
+			<a href="./menu.html">Menus</a>
+		</div>
+		<div class="mobileNav">
+			<a class="mobileNavLink" href="#hero">Accueil</a>
+			<a class="mobileNavLink" href="#aboutUs">À Propos</a>
+			<a class="mobileNavLink" href="#moreInfo">Infos Pratiques</a>
+			<a class="mobileNavLink" href="./menu.html">Menus</a>
+			<a class="mobileNavLink" href="https://totm.co/LeCarthageSaintEtienne" target="_blank" rel="noopener">Commander</a>
+		</div>
+		<div id="hero" class="hero">
+			<div class="heroOverlay"></div>
+			<div class="heroContentContainer">
+				<h1 style="color:#0d4f9e;">Resto Carthage</h1>
+				<h2>Restaurant & Café – Saint-Étienne · 100% Halal</h2>
+				<a class="heroOrderButton" href="https://totm.co/LeCarthageSaintEtienne" target="_blank" rel="noopener" style="background-color:#0d4f9e; border-color:#0d4f9e; color:#fff;">Commander en ligne</a>
+			</div>
+		</div>
+		<section id="aboutUs" class="aboutUs">
+			<h2 style="color:#0d4f9e;">
+				Un voyage culinaire au cœur de la Tunisie,<br>en plein centre de Saint-Étienne.
+			</h2>
+			<p>Resto Carthage vous accueille pour faire découvrir les saveurs authentiques de la cuisine tunisienne et maghrébine. Briks croustillantes, grillades généreuses, tajines, couscous et ojja mijotés maison : chaque plat est préparé avec soin, dans la tradition et la convivialité. Toute notre carte est 100% Halal. En salle, à emporter ou en livraison, venez partager un moment chaleureux autour d'une cuisine parfumée et généreuse.</p>
+		</section>
+		<section class="gallery">
+			<div class="galleryControls">
+				<div class="galleryArrowsContainer">
+					<svg onclick="changeImg('back')" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M14.2893 5.70708C13.8988 5.31655 13.2657 5.31655 12.8751 5.70708L7.98768 10.5993C7.20729 11.3805 7.2076 12.6463 7.98837 13.427L12.8787 18.3174C13.2693 18.7079 13.9024 18.7079 14.293 18.3174C14.6835 17.9269 14.6835 17.2937 14.293 16.9032L10.1073 12.7175C9.71678 12.327 9.71678 11.6939 10.1073 11.3033L14.2893 7.12129C14.6799 6.73077 14.6799 6.0976 14.2893 5.70708Z" fill="#fff"/>
+					</svg>
+					<svg onclick="changeImg('forward')" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M9.71069 18.2929C10.1012 18.6834 10.7344 18.6834 11.1249 18.2929L16.0123 13.4006C16.7927 12.6195 16.7924 11.3537 16.0117 10.5729L11.1213 5.68254C10.7308 5.29202 10.0976 5.29202 9.70708 5.68254C9.31655 6.07307 9.31655 6.70623 9.70708 7.09676L13.8927 11.2824C14.2833 11.6729 14.2833 12.3061 13.8927 12.6966L9.71069 16.8787C9.32016 17.2692 9.32016 17.9023 9.71069 18.2929Z" fill="#fff"/>
+					</svg>
+				</div>
+				<div class="galleryCirclesContainer">
+					<div class="galleryCircle galleryCircleActive galleryCircle1"></div>
+					<div class="galleryCircle galleryCircle2"></div>
+					<div class="galleryCircle galleryCircle3"></div>
+					<div class="galleryCircle galleryCircle4"></div>
+					<div class="galleryCircle galleryCircle5"></div>
+					<div class="galleryCircle galleryCircle6"></div>
+				</div>
+			</div>	
+		</section>
+
+		<!-- Follow / Order Section -->
+		<section class="reviews">
+			<h2 class="reviewsTitle" style="color:#0d4f9e;">Suivez-nous & commandez en ligne</h2>
+			<div class="reviewsGrid">
+				<div class="reviewCard">
+					<p class="reviewText">Retrouvez toute notre actualité et nos plats du jour sur Facebook et Instagram, et laissez-nous votre avis après votre visite !</p>
+					<p class="reviewAuthor">— Resto Carthage</p>
+				</div>
+				<div class="reviewCard">
+					<p class="reviewText">Envie de déguster nos spécialités tunisiennes chez vous ? Commandez directement en ligne, c'est rapide et simple.</p>
+					<p class="reviewAuthor"><a href="https://totm.co/LeCarthageSaintEtienne" target="_blank" rel="noopener" style="color:#0d4f9e; font-weight:700;">Commander maintenant →</a></p>
+				</div>
+			</div>
+		</section>
+
+		<section id="moreInfo" class="moreInfo">
+			<h2 style="color:#0d4f9e;">
+				Resto Carthage<br>30 Rue du Onze Novembre, Saint-Étienne
+			</h2>
+			<div class="moreInfoImage"></div>
+			<div class="moreInfoGridContainer">
+				<div class="moreInfoGridImage"></div>
+				<div class="moreInfoContact">
+					<p>
+						<span class="moreInfoContactHeader" style="color:#0d4f9e;">Adresse</span>
+						<br>
+						30 Rue du Onze Novembre, 42100 Saint-Étienne
+						<br><br>
+						<span class="moreInfoContactHeader" style="color:#0d4f9e;">Contact</span>
+						<br>
+						04 26 48 56 10
+					</p>
+				</div>
+				<div class="moreInfoHours">
+					<p>
+						<span class="moreInfoContactHeader" style="color:#0d4f9e;">Horaires d'ouverture :</span>
+						<br>
+						<b>Dim – Lun</b> 09h00–22h00
+						<br>
+						<b>Mar – Mer</b> 10h00–23h00
+						<br>
+						<b>Jeu – Ven</b> 08h00–23h00
+						<br>
+						<b>Samedi</b> 09h00–23h00
+					</p>
+				</div>
+			</div>
+			<div class="moreInfoHoursOutsideGrid">
+				<p>	
+					<span class="moreInfoContactHeader" style="color:#0d4f9e;">Horaires d'ouverture :</span>
+					<br>
+					<b>Dim – Lun</b> 09h00–22h00
+					<br>
+					<b>Mar – Mer</b> 10h00–23h00
+					<br>
+					<b>Jeu – Ven</b> 08h00–23h00
+					<br>
+					<b>Samedi</b> 09h00–23h00
+				</p>
+			</div>
+		</section>
+		<footer>
+			<a href="https://www.facebook.com/p/Carthage-Resto-Caf%C3%A9-Saint-%C3%89tienne-100094284547408/?locale=fr_FR" target="_blank" rel="noopener" style="background-color:#0d4f9e; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; width:2.5rem; height:2.5rem;">
+				<svg class="socialMediaLogo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="width:1.3rem; height:1.3rem;"><path fill="#fff" d="M21.95 5.005l-3.306-.004c-3.206 0-5.277 2.124-5.277 5.415v2.495H10.05v4.515h3.317l-.004 9.575h4.641l.004-9.575h3.806l-.003-4.514h-3.803v-2.117c0-1.018.241-1.533 1.566-1.533l2.366-.001.01-4.256z"/></svg>
+			</a>
+			<a href="https://www.instagram.com/resto_carthage/?hl=fr" target="_blank" rel="noopener" style="background-color:#0d4f9e; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; width:2.5rem; height:2.5rem; margin-left:0.75rem;">
+				<svg class="socialMediaLogo" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="width:1.3rem; height:1.3rem;"><path fill="#fff" d="M16 9.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 10.72A4.22 4.22 0 1 1 16 11.78a4.22 4.22 0 0 1 0 8.44zM22.9 9.24a1.52 1.52 0 1 1-3.04 0 1.52 1.52 0 0 1 3.04 0zM27.96 11c-.11-2.33-.64-4.39-2.34-6.08-1.69-1.7-3.75-2.23-6.08-2.34C17.2 2.46 14.8 2.46 12.46 2.58c-2.33.11-4.39.64-6.08 2.34-1.7 1.69-2.23 3.75-2.34 6.08C3.92 13.31 3.92 15.71 4.04 18c.11 2.33.64 4.39 2.34 6.08 1.69 1.7 3.75 2.23 6.08 2.34 2.34.12 4.74.12 7.08 0 2.33-.11 4.39-.64 6.08-2.34 1.7-1.69 2.23-3.75 2.34-6.08.12-2.34.12-4.74 0-7.08.02.02.02.02 0 0zm-2.66 10.98a4.66 4.66 0 0 1-2.62 2.62c-1.82.72-6.13.55-8.14.55s-6.32.16-8.14-.55a4.66 4.66 0 0 1-2.62-2.62c-.72-1.82-.55-6.13-.55-8.14s-.16-6.32.55-8.14A4.66 4.66 0 0 1 6.44 3.42c1.82-.72 6.13-.55 8.14-.55s6.32-.16 8.14.55a4.66 4.66 0 0 1 2.62 2.62c.72 1.82.55 6.13.55 8.14s.18 6.32-.55 8.14z"/></svg>
+			</a>
+		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="./script.js"></script>
+	</body>
+</html>

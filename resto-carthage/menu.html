@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>Menus – Resto Carthage</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Raleway:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./menuStyles.css">
+	</head>
+	<body>
+		<nav class="desktopNavContainer">
+			<div class="hamburgerIconContainer">
+				<input type="checkbox" id="menuIcon">
+				<label for="menuIcon" class="mobileMenuIcon" onclick="showMobileNav();">
+					<div class="interiorMobileMenu"></div>
+				</label>
+			</div>
+			<div class="desktopNav">
+				<a href="./index.html">Accueil</a>
+				<a href="index.html#aboutUs">À Propos</a>
+				<a class="logoLink" href="./index.html"><span style="color:#0d4f9e; font-weight:800; letter-spacing:0.05em; font-size:1.3rem; white-space:nowrap;">RESTO CARTHAGE</span></a>
+				<a href="index.html#moreInfo">Infos Pratiques</a>
+				<a class="active" href="#" style="color:#0d4f9e;">Menus</a>
+			</div>
+		</nav>
+		<div class="mobileNav">
+			<a class="mobileNavLink" href="index.html#hero">Accueil</a>
+			<a class="mobileNavLink" href="index.html#aboutUs">À Propos</a>
+			<a class="mobileNavLink" href="index.html#moreInfo">Infos Pratiques</a>
+			<a class="mobileNavLink active" href="#">Menus</a>
+			<a class="mobileNavLink" href="https://totm.co/LeCarthageSaintEtienne" target="_blank" rel="noopener">Commander</a>
+		</div>
+
+		<!-- 1. NOS ENTRÉES -->
+		<section id="firstMenuSection" class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/meal-6.png'); background-position: center;">
+				<h2 id="firstMenuSectionHeader" style="color:#0d4f9e;">Nos Entrées</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<div class="menuItem"><div><h4>Kaftéji</h4></div><p>9,00 €</p></div>
+					<div class="menuItem"><div><h4>Salade Méchouia</h4></div><p>8,00 €</p></div>
+					<div class="menuItem"><div><h4>Salade Tunisienne</h4></div><p>8,00 €</p></div>
+					<div class="menuItem"><div><h4>Chan Tounsi</h4></div><p>9,00 €</p></div>
+					<div class="menuItem"><div><h4>Brick Nature</h4></div><p>4,00 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<div class="menuItem"><div><h4>Brick Thon</h4></div><p>5,00 €</p></div>
+					<div class="menuItem"><div><h4>Brick Viande Hachée</h4></div><p>5,50 €</p></div>
+					<div class="menuItem"><div><h4>Chorba Agneau</h4></div><p>7,00 €</p></div>
+					<div class="menuItem"><div><h4>Tajine Tunisien</h4><p>Œufs, persil, pommes de terre, escalope de poulet</p></div><p>3,00 €</p></div>
+					<div class="menuItem"><div><h4>Barquette de Frites</h4></div><p>3,00 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 2. NOS PLATS -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/meal-7.png'); background-position: center;">
+				<h2 style="color:#0d4f9e;">Nos Plats</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<div class="menuItem"><div><h4>Kamounia</h4><p>Riz avec fruits de mer</p></div><p>13,00 €</p></div>
+					<div class="menuItem"><div><h4>Loubiya</h4><p>Riz avec fruits de mer</p></div><p>13,00 €</p></div>
+					<div class="menuItem"><div><h4>Jelbana</h4><p>Riz avec fruits de mer</p></div><p>13,00 €</p></div>
+					<div class="menuItem"><div><h4>Mloukhiya</h4></div><p>13,00 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<div class="menuItem"><div><h4>Tête D'agneau</h4></div><p>14,00 €</p></div>
+					<div class="menuItem"><div><h4>Riz Poulet</h4><p>Riz avec viande</p></div><p>12,00 €</p></div>
+					<div class="menuItem"><div><h4>Riz Agneau</h4><p>Riz avec viande</p></div><p>14,00 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 3. NOS GRILLADES -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/meal-4.png'); background-position: center;">
+				<h2 style="color:#0d4f9e;">Nos Grillades</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<div class="menuItem"><div><h4>Merguez</h4><p>Servi avec riz et frites maison</p></div><p>12,00 €</p></div>
+					<div class="menuItem"><div><h4>Brochettes D'agneau</h4><p>Servi avec riz et frites maison</p></div><p>17,00 €</p></div>
+					<div class="menuItem"><div><h4>Grillade Mixte</h4><p>Merguez, côtelettes d'agneau et escalope. Servi avec riz et frites maison</p></div><p>18,00 €</p></div>
+					<div class="menuItem"><div><h4>Escalope de Poulet</h4><p>Servi avec riz et frites maison</p></div><p>12,00 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<div class="menuItem"><div><h4>Brochettes de Poulet</h4><p>Servi avec riz et frites maison</p></div><p>12,00 €</p></div>
+					<div class="menuItem"><div><h4>Dorade</h4><p>Servi avec riz et frites maison</p></div><p>16,00 €</p></div>
+					<div class="menuItem"><div><h4>Côtelettes D'agneau</h4><p>3 côtelettes. Servi avec riz et frites maison</p></div><p>17,00 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 4. NOS PÂTES & NOS OJJA -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/meal-2.png'); background-position: center;">
+				<h2 style="color:#0d4f9e;">Nos Pâtes & Nos Ojja</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3 style="color:#0d4f9e;">Nos Pâtes</h3>
+					<div class="menuItem"><div><h4>Pâtes à L'agneau</h4></div><p>13,00 €</p></div>
+					<div class="menuItem"><div><h4>Pâtes aux Fruits de Mer</h4></div><p>13,00 €</p></div>
+					<div class="menuItem"><div><h4>Pâtes au Poulet</h4></div><p>12,00 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3 style="color:#0d4f9e;">Nos Ojja</h3>
+					<div class="menuItem"><div><h4>Ojja Merguez</h4></div><p>12,00 €</p></div>
+					<div class="menuItem"><div><h4>Ojja Poulet</h4></div><p>12,00 €</p></div>
+					<div class="menuItem"><div><h4>Ojja Fruits de Mer</h4></div><p>13,00 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 5. NOS COUSCOUS & BOISSONS/DESSERTS -->
+		<section class="menuSection">
+			<div class="menuSectionImageHero" style="background-image: url('./Images/meal-3.png'); background-position: center;">
+				<h2 style="color:#0d4f9e;">Nos Couscous</h2>
+			</div>
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<h3 style="color:#0d4f9e;">Nos Couscous</h3>
+					<div class="menuItem"><div><h4>Couscous Poulet</h4></div><p>12,00 €</p></div>
+					<div class="menuItem"><div><h4>Couscous à L'agneau</h4></div><p>14,00 €</p></div>
+					<div class="menuItem"><div><h4>Couscous au Poisson</h4></div><p>14,00 €</p></div>
+					<div class="menuItem"><div><h4>Couscous Végétarien</h4></div><p>9,00 €</p></div>
+				</div>
+				<div class="menuContentColumn">
+					<h3 style="color:#0d4f9e;">Boissons et Desserts</h3>
+					<div class="menuItem"><div><h4>Tiramisu Caramel</h4><p>Goût caramel</p></div><p>3,50 €</p></div>
+					<div class="menuItem"><div><h4>Canette Boga Cidre</h4><p>33 cl</p></div><p>1,50 €</p></div>
+					<div class="menuItem"><div><h4>Boga Cidre</h4><p>1L5</p></div><p>3,50 €</p></div>
+					<div class="menuItem"><div><h4>Boga Citron</h4><p>1L5</p></div><p>3,50 €</p></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="menuSection">
+			<div class="menuContentContainer">
+				<div class="menuContentColumn">
+					<p style="text-align:center; width:100%; color:#0d4f9e;"><b>100% Halal</b></p>
+				</div>
+			</div>
+		</section>
+
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="./script.js"></script>
+	</body>
+</html>
